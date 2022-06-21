@@ -1,0 +1,27 @@
+.bottom {
+    -fx-background-color: rgb(20, 20, 20);
+}
+
+.button {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-opacity: 0.7;
+}
+.button:hover {
+    -fx-opacity: 1.0;
+}
+
+.bottom-label {
+    -fx-text-fill: rgb(50,50,50);
+    -fx-font-size: 15px;
+    -fx-font-family: "MerriweatherSans";
+    -fx-font-weight: 700;
+}
+
+@font-face {
+    font-family: "MerriweatherSans";
+    font-style: normal;
+    src: url("../fonts/MerriweatherSans-Bold.ttf");
+}

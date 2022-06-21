@@ -1,0 +1,63 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+apply plugin: 'org.openjfx.javafxplugin'
+
+group 'com.workerai'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://jitpack.io/'
+        name = 'JitPack'
+    }
+    maven {
+        url 'https://litarvan.github.io/maven'
+    }
+}
+
+dependencies {
+    implementation 'fr.litarvan:openauth:1.1.2'
+    implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
+    implementation 'de.jensd:fontawesomefx-materialdesignfont:2.0.26-9.1.2'
+
+    implementation 'fr.flowarg:flowupdater:1.7.0'
+    implementation 'fr.flowarg:openlauncherlib:3.2.4'
+
+    implementation 'com.github.goxr3plus:FX-BorderlessScene:4+'
+    implementation 'com.github.oshi:oshi-core:6.1.6'
+}
+
+javafx {
+    version = 12
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.swing']
+}
+
+application {
+    getMainClass().set('com.workerai.launcher.Main')
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+jar {
+    manifest.attributes('Main-Class': 'com.workerai.launcher.Main')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs= ["src/main/"]
+        }
+        resources {
+            srcDirs= ["src/main/"]
+        }
+    }
+}

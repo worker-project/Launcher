@@ -1,0 +1,188 @@
+.background-settings {
+    -fx-background-color: rgb(24, 24, 24);
+}
+
+.settings-panel .settings-label {
+    -fx-font-family: "Signika";
+    -fx-font-weight: 800;
+    -fx-font-size: 23px;
+    -fx-text-fill: rgb(255,255,255);
+}
+
+.settings-panel .settings-subLabel {
+    -fx-font-family: "Signika";
+    -fx-font-weight: 500;
+    -fx-font-size: 18px;
+    -fx-text-fill: rgb(255,255,255);
+}
+
+.settings-panel .afterLaunch-label {
+    -fx-font-family: "Signika";
+    -fx-font-weight: 800;
+    -fx-font-size: 23px;
+    -fx-text-fill: rgb(255,255,255);
+}
+
+.settings-panel .afterLaunch-subLabel {
+    -fx-font-family: "Signika";
+    -fx-font-weight: 500;
+    -fx-font-size: 12px;
+    -fx-text-fill: rgb(255,255,255);
+}
+
+.settings-panel .rectangle-border {
+    -fx-background-color: rgb(29,29,27);
+
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.settings-panel .afterLaunch-button {
+    -fx-background-radius: 4px;
+    -fx-background-color: rgb(23,23,23);
+    -fx-opacity: 0.8;
+
+    -fx-font-family: "Signika";
+    -fx-font-weight: 700;
+    -fx-font-size: 15px;
+    -fx-text-fill: rgb(255,255,255);
+}
+.settings-panel .afterLaunch-button:hover {
+    -fx-opacity: 1.0;
+}
+
+.settings-panel .afterLaunch-button-active {
+    -fx-background-color: rgb(54, 157, 63);
+}
+
+.settings-panel .directory-button {
+    -fx-background-radius: 4px;
+    -fx-background-color: rgb(54, 157, 63);
+
+    -fx-font-family: "Signika";
+    -fx-font-weight: 700;
+    -fx-font-size: 15px;
+    -fx-text-fill: rgb(255,255,255);
+}
+.settings-panel .directory-subLabel {
+    -fx-font-family: "Rokkitt";
+    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-text-fill: rgb(255,255,255);
+}
+.settings-panel .directory-container {
+    -fx-background-color: transparent;
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+    -fx-max-width: 290;
+    -fx-max-height: 25;
+}
+.settings-panel .directory-displayLabel {
+    -fx-font-family: "Signika";
+    -fx-font-weight: 800;
+    -fx-font-size: 12px;
+    -fx-text-fill: rgb(255,255,255);
+}
+
+.settings-panel .memory-allocated-label {
+    -fx-font-family: "Signika";
+    -fx-font-weight: 800;
+    -fx-font-size: 17px;
+    -fx-text-fill: rgb(255,255,255);
+}
+
+.settings-panel .preset-box {
+    -fx-background-color: rgb(29,29,27);
+    -fx-border-style: solid;
+    -fx-border-width: 0.3;
+    -fx-border-color: gray;
+
+    -fx-max-width: 460;
+    -fx-max-height: 300;
+
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
+}
+.settings-panel .presets-boxes {
+    -fx-background-color: rgb(29,29,27);
+    /*-fx-border-style: solid;
+    -fx-border-width: 0.3;
+    oui-fx-border-color: gray;*/
+
+    -fx-max-width: 110;
+    -fx-max-height: 200;
+}
+
+.settings-panel .presets-button {
+    -fx-background-radius: 4px;
+    -fx-background-color: rgb(54, 157, 63);
+
+    -fx-font-family: "Signika";
+    -fx-font-weight: 700;
+    -fx-font-size: 15px;
+    -fx-text-fill: rgb(255,255,255);
+}
+
+.settings-panel .slider {
+    -fx-pref-width: 320px;
+    -fx-pref-height: 60px;
+}
+
+.settings-panel .slider .thumb {
+    -fx-background-color: rgb(54, 157, 63);
+}
+
+.settings-panel .ratio-box {
+    -fx-background-color: transparent;
+    -fx-border-style: solid;
+    -fx-border-width: 0.3;
+    -fx-border-color: gray;
+    -fx-max-width: 100;
+    -fx-max-height: 40;
+}
+.settings-panel .ratio-displayLabel {
+    -fx-font-family: "Rokkitt";
+    -fx-font-weight: 800;
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+}
+.settings-panel .ratio-promptText {
+    -fx-font-family: "Rokkitt";
+    -fx-font-weight: 800;
+    -fx-font-size: 20px;
+    -fx-text-fill: gray;
+    font-style: italic;
+
+    -fx-background-color: transparent;
+}
+.settings-panel .ratio-columnLabels {
+    -fx-font-family: "Rokkitt";
+    -fx-font-weight: 800;
+    -fx-font-size: 13px;
+    -fx-text-fill: gray;
+}
+.settings-panel .ratio-choiceLabels {
+    -fx-font-family: "Rokkitt";
+    -fx-font-weight: 800;
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+@font-face {
+    font-family: "Signika";
+    font-style: normal;
+    src: url("../fonts/Signika-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Oswald";
+    font-style: normal;
+    src: url("../fonts/Oswald-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Rokkitt";
+    font-style: normal;
+    src: url("../fonts/Rokkitt-Bold.ttf");
+}

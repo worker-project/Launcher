@@ -1,0 +1,46 @@
+.background-login {
+    -fx-background-image: url("../../../../graphics/background.png");
+    -fx-background-position: center center;
+    -fx-background-repeat: stretch;
+}
+
+.login-panel .login-input {
+    -fx-background-color: #343434;
+    -fx-font-size: 16px;
+    -fx-background-radius: 10px;
+    -fx-prompt-text-fill: rgb(150, 150, 150);
+    -fx-text-fill: rgb(150, 150, 150);
+}
+
+.login-panel .login-button {
+    -fx-font-family: "Oswald";
+    -fx-font-weight: 600;
+    -fx-font-size: 16px;
+    -fx-text-fill: rgb(150, 150, 150);
+    -fx-background-color: #343434;
+}
+
+.login-panel .remember-checkbox .box {
+    -fx-background-color: #343434;
+    -fx-font-size: 15px;
+    -fx-opacity: 0.7;
+
+    -fx-border-width: 0;
+    -fx-border-radius: 10px;
+}
+.login-panel .remember-checkbox:hover .box {
+    -fx-opacity: 1.0;
+}
+
+.login-panel .remember-label {
+    -fx-font-family: "Oswald";
+    -fx-font-weight: 600;
+    -fx-font-size: 16px;
+    -fx-text-fill: rgb(150, 150, 150);
+}
+
+@font-face {
+    font-family: "Oswald";
+    font-style: normal;
+    src: url("../fonts/Oswald-Bold.ttf");
+}
