@@ -186,3 +186,9 @@
     font-style: normal;
     src: url("../fonts/Rokkitt-Bold.ttf");
 }
+
+@font-face {
+    font-family: "MerriweatherSans";
+    font-style: normal;
+    src: url("../fonts/MerriweatherSans-Bold.ttf");
+}

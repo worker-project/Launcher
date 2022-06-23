@@ -1,17 +1,16 @@
-package com.workerai.launcher.utils;
+package com.workerai.launcher.savers;
 
 import com.workerai.launcher.App;
 import fr.theshark34.openlauncherlib.util.Saver;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
-public class SettingsManager {
+public class SettingsSaver {
     private final Saver saver;
     private Path gameDirectory;
 
-    public SettingsManager(Saver saver) {
+    public SettingsSaver(Saver saver) {
         this.saver = saver;
         this.saver.load();
 
@@ -27,7 +26,7 @@ public class SettingsManager {
 
         if(saver.get("GameDirectory") == null) {
             App.getInstance().getLogger().info("Creating \"AllocatedRAM\" in setting file!");
-            saver.set("AllocatedRAM", String.valueOf(512/1024.0));
+            saver.set("GameDirectory", String.valueOf(App.getInstance().getLauncherDirectory()));
         }
 
         if(saver.get("HideAfterLaunch") == null) {
@@ -48,11 +47,6 @@ public class SettingsManager {
         if(saver.get("LaunchWidth") == null) {
             App.getInstance().getLogger().info("Creating \"LaunchWidth\" in setting file!");
             saver.set("LaunchWidth", String.valueOf(854));
-        }
-
-        if(saver.get("AutoAuth") == null) {
-            App.getInstance().getLogger().info("Creating \"AutoAuth\" in setting file!");
-            saver.set("AutoAuth", String.valueOf(854));
         }
     }
 

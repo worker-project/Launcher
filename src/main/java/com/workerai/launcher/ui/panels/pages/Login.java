@@ -1,4 +1,4 @@
-package com.workerai.launcher.ui.panels.page;
+package com.workerai.launcher.ui.panels.pages;
 
 import com.workerai.launcher.App;
 import com.workerai.launcher.ui.PanelManager;
@@ -6,6 +6,8 @@ import com.workerai.launcher.ui.panel.Panel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.utils.AlertManager;
 import com.workerai.launcher.utils.ResourceManager;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import fr.litarvan.openauth.AuthPoints;
 import fr.litarvan.openauth.AuthenticationException;
 import fr.litarvan.openauth.Authenticator;
@@ -14,11 +16,12 @@ import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
 import fr.litarvan.openauth.model.AuthAgent;
 import fr.litarvan.openauth.model.response.AuthResponse;
-import fr.litarvan.openauth.model.response.RefreshResponse;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class Login extends Panel {
     private final GridPane loginPanel = new GridPane();
@@ -26,6 +29,8 @@ public class Login extends Panel {
     private final Button buttonLoginMicrosoft = new Button();
     private final TextField userField = new TextField();
     private final PasswordField passwordField = new PasswordField();
+
+    private Boolean rememberAccount = false;
 
     @Override
     public void init(PanelManager panelManager) {
@@ -54,6 +59,15 @@ public class Login extends Panel {
             this.layout.getChildren().add(backgroundPane);
             setCanTakeAllSize(this.layout);
 
+            // Logo
+            ImageView logo = new ImageView(ResourceManager.getIcon());
+            logo.setPreserveRatio(true);
+            logo.setFitHeight(250d);
+            setCenterH(logo);
+            setCenterV(logo);
+            logo.setTranslateY(+180d);
+            this.layout.getChildren().add(logo);
+
             //region [Login Container]
             this.layout.getChildren().add(loginPanel);
             loginPanel.getStyleClass().add("login-panel");
@@ -65,6 +79,7 @@ public class Login extends Panel {
             setCenterV(userField);
             setCenterH(userField);
             userField.setPromptText("Account E-mail");
+            userField.setText("compte1@nxgroupe.com");
             userField.setMaxWidth(300);
             userField.setTranslateY(-70d);
             userField.getStyleClass().add("login-input");
@@ -83,6 +98,7 @@ public class Login extends Panel {
             setCenterV(passwordField);
             setCenterH(passwordField);
             passwordField.setPromptText("Account Password");
+            passwordField.setText("^B=*_&8nB8ssp-q+");
             passwordField.setTranslateY(-15d);
             passwordField.setMaxWidth(300);
             passwordField.getStyleClass().add("login-input");
@@ -97,7 +113,13 @@ public class Login extends Panel {
                 }
             });
 
+            FontAwesomeIconView loginIcon = new FontAwesomeIconView(FontAwesomeIcon.SIGN_IN);
+            loginIcon.setFill(Color.rgb(150, 150, 150));
+            loginIcon.setSize("25px");
+            loginIcon.setTranslateX(-5d);
+
             // [Login Microsoft Button]
+            buttonLoginMicrosoft.setGraphic(loginIcon);
             setCenterV(buttonLoginMicrosoft);
             setCenterH(buttonLoginMicrosoft);
             buttonLoginMicrosoft.getStyleClass().add("login-button");
@@ -110,7 +132,7 @@ public class Login extends Panel {
             buttonLoginMicrosoft.setOnMouseEntered(e -> this.panelManager.getStage().getScene().setCursor(Cursor.HAND));
             buttonLoginMicrosoft.setOnMouseExited(e -> this.panelManager.getStage().getScene().setCursor(Cursor.DEFAULT));
             buttonLoginMicrosoft.setOnMouseClicked(e -> this.authenticateMicrosoft(userField.getText(), passwordField.getText()));
-            buttonLoginMicrosoft.setDisable(true);
+            //buttonLoginMicrosoft.setDisable(true);
 
             // RememberMe Checkbox
             CheckBox rememberCheckbox = new CheckBox();
@@ -124,8 +146,8 @@ public class Login extends Panel {
 
             rememberCheckbox.setOnMouseEntered(e -> this.panelManager.getStage().getScene().setCursor(Cursor.HAND));
             rememberCheckbox.setOnMouseExited(e -> this.panelManager.getStage().getScene().setCursor(Cursor.DEFAULT));
-            rememberCheckbox.selectedProperty().addListener((e, oldvalue, newValue) -> {
-                App.getInstance().getSettingsManager().getSaver().set("AutoAuth", String.valueOf(newValue));
+            rememberCheckbox.selectedProperty().addListener((e, oldValue, newValue) -> {
+                rememberAccount = true;
             });
 
             Label rememberLabel = new Label();
@@ -142,13 +164,16 @@ public class Login extends Panel {
     }
 
     private boolean checkAuthentication() {
-        if(App.getInstance().getSettingsManager().getSaver().get("AutoAuth").equals("true")) {
+        /*if(App.getInstance().getSettingsManager().getSaver().get("AutoAuth").equals("true")) {
             try {
                 MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
-                MicrosoftAuthResult response = authenticator.loginWithRefreshToken(App.getInstance().getAccountManager().getCurrClientToken());
-                App.getInstance().getAccountManager().updateClientToken(response.getRefreshToken());
-                App.getInstance().getAccountManager().updateAccessToken(response.getAccessToken());
-                App.getInstance().getAccountManager().getSaver().save();
+                MicrosoftAuthResult response = authenticator.loginWithRefreshToken(App.getInstance().getAccountManager().getDatabase().getStatement("CLIENT_TOKEN"));
+                App.getInstance().getAccountManager().getDatabase().createStatement(
+                        response.getProfile().getName(),
+                        response.getProfile().getId(),
+                        response.getRefreshToken(),
+                        response.getAccessToken()
+                );
 
                 App.getInstance().setAuthInfos(new AuthInfos(
                         response.getProfile().getName(),
@@ -159,10 +184,17 @@ public class Login extends Panel {
             } catch (MicrosoftAuthenticationException err) {
                 try {
                     Authenticator authenticator = new Authenticator(Authenticator.MOJANG_AUTH_URL, AuthPoints.NORMAL_AUTH_POINTS);
-                    RefreshResponse response = authenticator.refresh(App.getInstance().getAccountManager().getCurrAccessToken(), App.getInstance().getAccountManager().getCurrClientToken());
-                    App.getInstance().getAccountManager().updateClientToken(response.getClientToken());
-                    App.getInstance().getAccountManager().updateAccessToken(response.getAccessToken());
-                    App.getInstance().getAccountManager().getSaver().save();
+                    RefreshResponse response = authenticator.refresh(
+                            App.getInstance().getAccountManager().getDatabase().getStatement("CLIENT_TOKEN"),
+                            App.getInstance().getAccountManager().getDatabase().getStatement("ACCESS_TOKEN")
+                    );
+
+                    App.getInstance().getAccountManager().getDatabase().createStatement(
+                            response.getSelectedProfile().getName(),
+                            response.getSelectedProfile().getId(),
+                            response.getClientToken(),
+                            response.getAccessToken()
+                    );
 
                     App.getInstance().setAuthInfos(new AuthInfos(
                             response.getSelectedProfile().getName(),
@@ -172,13 +204,16 @@ public class Login extends Panel {
                     ));
                     return true;
                 } catch (AuthenticationException er) {
-                    App.getInstance().getAccountManager().getSaver().set("AutoAuth", String.valueOf(false));
-                    App.getInstance().getAccountManager().getSaver().set("CurrentClientToken", "null");
-                    App.getInstance().getAccountManager().getSaver().set("CurrentAccessToken", "null");
-                    App.getInstance().getAccountManager().getSaver().save();
+                    App.getInstance().getSettingsManager().getSaver().set("AutoAuth", String.valueOf(false));
+                    App.getInstance().getAccountManager().getDatabase().createStatement(
+                            null,
+                            null,
+                            null,
+                            null
+                        );
                 }
             }
-        }
+        }*/
         return false;
     }
 
@@ -188,9 +223,14 @@ public class Login extends Panel {
         try {
             this.logger.info("MojangAuth | Trying resolving account information.");
             AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, email, password, null);
-            App.getInstance().getAccountManager().updateClientToken(response.getClientToken());
-            App.getInstance().getAccountManager().updateAccessToken(response.getAccessToken());
-            App.getInstance().getAccountManager().getSaver().save();
+            App.getInstance().getAccountManager().getDatabase().createStatement(
+                    response.getSelectedProfile().getName(),
+                    response.getSelectedProfile().getId(),
+                    response.getClientToken(),
+                    response.getAccessToken(),
+                    rememberAccount
+
+            );
 
             AuthInfos infos = new AuthInfos(
                     response.getSelectedProfile().getName(),
@@ -213,9 +253,13 @@ public class Login extends Panel {
         this.logger.info("MicrosoftAuth | Trying resolving account information.");
         try {
             MicrosoftAuthResult response = authenticator.loginWithCredentials(email, password);
-            App.getInstance().getAccountManager().updateClientToken(response.getRefreshToken());
-            App.getInstance().getAccountManager().updateAccessToken(response.getAccessToken());
-            App.getInstance().getAccountManager().getSaver().save();
+            App.getInstance().getAccountManager().getDatabase().createStatement(
+                    response.getProfile().getName(),
+                    response.getProfile().getId(),
+                    response.getRefreshToken(),
+                    response.getAccessToken(),
+                    rememberAccount
+            );
 
             AuthInfos infos = new AuthInfos(
                     response.getProfile().getName(),
@@ -227,9 +271,10 @@ public class Login extends Panel {
             this.logger.info("MicrosoftAuth | Successfully connected to " + "\"" + infos.getUsername() + "\"");
             panelManager.showPanel(new Home());
         } catch (MicrosoftAuthenticationException e) {
-            this.logger.info("MicrosoftAuth | Failed resolving account information.");
+            this.logger.warn("MicrosoftAuth | Failed resolving account information.");
 
             if(!authenticateMojang(email, password)) {
+                this.logger.warn("MojangAuth | Failed resolving account information.");
                 AlertManager.ShowError(
                     this.panelManager.getStage(),
                     "Authentication Error",

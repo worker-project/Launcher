@@ -1,10 +1,10 @@
 package com.workerai.launcher;
 
 import com.workerai.launcher.ui.PanelManager;
-import com.workerai.launcher.ui.panels.page.Login;
-import com.workerai.launcher.utils.AccountManager;
+import com.workerai.launcher.ui.panels.pages.Login;
+import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.utils.PlatformManager;
-import com.workerai.launcher.utils.SettingsManager;
+import com.workerai.launcher.savers.SettingsSaver;
 import fr.flowarg.flowlogger.ILogger;
 import fr.flowarg.flowlogger.Logger;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
@@ -24,8 +24,8 @@ public class App extends Application {
 
     private final ILogger LOGGER;
 
-    private final AccountManager accountManager;
-    private final SettingsManager settingsManager;
+    private final AccountSaver accountSaver;
+    private final SettingsSaver settingsSaver;
 
     private final Path launcherDirectory = PlatformManager.createAppFolder(".WorkerAI");
 
@@ -38,8 +38,8 @@ public class App extends Application {
             }
         }
 
-        settingsManager = new SettingsManager(new Saver(launcherDirectory.resolve("settings.save").toFile()));
-        accountManager = new AccountManager(new Saver(launcherDirectory.resolve("accounts.save").toFile()));
+        settingsSaver = new SettingsSaver(new Saver(launcherDirectory.resolve("settings.save").toFile()));
+        accountSaver = new AccountSaver("accounts");
     }
 
     @Override
@@ -59,11 +59,12 @@ public class App extends Application {
 
     public AuthInfos getAuthInfos() { return this.authInfos; }
     public void setAuthInfos(AuthInfos authInfos) { this.authInfos = authInfos; }
+    public AuthInfos getAuthInfos(AuthInfos authInfos) { return authInfos; }
     public ILogger getLogger() { return LOGGER; }
     public static App getInstance() { return INSTANCE; }
 
-    public SettingsManager getSettingsManager() { return settingsManager; }
+    public SettingsSaver getSettingsManager() { return settingsSaver; }
     public PanelManager getPanelManager() { return panelManager; }
-    public AccountManager getAccountManager() { return accountManager; }
+    public AccountSaver getAccountManager() { return accountSaver; }
     public Path getLauncherDirectory() { return launcherDirectory; }
 }

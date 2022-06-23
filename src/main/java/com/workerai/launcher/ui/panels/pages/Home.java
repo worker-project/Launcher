@@ -1,4 +1,4 @@
-package com.workerai.launcher.ui.panels.page;
+package com.workerai.launcher.ui.panels.pages;
 
 import com.workerai.launcher.App;
 import com.workerai.launcher.ui.PanelManager;
@@ -7,6 +7,8 @@ import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.DownloadList;
 import fr.flowarg.flowupdater.download.IProgressCallback;
@@ -16,11 +18,13 @@ import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
 import fr.theshark34.openlauncherlib.external.ExternalLauncher;
 import fr.theshark34.openlauncherlib.minecraft.*;
 import javafx.application.Platform;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 import java.nio.file.Path;
 import java.text.DecimalFormat;
@@ -66,16 +70,19 @@ public class Home extends Panel {
         setCanTakeAllSize(homePanel);
         this.layout.getChildren().add(homePanel);
 
-        FontAwesomeIconView playIcon = new FontAwesomeIconView(FontAwesomeIcon.GAMEPAD);
-        playIcon.getStyleClass().add("play-icon");
+        FontAwesomeIconView playIcon = new FontAwesomeIconView(FontAwesomeIcon.PLAY_CIRCLE);
+        playIcon.setFill(Color.WHITE);
+        playIcon.setSize("25px");
+        playIcon.setTranslateX(-5d);
 
-        Button playBtn = new Button("Launch WorkerAI");
-        setCanTakeAllSize(playBtn);
-        setCenterH(playBtn);
-        setCenterV(playBtn);
-        playBtn.getStyleClass().add("play-button");
+        Button playBtn = new Button();
         playBtn.setGraphic(playIcon);
-        playBtn.setOnMouseClicked(e -> this.play());
+        setCenterV(playBtn);
+        setCenterH(playBtn);
+        playBtn.getStyleClass().add("home-button");
+        playBtn.setMaxWidth(150d);
+        playBtn.setText("LAUNCH CLIENT");
+        setCanTakeAllSize(playBtn);
         homePanel.getChildren().add(playBtn);
 
         progressBar.getStyleClass().add("download-progress");
@@ -93,6 +100,29 @@ public class Home extends Panel {
         fileLabel.setTranslateY(20);
         setCenterH(fileLabel);
         setCanTakeAllSize(fileLabel);
+
+        MaterialDesignIconView list = new MaterialDesignIconView(MaterialDesignIcon.VIEW_LIST);
+        list.setFill(Color.WHITE);
+        list.setSize("25px");
+        list.setTranslateX(-5d);
+
+        Button accountsButton = new Button();
+        accountsButton.setGraphic(list);
+        setCenterV(accountsButton);
+        setCenterH(accountsButton);
+        accountsButton.getStyleClass().add("home-button");
+        accountsButton.setTranslateY(200d);
+        accountsButton.setMaxWidth(200d);
+        accountsButton.setMaxHeight(40d);
+        accountsButton.setText("ACCOUNT MANAGER");
+        setCanTakeAllSize(accountsButton);
+        homePanel.getChildren().add(accountsButton);
+
+        accountsButton.setOnMouseEntered(e -> this.panelManager.getStage().getScene().setCursor(Cursor.HAND));
+        accountsButton.setOnMouseExited(e -> this.panelManager.getStage().getScene().setCursor(Cursor.DEFAULT));
+        accountsButton.setOnMouseClicked(e -> {
+            this.panelManager.showPanel(new Accounts());
+        });
     }
 
     private void play() {
@@ -169,17 +199,17 @@ public class Home extends Panel {
             profile.getVmArgs().add(this.getRamArgs());
             /*profile.getVmArgs().add(this.getHeightArgs());
             profile.getVmArgs().add(this.getWidthArgs());*/
-            System.out.println(profile.getArgs());
             ExternalLauncher launcher = new ExternalLauncher(profile);
 
             Process p = launcher.launch();
             Platform.runLater(() -> {
+                if (App.getInstance().getSettingsManager().getSaver().get("HideAfterLaunch").equals("true"))
+                    panelManager.getStage().setIconified(true);
                 try {
                     p.waitFor();
-                    if(App.getInstance().getSettingsManager().getSaver().get("HideAfterLaunch").equals("true"))
-                        panelManager.getStage().setIconified(false);
+                    panelManager.getStage().setIconified(false);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             });
         } catch (Exception exception) {

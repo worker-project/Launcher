@@ -3,9 +3,10 @@ package com.workerai.launcher.ui.panels.partials;
 import com.workerai.launcher.App;
 import com.workerai.launcher.ui.PanelManager;
 import com.workerai.launcher.ui.panel.Panel;
-import com.workerai.launcher.ui.panels.page.Home;
-import com.workerai.launcher.ui.panels.page.Login;
-import com.workerai.launcher.ui.panels.page.Settings;
+import com.workerai.launcher.ui.panels.pages.Home;
+import com.workerai.launcher.ui.panels.pages.Login;
+import com.workerai.launcher.ui.panels.pages.Settings;
+import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -23,6 +24,8 @@ import java.net.URISyntaxException;
 
 public class BottomBar extends Panel {
     private static BottomBar INSTANCE;
+
+    public static boolean DEBUG_MODE = false;
 
     public FontAwesomeIconView homeButton = new FontAwesomeIconView(FontAwesomeIcon.HOME);
     public FontAwesomeIconView settingsButton = new FontAwesomeIconView(FontAwesomeIcon.GEARS);
@@ -64,7 +67,7 @@ public class BottomBar extends Panel {
         //endregion
 
         //region [BottomBar : Button Website]
-        websiteButton.setFill(Color.rgb(50,50,50));
+        websiteButton.setFill(Color.rgb(67,67,67));
         websiteButton.setOpacity(.7f);
         websiteButton.getStyleClass().add("button");
         websiteButton.setSize("25px");
@@ -84,7 +87,7 @@ public class BottomBar extends Panel {
         //endregion
 
         // region [BottomBar : Button Twitter]
-        twitterButton.setFill(Color.rgb(50,50,50));
+        twitterButton.setFill(Color.rgb(67,67,67));
         twitterButton.setOpacity(.7f);
         twitterButton.getStyleClass().add("button");
         twitterButton.setSize("25px");
@@ -104,7 +107,7 @@ public class BottomBar extends Panel {
         //endregion
 
         //region [BottomBar : Button Discord]
-        discordButton.setFill(Color.rgb(50,50,50));
+        discordButton.setFill(Color.rgb(67,67,67));
         discordButton.setOpacity(.7f);
         discordButton.getStyleClass().add("button");
         discordButton.setSize("25px");
@@ -124,7 +127,7 @@ public class BottomBar extends Panel {
         //endregion
 
         //region [BottomBar : Button Shopping Cart]
-        shoppingButton.setFill(Color.rgb(50,50,50));
+        shoppingButton.setFill(Color.rgb(67,67,67));
         shoppingButton.setOpacity(.7f);
         shoppingButton.getStyleClass().add("button");
         shoppingButton.setSize("25px");
@@ -140,7 +143,7 @@ public class BottomBar extends Panel {
         //endregion
 
         //region [BottomBar : Button Settings/Home/Logout]
-        homeButton.setFill(Color.rgb(50,50,50));
+        homeButton.setFill(Color.rgb(67,67,67));
         homeButton.setOpacity(.7f);
         homeButton.getStyleClass().add("button");
         homeButton.setSize("25px");
@@ -157,7 +160,7 @@ public class BottomBar extends Panel {
             this.panelManager.showPanel(new Home());
         });
 
-        logoutButton.setFill(Color.rgb(50,50,50));
+        logoutButton.setFill(Color.rgb(67,67,67));
         logoutButton.setOpacity(.7f);
         logoutButton.getStyleClass().add("button");
         logoutButton.setSize("25px");
@@ -168,16 +171,17 @@ public class BottomBar extends Panel {
         logoutButton.setOnMouseEntered(e -> this.panelManager.getStage().getScene().setCursor(Cursor.HAND));
         logoutButton.setOnMouseExited(e -> this.panelManager.getStage().getScene().setCursor(Cursor.DEFAULT));
         logoutButton.setOnMouseClicked(e -> {
-            App.getInstance().getSettingsManager().getSaver().set("AutoAuth", String.valueOf(false));
-            App.getInstance().getAccountManager().removeClientToken(App.getInstance().getAccountManager().getCurrClientToken());
-            App.getInstance().getAccountManager().removeAccessToken(App.getInstance().getAccountManager().getCurrAccessToken());
-            App.getInstance().getAccountManager().getSaver().save();
-            App.getInstance().setAuthInfos(null);
-
+            DEBUG_MODE = false;
+            if(App.getInstance().getAuthInfos() != null) {
+                if(!App.getInstance().getAccountManager().getAccount(AccountSaver.currentAccount.getId()).getRemember()) {
+                    App.getInstance().getAccountManager().removeAccount(AccountSaver.currentAccount.getId());
+                    App.getInstance().setAuthInfos(null);
+                }
+            }
             this.panelManager.showPanel(new Login());
         });
 
-        settingsButton.setFill(Color.rgb(50,50,50));
+        settingsButton.setFill(Color.rgb(67,67,67));
         settingsButton.setOpacity(.7f);
         settingsButton.getStyleClass().add("button");
         settingsButton.setSize("25px");
@@ -191,7 +195,7 @@ public class BottomBar extends Panel {
             this.panelManager.showPanel(new Settings());
         });
 
-        debugButton.setFill(Color.rgb(50,50,50));
+        debugButton.setFill(Color.rgb(67,67,67));
         debugButton.setOpacity(.7f);
         debugButton.getStyleClass().add("button");
         debugButton.setSize("25px");
@@ -202,7 +206,8 @@ public class BottomBar extends Panel {
         debugButton.setOnMouseEntered(e -> this.panelManager.getStage().getScene().setCursor(Cursor.HAND));
         debugButton.setOnMouseExited(e -> this.panelManager.getStage().getScene().setCursor(Cursor.DEFAULT));
         debugButton.setOnMouseClicked(e -> {
-            App.getInstance().getLogger().info("Entering debug session, online services will be unavailable!");
+            DEBUG_MODE = true;
+            App.getInstance().getLogger().warn("Entering debug session, online services will be unavailable!");
             this.panelManager.showPanel(new Home());
         });
         //endregion

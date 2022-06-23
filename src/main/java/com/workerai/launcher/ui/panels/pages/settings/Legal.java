@@ -1,7 +1,7 @@
-package com.workerai.launcher.ui.panels.page.settings;
+package com.workerai.launcher.ui.panels.pages.settings;
 
 import com.workerai.launcher.App;
-import com.workerai.launcher.ui.panels.page.Settings;
+import com.workerai.launcher.ui.panels.pages.Settings;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import fr.theshark34.openlauncherlib.util.Saver;
