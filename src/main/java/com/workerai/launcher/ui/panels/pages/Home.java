@@ -1,6 +1,7 @@
 package com.workerai.launcher.ui.panels.pages;
 
 import com.workerai.launcher.App;
+import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.ui.PanelManager;
 import com.workerai.launcher.ui.panel.Panel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
@@ -18,20 +19,25 @@ import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
 import fr.theshark34.openlauncherlib.external.ExternalLauncher;
 import fr.theshark34.openlauncherlib.minecraft.*;
 import javafx.application.Platform;
-import javafx.scene.Cursor;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 import java.nio.file.Path;
 import java.text.DecimalFormat;
 
-public class Home extends Panel {
-    private final GridPane homePanel = new GridPane();
+import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
+import static com.noideaindustry.jui.JuiInterface.JuiButton.createMaterialButton;
+import static com.noideaindustry.jui.JuiInterface.JuiIcon;
+import static com.noideaindustry.jui.JuiInterface.JuiPane.createGridPane;
+import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
 
+public class Home extends Panel {
     ProgressBar progressBar = new ProgressBar();
     Label stepLabel = new Label();
     Label fileLabel = new Label();
@@ -41,49 +47,18 @@ public class Home extends Panel {
     public void init(PanelManager panelManager) {
         super.init(panelManager);
 
-        BottomBar.getInstance().debugButton.setVisible(false);
-        BottomBar.getInstance().logoutButton.setVisible(true);
-        BottomBar.getInstance().settingsButton.setVisible(true);
+        BottomBar.getInstance().setHomeIcons();
 
-        BottomBar.getInstance().logoutButton.setTranslateX(-30d);
-        BottomBar.getInstance().settingsButton.setTranslateX(30d);
-
-        BottomBar.getInstance().setIconPadding(
-                BottomBar.getInstance().logoutButton.getTranslateX() - 120d,
-                BottomBar.getInstance().logoutButton.getTranslateX() - 60d,
-                BottomBar.getInstance().settingsButton.getTranslateX() + 60d,
-                BottomBar.getInstance().settingsButton.getTranslateX() + 120d
-        );
-
-        // Background
-        GridPane backgroundPane = new GridPane();
-        setCanTakeAllSize(backgroundPane);
-        backgroundPane.getStyleClass().add("background-home");
+        GridPane backgroundPane = createGridPane(0d, 0d, 0d, 0d, 0d, 0d, "background-login", Color.TRANSPARENT);
         this.layout.getChildren().add(backgroundPane);
-        setCanTakeAllSize(this.layout);
+        setCanTakeAllSize(this.layout, backgroundPane);
 
-        homePanel.getStyleClass().add("home-panel");
-        setCenterV(homePanel);
-        setCenterH(homePanel);
-        homePanel.setMaxWidth(200d);
-        homePanel.setMaxHeight(200d);
-        setCanTakeAllSize(homePanel);
-        this.layout.getChildren().add(homePanel);
+        StackPane homePane = createStackPane(0d, 0d, 1200d, 600d, 15d, 15d, "home-panel", Pos.CENTER, Color.rgb(32, 31, 29));
+        this.layout.getChildren().add(homePane);
 
-        FontAwesomeIconView playIcon = new FontAwesomeIconView(FontAwesomeIcon.PLAY_CIRCLE);
-        playIcon.setFill(Color.WHITE);
-        playIcon.setSize("25px");
-        playIcon.setTranslateX(-5d);
-
-        Button playBtn = new Button();
-        playBtn.setGraphic(playIcon);
-        setCenterV(playBtn);
-        setCenterH(playBtn);
-        playBtn.getStyleClass().add("home-button");
-        playBtn.setMaxWidth(150d);
-        playBtn.setText("LAUNCH CLIENT");
-        setCanTakeAllSize(playBtn);
-        homePanel.getChildren().add(playBtn);
+        FontAwesomeIconView playIcon = JuiIcon.createFontIcon(-2d, 0d, FontAwesomeIcon.PLAY_CIRCLE, "25px", null, Color.WHITE, homePane);
+        Button playButton = createFontButton(0d, 0d, 250d, 30d, "LAUNCH CLIENT", "home-button", null, playIcon, Pos.CENTER, homePane);
+        playButton.setOnMouseClicked(e -> downloadAndplay(homePane));
 
         progressBar.getStyleClass().add("download-progress");
         stepLabel.getStyleClass().add("download-status");
@@ -106,29 +81,20 @@ public class Home extends Panel {
         list.setSize("25px");
         list.setTranslateX(-5d);
 
-        Button accountsButton = new Button();
-        accountsButton.setGraphic(list);
-        setCenterV(accountsButton);
-        setCenterH(accountsButton);
-        accountsButton.getStyleClass().add("home-button");
-        accountsButton.setTranslateY(200d);
-        accountsButton.setMaxWidth(200d);
-        accountsButton.setMaxHeight(40d);
-        accountsButton.setText("ACCOUNT MANAGER");
-        setCanTakeAllSize(accountsButton);
-        homePanel.getChildren().add(accountsButton);
-
-        accountsButton.setOnMouseEntered(e -> this.panelManager.getStage().getScene().setCursor(Cursor.HAND));
-        accountsButton.setOnMouseExited(e -> this.panelManager.getStage().getScene().setCursor(Cursor.DEFAULT));
-        accountsButton.setOnMouseClicked(e -> {
-            this.panelManager.showPanel(new Accounts());
-        });
+        MaterialDesignIconView accountsIcon = JuiIcon.createDesignIcon(-2d, 0d, MaterialDesignIcon.VIEW_LIST, "25px", null, Color.WHITE, homePane);
+        Button accountsButton = createMaterialButton(0d, 50d, 250d, 30d, "ACCOUNT MANAGER", "home-button", null, accountsIcon, Pos.CENTER, homePane);
+        accountsButton.setOnMouseClicked(e -> this.panelManager.showPanel(new Accounts()));
     }
 
-    private void play() {
+    private void downloadAndplay(StackPane pane) {
+        if (BottomBar.DEBUG_MODE) {
+            App.getInstance().getLogger().err("You are in debug session, no online services available!");
+            return;
+        }
+
         isDownloading = true;
         setProgress(0, 0);
-        homePanel.getChildren().addAll(progressBar, stepLabel, fileLabel);
+        pane.getChildren().addAll(progressBar, stepLabel, fileLabel);
 
         Platform.runLater(() -> new Thread(this::update).start());
     }
@@ -146,11 +112,12 @@ public class Home extends Panel {
                     setStatus(String.format("%s, (%s)", stepTxt, percentTxt));
                 });
             }
+
             @Override
             public void update(DownloadList.DownloadInfo info) {
                 Platform.runLater(() -> {
                     percentTxt = decimalFormat.format(info.getDownloadedBytes() * 100.d / info.getTotalToDownloadBytes()) + "%";
-                    if(!stepTxt.contains("Done!")) String.format("%s, (%s)", stepTxt, percentTxt);
+                    if (!stepTxt.contains("Done!")) String.format("%s, (%s)", stepTxt, percentTxt);
                     setProgress(info.getDownloadedBytes(), info.getTotalToDownloadBytes());
                 });
             }
@@ -187,7 +154,7 @@ public class Home extends Panel {
     }
 
     public void startGame(String gameVersion) {
-        GameInfos infos = new GameInfos(
+        GameInfos gInfos = new GameInfos(
                 "",
                 App.getInstance().getSettingsManager().getGameDirectory(),
                 new GameVersion(gameVersion, GameType.V1_8_HIGHER),
@@ -195,7 +162,13 @@ public class Home extends Panel {
         );
 
         try {
-            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(infos, GameFolder.FLOW_UPDATER, App.getInstance().getAuthInfos());
+            AuthInfos aInfos = new AuthInfos(AccountSaver.getCurrentAccount().getUsername(),
+                    AccountSaver.getCurrentAccount().getAccessToken(),
+                    AccountSaver.getCurrentAccount().getClientToken(),
+                    AccountSaver.getCurrentAccount().getUuid()
+            );
+
+            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gInfos, GameFolder.FLOW_UPDATER, aInfos);
             profile.getVmArgs().add(this.getRamArgs());
             /*profile.getVmArgs().add(this.getHeightArgs());
             profile.getVmArgs().add(this.getWidthArgs());*/
@@ -223,6 +196,7 @@ public class Home extends Panel {
         try {
             if (App.getInstance().getSettingsManager().getSaver().get("AllocatedRAM") != null) {
                 defaultRam = Integer.parseInt(App.getInstance().getSettingsManager().getSaver().get("AllocatedRAM"));
+                System.out.println(defaultRam);
             } else {
                 throw new NumberFormatException();
             }
@@ -290,9 +264,13 @@ public class Home extends Panel {
     public void setProgress(double current, double max) {
         this.progressBar.setProgress(current / max);
     }
+
     public void setStatus(String status) {
         this.stepLabel.setText(status);
     }
 
-    @Override public String getStylesheetPath() { return ResourceManager.getHomeDesign(); }
+    @Override
+    public String getStylesheetPath() {
+        return ResourceManager.getHomeDesign();
+    }
 }

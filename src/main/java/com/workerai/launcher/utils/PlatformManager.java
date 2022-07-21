@@ -6,8 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class PlatformManager {
-    public static Path createAppFolder(String folderName)
-    {
+    public static Path createAppFolder(String folderName) {
         Path path;
         switch (Platform.getCurrentPlatform()) {
             case WINDOWS:

@@ -1,12 +1,13 @@
 package com.workerai.launcher.ui.panels.partials;
 
 import com.workerai.launcher.App;
+import com.workerai.launcher.database.Requests;
+import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.ui.PanelManager;
 import com.workerai.launcher.ui.panel.Panel;
 import com.workerai.launcher.ui.panels.pages.Home;
 import com.workerai.launcher.ui.panels.pages.Login;
 import com.workerai.launcher.ui.panels.pages.Settings;
-import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -32,10 +33,10 @@ public class BottomBar extends Panel {
     public FontAwesomeIconView logoutButton = new FontAwesomeIconView(FontAwesomeIcon.SIGN_OUT);
     public FontAwesomeIconView debugButton = new FontAwesomeIconView(FontAwesomeIcon.BUG);
 
-    private MaterialDesignIconView websiteButton = new MaterialDesignIconView(MaterialDesignIcon.WEB);
-    private MaterialDesignIconView twitterButton = new MaterialDesignIconView(MaterialDesignIcon.TWITTER);
-    private MaterialDesignIconView discordButton = new MaterialDesignIconView(MaterialDesignIcon.DISCORD);
-    private FontAwesomeIconView shoppingButton = new FontAwesomeIconView(FontAwesomeIcon.SHOPPING_CART);
+    private final MaterialDesignIconView websiteButton = new MaterialDesignIconView(MaterialDesignIcon.WEB);
+    private final MaterialDesignIconView twitterButton = new MaterialDesignIconView(MaterialDesignIcon.TWITTER);
+    private final MaterialDesignIconView discordButton = new MaterialDesignIconView(MaterialDesignIcon.DISCORD);
+    private final FontAwesomeIconView shoppingButton = new FontAwesomeIconView(FontAwesomeIcon.SHOPPING_CART);
 
     @Override
     public void init(PanelManager panelManager) {
@@ -67,7 +68,7 @@ public class BottomBar extends Panel {
         //endregion
 
         //region [BottomBar : Button Website]
-        websiteButton.setFill(Color.rgb(67,67,67));
+        websiteButton.setFill(Color.rgb(67, 67, 67));
         websiteButton.setOpacity(.7f);
         websiteButton.getStyleClass().add("button");
         websiteButton.setSize("25px");
@@ -87,7 +88,7 @@ public class BottomBar extends Panel {
         //endregion
 
         // region [BottomBar : Button Twitter]
-        twitterButton.setFill(Color.rgb(67,67,67));
+        twitterButton.setFill(Color.rgb(67, 67, 67));
         twitterButton.setOpacity(.7f);
         twitterButton.getStyleClass().add("button");
         twitterButton.setSize("25px");
@@ -107,7 +108,7 @@ public class BottomBar extends Panel {
         //endregion
 
         //region [BottomBar : Button Discord]
-        discordButton.setFill(Color.rgb(67,67,67));
+        discordButton.setFill(Color.rgb(67, 67, 67));
         discordButton.setOpacity(.7f);
         discordButton.getStyleClass().add("button");
         discordButton.setSize("25px");
@@ -127,7 +128,7 @@ public class BottomBar extends Panel {
         //endregion
 
         //region [BottomBar : Button Shopping Cart]
-        shoppingButton.setFill(Color.rgb(67,67,67));
+        shoppingButton.setFill(Color.rgb(67, 67, 67));
         shoppingButton.setOpacity(.7f);
         shoppingButton.getStyleClass().add("button");
         shoppingButton.setSize("25px");
@@ -143,7 +144,7 @@ public class BottomBar extends Panel {
         //endregion
 
         //region [BottomBar : Button Settings/Home/Logout]
-        homeButton.setFill(Color.rgb(67,67,67));
+        homeButton.setFill(Color.rgb(67, 67, 67));
         homeButton.setOpacity(.7f);
         homeButton.getStyleClass().add("button");
         homeButton.setSize("25px");
@@ -160,7 +161,7 @@ public class BottomBar extends Panel {
             this.panelManager.showPanel(new Home());
         });
 
-        logoutButton.setFill(Color.rgb(67,67,67));
+        logoutButton.setFill(Color.rgb(67, 67, 67));
         logoutButton.setOpacity(.7f);
         logoutButton.getStyleClass().add("button");
         logoutButton.setSize("25px");
@@ -172,16 +173,12 @@ public class BottomBar extends Panel {
         logoutButton.setOnMouseExited(e -> this.panelManager.getStage().getScene().setCursor(Cursor.DEFAULT));
         logoutButton.setOnMouseClicked(e -> {
             DEBUG_MODE = false;
-            if(App.getInstance().getAuthInfos() != null) {
-                if(!App.getInstance().getAccountManager().getAccount(AccountSaver.currentAccount.getId()).getRemember()) {
-                    App.getInstance().getAccountManager().removeAccount(AccountSaver.currentAccount.getId());
-                    App.getInstance().setAuthInfos(null);
-                }
-            }
+            if (AccountSaver.getCurrentAccount() != null)
+                Requests.removeAccount(AccountSaver.getCurrentAccount().getUuid());
             this.panelManager.showPanel(new Login());
         });
 
-        settingsButton.setFill(Color.rgb(67,67,67));
+        settingsButton.setFill(Color.rgb(67, 67, 67));
         settingsButton.setOpacity(.7f);
         settingsButton.getStyleClass().add("button");
         settingsButton.setSize("25px");
@@ -195,7 +192,7 @@ public class BottomBar extends Panel {
             this.panelManager.showPanel(new Settings());
         });
 
-        debugButton.setFill(Color.rgb(67,67,67));
+        debugButton.setFill(Color.rgb(67, 67, 67));
         debugButton.setOpacity(.7f);
         debugButton.getStyleClass().add("button");
         debugButton.setSize("25px");
@@ -215,13 +212,53 @@ public class BottomBar extends Panel {
         setCanTakeAllWidth(websiteButton, twitterButton, discordButton, shoppingButton, settingsButton, homeButton, logoutButton);
     }
 
-    public void setIconPadding(double webPadding, double twitterPadding, double discordPadding, double shoppingPadding) {
-        websiteButton.setTranslateX(webPadding);
-        twitterButton.setTranslateX(twitterPadding);
-        discordButton.setTranslateX(discordPadding);
-        shoppingButton.setTranslateX(shoppingPadding);
+    public void setHomeIcons() {
+        homeButton.setVisible(false);
+        logoutButton.setVisible(true);
+        settingsButton.setVisible(true);
+        debugButton.setVisible(false);
+
+        logoutButton.setTranslateX(-30d);
+        settingsButton.setTranslateX(30d);
+
+        websiteButton.setTranslateX(logoutButton.getTranslateX() - 120d);
+        twitterButton.setTranslateX(logoutButton.getTranslateX() - 60d);
+        discordButton.setTranslateX(settingsButton.getTranslateX() + 60d);
+        shoppingButton.setTranslateX(settingsButton.getTranslateX() + 120d);
     }
 
-    public static BottomBar getInstance() { return INSTANCE; }
-    @Override public String getStylesheetPath() { return ResourceManager.getBottomDesign(); }
+    public void setLoginIcons() {
+        homeButton.setVisible(false);
+        logoutButton.setVisible(false);
+        settingsButton.setVisible(false);
+        debugButton.setVisible(true);
+
+        websiteButton.setTranslateX(debugButton.getTranslateX() - 120d);
+        twitterButton.setTranslateX(debugButton.getTranslateX() - 60d);
+        discordButton.setTranslateX(debugButton.getTranslateX() + 60d);
+        shoppingButton.setTranslateX(debugButton.getTranslateX() + 120d);
+    }
+
+    public void setElseIcons() {
+        homeButton.setVisible(true);
+        logoutButton.setVisible(true);
+        settingsButton.setVisible(false);
+        debugButton.setVisible(false);
+
+        homeButton.setTranslateX(settingsButton.getTranslateX());
+
+        websiteButton.setTranslateX(logoutButton.getTranslateX() - 120d);
+        twitterButton.setTranslateX(logoutButton.getTranslateX() - 60d);
+        discordButton.setTranslateX(settingsButton.getTranslateX() + 60d);
+        shoppingButton.setTranslateX(settingsButton.getTranslateX() + 120d);
+    }
+
+    public static BottomBar getInstance() {
+        return INSTANCE;
+    }
+
+    @Override
+    public String getStylesheetPath() {
+        return ResourceManager.getBottomDesign();
+    }
 }

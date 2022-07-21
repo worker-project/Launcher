@@ -64,5 +64,8 @@ public class TopBar extends Panel {
         setCanTakeAllWidth(closeButton, minimizeButton);
     }
 
-    @Override public String getStylesheetPath() { return ResourceManager.getTopDesign(); }
+    @Override
+    public String getStylesheetPath() {
+        return ResourceManager.getTopDesign();
+    }
 }

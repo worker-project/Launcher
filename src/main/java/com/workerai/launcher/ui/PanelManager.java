@@ -1,15 +1,14 @@
 package com.workerai.launcher.ui;
 
 import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
-import com.workerai.launcher.database.Account;
 import com.workerai.launcher.ui.panel.IPanel;
-import com.workerai.launcher.ui.panels.pages.Accounts;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.ui.panels.partials.TopBar;
 import com.workerai.launcher.utils.ResourceManager;
 import fr.flowarg.flowcompat.Platform;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
@@ -30,24 +29,25 @@ public class PanelManager {
     public void init() {
         this.stage.setTitle("WorkerAI - Launcher");
         this.stage.centerOnScreen();
-        this.stage.setResizable(false);
-        this.stage.setWidth(1260);
-        this.stage.setHeight(750);
-        this.stage.getIcons().add(ResourceManager.getIcon());
+
+        this.stage.setWidth(1260d);
+        this.stage.setHeight(750d);
+
+        this.stage.getIcons().add(new Image(ResourceManager.getIcon()));
 
         GridPane layout = new GridPane();
 
         if (Platform.isOnLinux()) {
             Scene scene = new Scene(layout);
             this.stage.setScene(scene);
-        }
-        else {
+        } else {
             this.stage.initStyle(StageStyle.UNDECORATED);
 
             BorderlessScene scene = new BorderlessScene(this.stage, StageStyle.UNDECORATED, layout);
             scene.setMoveControl(topBar.getLayout());
-            scene.setResizable(false);
             scene.removeDefaultCSS();
+            scene.setResizable(false);
+
             this.stage.setScene(scene);
 
             RowConstraints topPaneConstraints = new RowConstraints();
@@ -69,6 +69,7 @@ public class PanelManager {
         layout.add(this.panelContent, 0, 1);
         GridPane.setVgrow(this.panelContent, Priority.ALWAYS);
         GridPane.setHgrow(this.panelContent, Priority.ALWAYS);
+
         this.stage.show();
     }
 
@@ -84,5 +85,7 @@ public class PanelManager {
         panel.onShow();
     }
 
-    public Stage getStage() { return stage; }
+    public Stage getStage() {
+        return stage;
+    }
 }

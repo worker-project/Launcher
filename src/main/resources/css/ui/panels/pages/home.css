@@ -1,9 +1,3 @@
-.background-home {
-    -fx-background-image: url("../../../../graphics/background.png");
-    -fx-background-position: center center;
-    -fx-background-repeat: stretch;
-}
-
 .home-panel .home-button {
     -fx-font-family: "Oswald";
     -fx-font-weight: 600;

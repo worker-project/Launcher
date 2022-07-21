@@ -1,43 +1,45 @@
 package com.workerai.launcher.database;
 
 public class Account {
-    private final int ID;
-    private final String UUID;
-    private final String USERNAME;
-    private final String CLIENT_TOKEN;
-    private final String ACCESS_TOKEN;
-    private final boolean REMEMBER;
-
-    public Account(int id, String uuid, String username, String clientToken, String accessToken, Boolean remember) {
-        this.ID = id;
-        this.UUID = uuid;
-        this.USERNAME = username;
-        this.CLIENT_TOKEN = clientToken;
-        this.ACCESS_TOKEN = accessToken;
-        this.REMEMBER = remember;
+    private static class AccountData {
+        private String UUID;
+        private String USERNAME;
+        private String CLIENT_TOKEN;
+        private String ACCESS_TOKEN;
     }
 
-    public int getId() {
-        return this.ID;
-    }
+    public AccountData accountData = new AccountData();
 
     public String getUuid() {
-        return this.UUID;
+        return accountData.UUID;
+    }
+
+    public void setUuid(String uuid) {
+        accountData.UUID = uuid;
     }
 
     public String getUsername() {
-        return this.USERNAME;
+        return accountData.USERNAME;
+    }
+
+    public void setUsername(String username) {
+        accountData.USERNAME = username;
     }
 
     public String getClientToken() {
-        return this.CLIENT_TOKEN;
+        return accountData.CLIENT_TOKEN;
+    }
+
+    public void setClientToken(String clientToken) {
+        accountData.CLIENT_TOKEN = clientToken;
     }
 
     public String getAccessToken() {
-        return this.ACCESS_TOKEN;
+        return accountData.ACCESS_TOKEN;
     }
 
-    public Boolean getRemember() {
-        return this.REMEMBER;
+    public void setAccessToken(String accessToken) {
+        accountData.ACCESS_TOKEN = accessToken;
     }
+
 }

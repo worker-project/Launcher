@@ -9,126 +9,49 @@ import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import fr.theshark34.openlauncherlib.util.Saver;
-import javafx.scene.control.Label;
+import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
+import static com.noideaindustry.jui.JuiInterface.*;
+import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
+import static com.noideaindustry.jui.JuiInterface.JuiPane.createGridPane;
 public class Settings extends Panel {
-    private final GridPane settingsPanel = new GridPane();
     private final Saver saver = App.getInstance().getSettingsManager().getSaver();
 
     @Override
     public void init(PanelManager panelManager) {
         super.init(panelManager);
-        BottomBar.getInstance().settingsButton.setVisible(false);
-        BottomBar.getInstance().homeButton.setVisible(true);
-        BottomBar.getInstance().homeButton.setTranslateX(BottomBar.getInstance().settingsButton.getTranslateX());
 
-        // Background
-        GridPane backgroundPane = new GridPane();
-        setCanTakeAllSize(backgroundPane);
-        backgroundPane.getStyleClass().add("background-settings");
+        BottomBar.getInstance().setElseIcons();
+
+        GridPane backgroundPane = createGridPane(0d, 0d, 0d, 0d, 0d, 0d, "background-login", Color.TRANSPARENT);
         this.layout.getChildren().add(backgroundPane);
-        setCanTakeAllSize(this.layout);
+        setCanTakeAllSize(this.layout, backgroundPane);
 
-        //region [Settings Container]
-        this.layout.getChildren().add(settingsPanel);
-        settingsPanel.getStyleClass().add("settings-panel");
-        setCanTakeAllSize(settingsPanel);
-        setLeft(settingsPanel);
-        setCenterH(settingsPanel);
-        setCenterV(settingsPanel);
+        StackPane settingsPane = createStackPane(0d, 0d, 1200d, 600d, 15d, 15d, "settings-panel", Pos.CENTER, Color.rgb(32, 31, 29));
+        this.layout.getChildren().add(settingsPane);
 
-        // Settings Container
-        Rectangle container = new Rectangle(1200,600);
-        container.setFill(Color.rgb(32,31,29));
-        setCenterH(container);
-        setCenterV(container);
-        container.setArcHeight(15d);
-        container.setArcWidth(15d);
-        settingsPanel.getChildren().add(container);
+        FontAwesomeIconView titleIcon = JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.GEARS, "25px", null,Color.WHITE, settingsPane);
+        createLabel(0d, 90d, "Launcher & Client Settings", titleIcon, "settings-label", Pos.TOP_CENTER, settingsPane);
+        createLabel(0d, 120d, "Memory allocation & Launcher preferences", null, "settings-subLabel", Pos.TOP_CENTER, settingsPane);
 
-        // Settings Container
-        Region settingsContainer = new Region();
-        settingsContainer.setMaxWidth(1200d);
-        settingsContainer.setMaxHeight(90d);
-        settingsContainer.getStyleClass().add("rectangle-border");
-        setCenterH(settingsContainer);
-        setTop(settingsContainer);
-        settingsContainer.setTranslateY(40d);
-        settingsPanel.getChildren().add(settingsContainer);
+        GridPane card = new GridPane();
+        settingsPane.getChildren().add(card);
 
-        // Settings Label
-        Label settingsLabel = new Label("Settings");
-        settingsLabel.getStyleClass().add("settings-label");
-        settingsLabel.setText("Launcher & Client Settings");
-        setCenterH(settingsLabel);
-        setTop(settingsLabel);
-        settingsLabel.setTranslateY(settingsContainer.getTranslateY() + 15d);
-        settingsPanel.getChildren().add(settingsLabel);
+        WindowCard.create(card, saver, createStackPane(70d, 185d, 350d, 200d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
+        DirectoryCard.create(card, saver, createStackPane(70d, 185d * 2 + 45d, 350d, 200d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
+        MemoryCard.create(card, saver, createStackPane(70d + 350d + 35d, 185d, 350d, 200d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
+        ResolutionCard.create(card, saver, createStackPane(70d + 350d + 35d, 185d * 2 + 45d, 350d, 200d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
 
-        // Settings SubLabel
-        Label settingsSubLabel = new Label();
-        settingsSubLabel.getStyleClass().add("settings-subLabel");
-        settingsSubLabel.setText("Memory allocation & Launcher preferences");
-        setTop(settingsSubLabel);
-        setCenterH(settingsSubLabel);
-        settingsSubLabel.setTranslateY(settingsLabel.getTranslateY() + 30d);
-        settingsPanel.getChildren().add(settingsSubLabel);
-
-        FontAwesomeIconView settingsIcon = new FontAwesomeIconView(FontAwesomeIcon.GEARS);
-        settingsIcon.setFill(Color.WHITE);
-        settingsIcon.setSize("25px");
-        settingsIcon.setTranslateX(-4d);
-        settingsLabel.setGraphic(settingsIcon);
-
-        //endregion
-
-        Display display = new Display();
-        Rectangle displayContainer = createContainer(70d, 170d, 350, 200);
-        display.init(displayContainer, settingsPanel, saver);
-
-        Memory memory = new Memory();
-        Rectangle memoryContainer = createContainer(displayContainer.getTranslateX() + 385d, displayContainer.getTranslateY(), 350, 200);
-        memory.init(memoryContainer, settingsPanel, saver);
-
-        Directory directory = new Directory();
-        Rectangle directoryContainer = createContainer(displayContainer.getTranslateX(), displayContainer.getTranslateY() + 230d, 350, 200);
-        directory.init(directoryContainer, settingsPanel, saver);
-
-        Resolution resolution = new Resolution();
-        Rectangle resolutionContainer = createContainer(directoryContainer.getTranslateX() + 385d, directoryContainer.getTranslateY(), 350, 200);
-        resolution.init(resolutionContainer, settingsPanel, saver);
-
-        Folder folder = new Folder();
-        Rectangle folderContainer = createContainer(840d, 170d, 350, 125);
-        folder.init(folderContainer, settingsPanel, saver);
-
-        Legal legal = new Legal();
-        Rectangle legalContainer = createContainer(folderContainer.getTranslateX(), folderContainer.getTranslateY() + 152.2d, 350, 125);
-        legal.init(legalContainer, settingsPanel, saver);
-
-        Links links = new Links();
-        Rectangle linksContainer = createContainer(legalContainer.getTranslateX(), legalContainer.getTranslateY() + 152.1d, 350, 125);
-        links.init(linksContainer, settingsPanel, saver);
+        FolderCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d, 350d, 125d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
+        LegalCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d, 350d, 125d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
+        LinksCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d * 2, 350d, 125d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
     }
 
-    protected Rectangle createContainer(double X, double Y, double SIZEX, double SIZEY) {
-        Rectangle rectangle = new Rectangle(SIZEX,SIZEY);
-        rectangle.setFill(Color.rgb(29,29,27));
-        setCenterH(rectangle);
-        setLeft(rectangle);
-        setTop(rectangle);
-        rectangle.setArcHeight(15d);
-        rectangle.setArcWidth(15d);
-        rectangle.setTranslateX(X);
-        rectangle.setTranslateY(Y);
-        settingsPanel.getChildren().add(rectangle);
-
-        return rectangle;
+    @Override
+    public String getStylesheetPath() {
+        return ResourceManager.getSettingsDesign();
     }
-
-    @Override public String getStylesheetPath() { return ResourceManager.getSettingsDesign(); }
 }

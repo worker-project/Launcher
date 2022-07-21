@@ -19,39 +19,39 @@ public class SettingsSaver {
     }
 
     private void checkSettings() {
-        if(saver.get("AllocatedRAM") == null) {
+        if (saver.get("AllocatedRAM") == null) {
             App.getInstance().getLogger().info("Creating \"AllocatedRAM\" in setting file!");
-            saver.set("AllocatedRAM", String.valueOf(512/1024.0));
+            saver.set("AllocatedRAM", String.valueOf(512 / 1024.0));
         }
 
-        if(saver.get("GameDirectory") == null) {
+        if (saver.get("GameDirectory") == null) {
             App.getInstance().getLogger().info("Creating \"AllocatedRAM\" in setting file!");
             saver.set("GameDirectory", String.valueOf(App.getInstance().getLauncherDirectory()));
         }
 
-        if(saver.get("HideAfterLaunch") == null) {
+        if (saver.get("HideAfterLaunch") == null) {
             App.getInstance().getLogger().info("Creating \"HideAfterLaunch\" in setting file!");
             saver.set("HideAfterLaunch", String.valueOf(false));
         }
 
-        if(saver.get("LaunchHeight") == null) {
+        if (saver.get("LaunchHeight") == null) {
             App.getInstance().getLogger().info("Creating \"LaunchHeight\" in setting file!");
             saver.set("LaunchHeight", String.valueOf(480));
         }
 
-        if(saver.get("KeepAfterLaunch") == null) {
+        if (saver.get("KeepAfterLaunch") == null) {
             App.getInstance().getLogger().info("Creating \"KeepAfterLaunch\" in setting file!");
             saver.set("KeepAfterLaunch", String.valueOf(true));
         }
 
-        if(saver.get("LaunchWidth") == null) {
+        if (saver.get("LaunchWidth") == null) {
             App.getInstance().getLogger().info("Creating \"LaunchWidth\" in setting file!");
             saver.set("LaunchWidth", String.valueOf(854));
         }
     }
 
     public void checkGameDirectory() {
-        if(Files.notExists(Path.of(saver.get("GameDirectory")))) {
+        if (Files.notExists(Path.of(saver.get("GameDirectory")))) {
             App.getInstance().getLogger().info("No game directory found, setting default directory at:" + App.getInstance().getLauncherDirectory());
             saver.set("GameDirectory", String.valueOf(App.getInstance().getLauncherDirectory()));
             setGameDirectory(Path.of(String.valueOf(App.getInstance().getLauncherDirectory())));

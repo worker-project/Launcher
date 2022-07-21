@@ -33,24 +33,43 @@ public abstract class Panel implements IPanel, IMovable, ITakePlace {
         transition.play();
     }
 
-    @Override public GridPane getLayout() { return layout; }
-    @Override public String getStylesheetPath() {
+    @Override
+    public GridPane getLayout() {
+        return layout;
+    }
+
+    @Override
+    public String getStylesheetPath() {
         return null;
     }
-    @Override public void setLeft(Node node) {
+
+    @Override
+    public void setLeft(Node node) {
         GridPane.setHalignment(node, HPos.LEFT);
     }
-    @Override public void setRight(Node node) {
+
+    @Override
+    public void setRight(Node node) {
         GridPane.setHalignment(node, HPos.RIGHT);
     }
-    @Override public void setTop(Node node) {
+
+    @Override
+    public void setTop(Node node) {
         GridPane.setValignment(node, VPos.TOP);
     }
-    @Override public void setBottom(Node node) {
+
+    @Override
+    public void setBottom(Node node) {
         GridPane.setValignment(node, VPos.BOTTOM);
     }
-    @Override public void setCenterH(Node node) { GridPane.setHalignment(node, HPos.CENTER); }
-    @Override public void setCenterV(Node node) {
+
+    @Override
+    public void setCenterH(Node node) {
+        GridPane.setHalignment(node, HPos.CENTER);
+    }
+
+    @Override
+    public void setCenterV(Node node) {
         GridPane.setValignment(node, VPos.CENTER);
     }
 }

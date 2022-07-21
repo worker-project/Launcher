@@ -1,7 +1,3 @@
-.background-settings {
-    -fx-background-color: rgb(24, 24, 24);
-}
-
 .settings-panel .settings-label {
     -fx-font-family: "Signika";
     -fx-font-weight: 800;
@@ -76,7 +72,7 @@
     -fx-border-width: 1;
     -fx-border-color: gray;
     -fx-max-width: 290;
-    -fx-max-height: 25;
+    -fx-max-height: 18;
 }
 .settings-panel .directory-displayLabel {
     -fx-font-family: "Signika";
@@ -96,7 +92,7 @@
     -fx-background-color: rgb(29,29,27);
     -fx-border-style: solid;
     -fx-border-width: 0.3;
-    -fx-border-color: gray;
+    -fx-border-color: red;
 
     -fx-max-width: 460;
     -fx-max-height: 300;
@@ -106,9 +102,6 @@
 }
 .settings-panel .presets-boxes {
     -fx-background-color: rgb(29,29,27);
-    /*-fx-border-style: solid;
-    -fx-border-width: 0.3;
-    oui-fx-border-color: gray;*/
 
     -fx-max-width: 110;
     -fx-max-height: 200;
@@ -167,6 +160,13 @@
     -fx-font-weight: 800;
     -fx-font-size: 16px;
     -fx-text-fill: white;
+}
+.settings-panel .close-button {
+    -fx-opacity: 0.8;
+}
+
+.settings-panel .close-button:hover {
+    -fx-opacity: 1;
 }
 
 @font-face {

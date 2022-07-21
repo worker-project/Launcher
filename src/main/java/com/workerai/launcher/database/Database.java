@@ -1,108 +1,80 @@
 package com.workerai.launcher.database;
 
 import com.workerai.launcher.App;
-import com.workerai.launcher.savers.AccountSaver;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.File;
+import java.sql.*;
 
-public class Database extends SQLite {
-    private static final String databaseTable = "CREATE TABLE IF NOT EXISTS accounts (" +
-            " ID            INTEGER     PRIMARY KEY AUTOINCREMENT," +
-            " USERNAME      CHAR(16)    NOT NULL, " +
-            " UUID          CHAR(36)    NOT NULL, " +
-            " CLIENT_TOKEN  CHAR(255)   NOT NULL, " +
-            " ACCESS_TOKEN  CHAR(255)   NOT NULL," +
-            " REMEMBER      BOOLEAN     NOT NULL" +
-            ");";
+public class Database {
+    static Connection conn = null;
 
-    public Database(String databaseName) {
-        super(databaseName, databaseTable);
-    }
-
-    @Override
-    public void createStatement(String username, String uuid, String clientToken, String accessToken, Boolean remember) {
-        int REGISTER_STATE = 1;
-        Connection conn = null;
-        PreparedStatement ps = null;
-
-        boolean statementExist = getStatement(uuid);
-
+    static void initDatabase() {
         try {
-            conn = openConnection();
+            String url = String.valueOf(new File(App.getInstance().getLauncherDirectory().toFile(), "data.sqlite"));
 
-            if(!statementExist) {
-                ps = conn.prepareStatement("REPLACE INTO " + getDatabaseName() + " (USERNAME,UUID,CLIENT_TOKEN,ACCESS_TOKEN,REMEMBER) VALUES(?,?,?,?,?)");
-            } else {
-                ps = conn.prepareStatement("UPDATE " + getDatabaseName() + " SET USERNAME = ?, CLIENT_TOKEN = ?, ACCESS_TOKEN = ?, REMEMBER = ? WHERE UUID = ?");
-            }
-            ps.setString(1, username); REGISTER_STATE++;
-            ps.setString(2, uuid); REGISTER_STATE++;
-            ps.setString(3, clientToken); REGISTER_STATE++;
-            ps.setString(4, accessToken); REGISTER_STATE++;
-            ps.setBoolean(5, remember); REGISTER_STATE++;
-            ps.executeUpdate();
-            App.getInstance().getLogger().info("Successfully executed SQLite statements");
+            conn = DriverManager.getConnection("jdbc:sqlite:" + url);
 
-            ps = conn.prepareStatement("SELECT ID FROM " + getDatabaseName() + " WHERE UUID = ?");
-            ps.setString(1, uuid);
-            if(!statementExist) App.getInstance().getAccountManager().addAccount(ps.executeQuery().getInt("ID"), uuid, username, clientToken, accessToken, remember);
-            AccountSaver.currentAccount = new Account(ps.executeQuery().getInt("ID"), uuid, username, clientToken, accessToken, remember);
-        } catch (SQLException ex) {
-            App.getInstance().getLogger().err("Failed executing SQLite statement at state: " + REGISTER_STATE);
-        } finally {
-            if(ps != null) closeConnection(ps);
-            if(conn != null) closeConnection(conn);
+            App.getInstance().getLogger().info("Connection to SQLite has been established.");
+
+            String sql = "CREATE TABLE IF NOT EXISTS accounts (" +
+                    " ID            INTEGER     PRIMARY KEY," +
+                    " USERNAME      CHAR(16)    NOT NULL, " +
+                    " UUID          CHAR(36)    NOT NULL, " +
+                    " CLIENT_TOKEN  CHAR(255)   NOT NULL, " +
+                    " ACCESS_TOKEN  CHAR(255)   NOT NULL" +
+                    ");";
+
+            Statement stmt = conn.createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    @Override
-    public boolean getStatement(String uuid) {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection conn = null;
-
+    static void addAccount(Account account) {
         try {
-            conn = openConnection();
-
-            ps = conn.prepareStatement("SELECT * FROM " + getDatabaseName() + " WHERE UUID = ?");
-            ps.setString(1, uuid);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                if (rs.getString("UUID").equals(uuid)) {
-                    return true;
-                }
-            }
-            return false;
-        } catch (SQLException ex) {
-            App.getInstance().getLogger().err("Failed testing account in local SQLite database!");
-        } finally {
-            if(ps != null) closeConnection(ps);
-            if(rs != null) closeConnection(rs);
-            if(conn != null) closeConnection(conn);
+            String sql = "INSERT INTO accounts (USERNAME, UUID, CLIENT_TOKEN, ACCESS_TOKEN) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, account.getUsername());
+            stmt.setString(2, account.getUuid());
+            stmt.setString(3, account.getClientToken());
+            stmt.setString(4, account.getAccessToken());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return false;
     }
 
-    @Override
-    public boolean removeStatement(String uuid) {
-        PreparedStatement ps = null;
-        Connection conn = null;
-
+    static void removeAccount(String uuid) {
         try {
-            conn = openConnection();
-
-            ps = conn.prepareStatement("DELETE FROM " + getDatabaseName() + " WHERE UUID = ?;");
-            ps.setString(1, uuid);
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            App.getInstance().getLogger().err("Failed deleting account in local SQLite database!");
-        } finally {
-            if(ps != null) closeConnection(ps);
-            if(conn != null) closeConnection(conn);
+            String sql = "DELETE FROM accounts WHERE UUID = ?;";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, uuid);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return false;
+    }
+
+    static Account getAccount(String uuid) {
+        try {
+            String sql = "SELECT * FROM accounts WHERE UUID = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, uuid);
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) return null;
+
+            Account account = new Account();
+            account.setUsername(rs.getString("USERNAME"));
+            account.setUuid(rs.getString("UUID"));
+            account.setClientToken(rs.getString("CLIENT_TOKEN"));
+            account.setAccessToken(rs.getString("ACCESS_TOKEN"));
+            return account;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 }
