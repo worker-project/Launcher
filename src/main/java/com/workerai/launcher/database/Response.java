@@ -2,6 +2,7 @@ package com.workerai.launcher.database;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.workerai.launcher.App;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -62,7 +63,8 @@ public class Response {
 
             return new Response(obj.get("automine").getAsBoolean(), obj.get("forage").getAsBoolean());
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            App.getInstance().getLogger().err("Remote SQLite doesn't respond! Returning default values...");
             return new Response(false, false);
         }
     }

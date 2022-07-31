@@ -4,11 +4,12 @@ import com.noideaindustry.jui.JuiInterface;
 import com.workerai.launcher.database.Account;
 import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.ui.PanelManager;
-import com.workerai.launcher.ui.panel.Panel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
+import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -38,22 +39,19 @@ public class Accounts extends Panel {
         createLabel(0d, 90d, "Account Manager & Licenses", titleIcon, "accounts-label", Pos.TOP_CENTER, accountsPane);
         createLabel(0d, 120d, "Save your accounts here to connect faster.", null, "accounts-subLabel", Pos.TOP_CENTER, accountsPane);
 
-        if (!BottomBar.DEBUG_MODE) {
-            GridPane accountCard = new GridPane();
-            accountsPane.getChildren().add(accountCard);
-            double startX = 50d;
-            double startY = 180d;
-            int accountNum = 0;
-            for (Account account : AccountSaver.getAccounts()) {
-                accountNum += 1;
-                displayAccount(accountCard, account, createStackPane(startX, startY, 350d, 180d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
+        GridPane accountCard = new GridPane();
+        accountsPane.getChildren().add(accountCard);
 
-                if (accountNum % 3 != 0) {
-                    startX += 35d + 350d;
-                } else {
-                    startY += 35d + 180d;
-                    startX = 35d;
-                }
+        double startX = 50d, startY = 180d;
+        int accountNum = 0;
+        for (Account account : AccountSaver.getAccounts()) {
+            accountNum += 1;
+            displayAccount(accountCard, account, createStackPane(startX, startY, 350d, 180d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
+            if (accountNum % 3 != 0) {
+                startX += 35d + 350d;
+            } else {
+                startY += 35d + 180d;
+                startX = 35d;
             }
         }
     }

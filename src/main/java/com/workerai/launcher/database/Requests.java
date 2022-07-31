@@ -3,6 +3,8 @@ package com.workerai.launcher.database;
 import com.workerai.launcher.App;
 import com.workerai.launcher.savers.AccountSaver;
 
+import java.util.List;
+
 public class Requests {
 
     public static void initRequests() {
@@ -38,12 +40,25 @@ public class Requests {
         return account;
     }
 
+    public static List<Account> getAccounts() {
+        App.getInstance().getLogger().debug("Searching all accounts in SQLite...");
+        List<Account> accountList = Database.getAccounts();
+
+        if(accountList == null) {
+            App.getInstance().getLogger().debug("No account found in SQLite.");
+            return null;
+        }
+
+        for (Account account : accountList) {
+            App.getInstance().getLogger().debug("Found " + account.getUuid() + " in SQLite.");
+        }
+        return accountList;
+    }
+
     public static void removeAccount(String uuid) {
         Account account = Requests.getAccount(uuid);
 
-        if (account == null) {
-            return;
-        }
+        if (account == null) return;
 
         Database.removeAccount(account.getUuid());
         App.getInstance().getLogger().debug(uuid + " removed.");

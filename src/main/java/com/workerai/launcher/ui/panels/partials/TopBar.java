@@ -1,7 +1,7 @@
 package com.workerai.launcher.ui.panels.partials;
 
 import com.workerai.launcher.ui.PanelManager;
-import com.workerai.launcher.ui.panel.Panel;
+import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;

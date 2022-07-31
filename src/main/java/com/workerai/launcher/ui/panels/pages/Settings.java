@@ -2,7 +2,7 @@ package com.workerai.launcher.ui.panels.pages;
 
 import com.workerai.launcher.App;
 import com.workerai.launcher.ui.PanelManager;
-import com.workerai.launcher.ui.panel.Panel;
+import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.ui.panels.pages.settings.*;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.utils.ResourceManager;

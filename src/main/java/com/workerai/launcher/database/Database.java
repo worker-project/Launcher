@@ -4,6 +4,8 @@ import com.workerai.launcher.App;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
     static Connection conn = null;
@@ -71,6 +73,31 @@ public class Database {
             account.setClientToken(rs.getString("CLIENT_TOKEN"));
             account.setAccessToken(rs.getString("ACCESS_TOKEN"));
             return account;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    static List<Account> getAccounts() {
+        try {
+            String sql = "SELECT * FROM accounts";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            List<Account> accountList = new ArrayList<>();
+
+            while (rs.next()) {
+                Account account = new Account();
+                account.setUsername(rs.getString("USERNAME"));
+                account.setUuid(rs.getString("UUID"));
+                account.setClientToken(rs.getString("CLIENT_TOKEN"));
+                account.setAccessToken(rs.getString("ACCESS_TOKEN"));
+                accountList.add(account);
+            }
+
+            return accountList;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

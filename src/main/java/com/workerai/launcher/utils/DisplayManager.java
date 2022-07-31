@@ -8,9 +8,9 @@ import com.workerai.launcher.database.Response;
 import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.ui.panels.pages.Accounts;
 import com.workerai.launcher.ui.panels.pages.Login;
-import com.workerai.launcher.ui.panels.partials.BottomBar;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -36,7 +36,7 @@ public class DisplayManager {
     public static void displayAccount(GridPane container, Account account, StackPane card) {
         container.getChildren().add(card);
 
-        createLabel(0, 5d, BottomBar.DEBUG_MODE ? "Account - Default" : "Account - " + account.getUsername(), null, "account-label", Pos.TOP_CENTER, card);
+        createLabel(0, 5d, "Account - " + account.getUsername(), null, "account-label", Pos.TOP_CENTER, card);
         createLabel(45d, 45d, "Available modules", null, "module-label", Pos.TOP_CENTER, card);
 
         FontAwesomeIconView iconRemove = JuiInterface.JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.CROSSHAIRS, "20px", null, Color.WHITE, card);
@@ -71,16 +71,34 @@ public class DisplayManager {
     public static void displayModules(VBox moduleBox, Account account, StackPane card) {
         card.getChildren().add(moduleBox);
 
-        Response response = Response.getResponse(account.getUuid());
-        createModuleDisplay(new Label("Automine"), moduleBox, 11.5d, 7d * -1, response.hasAutomine());
-        createModuleDisplay(new Label("Foraging"), moduleBox, 86.5d, 28.25d * -2, response.hasForage());
-        createModuleDisplay(new Label("Fishing"), moduleBox, 156.5d, 26.25d * -4, false);
+        new Thread(() -> {
+            Response response = Response.getResponse(account.getUuid());
 
-        createModuleDisplay(new Label("Farming"), moduleBox, 11.5d, 28.075d * 2 * -2.45, false);
-        createModuleDisplay(new Label("DungeonHunting"), moduleBox, 78.5d, 25.75d * 2 * -3.625, false);
+            Platform.runLater(() -> {
+                createModuleDisplay(new Label("Automine"), moduleBox, 11.5d, 7d * -1, response.hasAutomine());
+                createModuleDisplay(new Label("Foraging"), moduleBox, 86.5d, 28.25d * -2, response.hasForage());
+                createModuleDisplay(new Label("Fishing"), moduleBox, 156.5d, 26.25d * -4, false);
 
-        createModuleDisplay(new Label("BazaarFlipping"), moduleBox, 11.5d, 26.75d * 3 * -2.725, false);
-        createModuleDisplay(new Label("ZealotHunting"), moduleBox, 116.5d, 25.75d * 3 * -3.46, false);
+                createModuleDisplay(new Label("Farming"), moduleBox, 11.5d, 28.075d * 2 * -2.45, false);
+                createModuleDisplay(new Label("DungeonHunting"), moduleBox, 78.5d, 25.75d * 2 * -3.625, false);
+
+                createModuleDisplay(new Label("BazaarFlipping"), moduleBox, 11.5d, 26.75d * 3 * -2.725, false);
+                createModuleDisplay(new Label("ZealotHunting"), moduleBox, 116.5d, 25.75d * 3 * -3.46, false);
+            });
+        }).start();
+
+        /*new Thread(() -> {
+            Response response = Response.getResponse(account.getUuid());
+            createModuleDisplay(new Label("Automine"), moduleBox, 11.5d, 7d * -1, response.hasAutomine());
+            createModuleDisplay(new Label("Foraging"), moduleBox, 86.5d, 28.25d * -2, response.hasForage());
+            createModuleDisplay(new Label("Fishing"), moduleBox, 156.5d, 26.25d * -4, false);
+
+            createModuleDisplay(new Label("Farming"), moduleBox, 11.5d, 28.075d * 2 * -2.45, false);
+            createModuleDisplay(new Label("DungeonHunting"), moduleBox, 78.5d, 25.75d * 2 * -3.625, false);
+
+            createModuleDisplay(new Label("BazaarFlipping"), moduleBox, 11.5d, 26.75d * 3 * -2.725, false);
+            createModuleDisplay(new Label("ZealotHunting"), moduleBox, 116.5d, 25.75d * 3 * -3.46, false);
+        }).start();*/
     }
 
     private static void createModuleDisplay(Label label, VBox moduleBox, double posX, double posY, boolean hasAccess) {

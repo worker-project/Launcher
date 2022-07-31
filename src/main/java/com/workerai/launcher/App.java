@@ -1,6 +1,7 @@
 package com.workerai.launcher;
 
 import com.workerai.launcher.database.Requests;
+import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.savers.SettingsSaver;
 import com.workerai.launcher.ui.PanelManager;
 import com.workerai.launcher.ui.panels.pages.Login;
@@ -43,6 +44,7 @@ public class App extends Application {
         this.panelManager.init();
 
         Requests.initRequests();
+        AccountSaver.initAccounts();
 
         this.panelManager.showPanel(new Login());
     }

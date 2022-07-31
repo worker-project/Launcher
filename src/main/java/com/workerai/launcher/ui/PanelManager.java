@@ -1,7 +1,7 @@
 package com.workerai.launcher.ui;
 
 import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
-import com.workerai.launcher.ui.panel.IPanel;
+import com.workerai.launcher.ui.utils.IPanel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.ui.panels.partials.TopBar;
 import com.workerai.launcher.utils.ResourceManager;

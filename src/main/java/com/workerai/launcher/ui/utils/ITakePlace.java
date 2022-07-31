@@ -1,4 +1,4 @@
-package com.workerai.launcher.ui.panel;
+package com.workerai.launcher.ui.utils;
 
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;

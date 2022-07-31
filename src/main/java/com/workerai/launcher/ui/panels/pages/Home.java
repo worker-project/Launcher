@@ -3,7 +3,7 @@ package com.workerai.launcher.ui.panels.pages;
 import com.workerai.launcher.App;
 import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.ui.PanelManager;
-import com.workerai.launcher.ui.panel.Panel;
+import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -36,6 +36,7 @@ import static com.noideaindustry.jui.JuiInterface.JuiButton.createMaterialButton
 import static com.noideaindustry.jui.JuiInterface.JuiIcon;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createGridPane;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
+import static com.noideaindustry.jui.JuiInterface.createLabel;
 
 public class Home extends Panel {
     ProgressBar progressBar = new ProgressBar();
@@ -56,8 +57,12 @@ public class Home extends Panel {
         StackPane homePane = createStackPane(0d, 0d, 1200d, 600d, 15d, 15d, "home-panel", Pos.CENTER, Color.rgb(32, 31, 29));
         this.layout.getChildren().add(homePane);
 
-        FontAwesomeIconView playIcon = JuiIcon.createFontIcon(-2d, 0d, FontAwesomeIcon.PLAY_CIRCLE, "25px", null, Color.WHITE, homePane);
-        Button playButton = createFontButton(0d, 0d, 250d, 30d, "LAUNCH CLIENT", "home-button", null, playIcon, Pos.CENTER, homePane);
+        FontAwesomeIconView titleIcon = JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.GEARS, "25px", null,Color.WHITE, homePane);
+        createLabel(0d, 90d, "Launcher & Client Settings", titleIcon, "home-label", Pos.TOP_CENTER, homePane);
+        createLabel(0d, 120d, "Memory allocation & Launcher preferences", null, "home-subLabel", Pos.TOP_CENTER, homePane);
+
+        FontAwesomeIconView playIcon = JuiIcon.createFontIcon(-5d, 0d, FontAwesomeIcon.PLAY_CIRCLE, "50px", null, Color.WHITE, homePane);
+        Button playButton = createFontButton(200d, 0d, 350d, 80d, "LAUNCH CLIENT", "home-button", null, playIcon, Pos.CENTER, homePane);
         playButton.setOnMouseClicked(e -> downloadAndplay(homePane));
 
         progressBar.getStyleClass().add("download-progress");
@@ -81,8 +86,8 @@ public class Home extends Panel {
         list.setSize("25px");
         list.setTranslateX(-5d);
 
-        MaterialDesignIconView accountsIcon = JuiIcon.createDesignIcon(-2d, 0d, MaterialDesignIcon.VIEW_LIST, "25px", null, Color.WHITE, homePane);
-        Button accountsButton = createMaterialButton(0d, 50d, 250d, 30d, "ACCOUNT MANAGER", "home-button", null, accountsIcon, Pos.CENTER, homePane);
+        MaterialDesignIconView accountsIcon = JuiIcon.createDesignIcon(-5d, 0d, MaterialDesignIcon.VIEW_LIST, "50px", null, Color.WHITE, homePane);
+        Button accountsButton = createMaterialButton(-200d, 0d, 350d, 80d, "ACCOUNT MANAGER", "home-button", null, accountsIcon, Pos.CENTER, homePane);
         accountsButton.setOnMouseClicked(e -> this.panelManager.showPanel(new Accounts()));
     }
 

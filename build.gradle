@@ -5,10 +5,14 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
+tasks.shadowJar.configure {
+    classifier = null
+}
+
 apply plugin: 'org.openjfx.javafxplugin'
 
 group 'com.workerai'
-version '1.0.0'
+archivesBaseName = "WorkerLauncher"
 
 repositories {
     mavenCentral()

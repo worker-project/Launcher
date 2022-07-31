@@ -1,10 +1,11 @@
 package com.workerai.launcher.ui.panels.pages;
 
 import com.noideaindustry.jui.JuiInterface;
+import com.workerai.launcher.database.Account;
 import com.workerai.launcher.database.Requests;
 import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.ui.PanelManager;
-import com.workerai.launcher.ui.panel.Panel;
+import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.utils.AlertManager;
 import com.workerai.launcher.utils.ResourceManager;

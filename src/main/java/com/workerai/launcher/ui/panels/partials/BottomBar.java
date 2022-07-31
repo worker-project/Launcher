@@ -4,7 +4,7 @@ import com.workerai.launcher.App;
 import com.workerai.launcher.database.Requests;
 import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.ui.PanelManager;
-import com.workerai.launcher.ui.panel.Panel;
+import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.ui.panels.pages.Home;
 import com.workerai.launcher.ui.panels.pages.Login;
 import com.workerai.launcher.ui.panels.pages.Settings;
@@ -172,9 +172,11 @@ public class BottomBar extends Panel {
         logoutButton.setOnMouseEntered(e -> this.panelManager.getStage().getScene().setCursor(Cursor.HAND));
         logoutButton.setOnMouseExited(e -> this.panelManager.getStage().getScene().setCursor(Cursor.DEFAULT));
         logoutButton.setOnMouseClicked(e -> {
-            DEBUG_MODE = false;
-            if (AccountSaver.getCurrentAccount() != null)
-                Requests.removeAccount(AccountSaver.getCurrentAccount().getUuid());
+            if(DEBUG_MODE) {
+                DEBUG_MODE = false;
+                App.getInstance().getLogger().warn("Leaving debug session, online services will be available once connected!");
+            }
+            AccountSaver.setCurrentAccount(null);
             this.panelManager.showPanel(new Login());
         });
 

@@ -1,6 +1,7 @@
 package com.workerai.launcher.savers;
 
 import com.workerai.launcher.database.Account;
+import com.workerai.launcher.database.Requests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,12 @@ import java.util.List;
 public class AccountSaver {
     private static final List<Account> accounts = new ArrayList<>();
     private static Account currentAccount = null;
+
+    public static void initAccounts() {
+        for (Account account : Requests.getAccounts()) {
+            AccountSaver.addAccount(account);
+        }
+    }
 
     public static List<Account> getAccounts() {
         return accounts;
@@ -19,7 +26,6 @@ public class AccountSaver {
 
     public static void setCurrentAccount(Account account) {
         currentAccount = account;
-        AccountSaver.addAccount(account);
     }
 
     public static Account getCurrentAccount() {
