@@ -46,26 +46,27 @@
 .settings-panel .afterLaunch-button:hover {
     -fx-opacity: 1.0;
 }
-
 .settings-panel .afterLaunch-button-active {
-    -fx-background-color: rgb(54, 157, 63);
+    -fx-background-color: rgb(210,144,52);
 }
 
 .settings-panel .directory-button {
     -fx-background-radius: 4px;
-    -fx-background-color: rgb(54, 157, 63);
+    -fx-background-color: rgb(210,144,52);
 
     -fx-font-family: "Signika";
     -fx-font-weight: 700;
     -fx-font-size: 15px;
     -fx-text-fill: rgb(255,255,255);
 }
+
 .settings-panel .directory-subLabel {
     -fx-font-family: "Rokkitt";
     -fx-font-weight: 700;
     -fx-font-size: 12px;
     -fx-text-fill: rgb(255,255,255);
 }
+
 .settings-panel .directory-container {
     -fx-background-color: transparent;
     -fx-border-style: solid;
@@ -73,6 +74,7 @@
     -fx-border-color: gray;
     -fx-max-width: 290;
     -fx-max-height: 18;
+    x-max-height: 18;
 }
 .settings-panel .directory-displayLabel {
     -fx-font-family: "Signika";
@@ -100,6 +102,7 @@
     -fx-border-radius: 10 10 10 10;
     -fx-background-radius: 10 10 10 10;
 }
+
 .settings-panel .presets-boxes {
     -fx-background-color: rgb(29,29,27);
 
@@ -109,7 +112,7 @@
 
 .settings-panel .presets-button {
     -fx-background-radius: 4px;
-    -fx-background-color: rgb(54, 157, 63);
+    -fx-background-color: rgb(210,144,52);
 
     -fx-font-family: "Signika";
     -fx-font-weight: 700;
@@ -121,9 +124,8 @@
     -fx-pref-width: 320px;
     -fx-pref-height: 60px;
 }
-
 .settings-panel .slider .thumb {
-    -fx-background-color: rgb(54, 157, 63);
+    -fx-background-color: rgb(210,144,52);
 }
 
 .settings-panel .ratio-box {
@@ -134,12 +136,14 @@
     -fx-max-width: 100;
     -fx-max-height: 40;
 }
+
 .settings-panel .ratio-displayLabel {
     -fx-font-family: "Rokkitt";
     -fx-font-weight: 800;
     -fx-font-size: 13px;
     -fx-text-fill: white;
 }
+
 .settings-panel .ratio-promptText {
     -fx-font-family: "Rokkitt";
     -fx-font-weight: 800;
@@ -149,22 +153,24 @@
 
     -fx-background-color: transparent;
 }
+
 .settings-panel .ratio-columnLabels {
     -fx-font-family: "Rokkitt";
     -fx-font-weight: 800;
     -fx-font-size: 13px;
     -fx-text-fill: gray;
 }
+
 .settings-panel .ratio-choiceLabels {
     -fx-font-family: "Rokkitt";
     -fx-font-weight: 800;
     -fx-font-size: 16px;
     -fx-text-fill: white;
 }
+
 .settings-panel .close-button {
     -fx-opacity: 0.8;
 }
-
 .settings-panel .close-button:hover {
     -fx-opacity: 1;
 }
@@ -176,19 +182,7 @@
 }
 
 @font-face {
-    font-family: "Oswald";
-    font-style: normal;
-    src: url("../fonts/Oswald-Bold.ttf");
-}
-
-@font-face {
     font-family: "Rokkitt";
     font-style: normal;
     src: url("../fonts/Rokkitt-Bold.ttf");
-}
-
-@font-face {
-    font-family: "MerriweatherSans";
-    font-style: normal;
-    src: url("../fonts/MerriweatherSans-Bold.ttf");
 }

@@ -16,7 +16,7 @@ public class Database {
 
             conn = DriverManager.getConnection("jdbc:sqlite:" + url);
 
-            App.getInstance().getLogger().info("Connection to SQLite has been established.");
+            App.getInstance().getLogger().debug("Connection to SQLite has been established.");
 
             String sql = "CREATE TABLE IF NOT EXISTS accounts (" +
                     " ID            INTEGER     PRIMARY KEY," +

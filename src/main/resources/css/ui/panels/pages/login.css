@@ -18,9 +18,15 @@
     -fx-font-weight: 600;
     -fx-font-size: 15px;
     -fx-text-fill: rgb(150, 150, 150);
-
+    -fx-opacity: 0.8;
     -fx-background-radius: 5px;
     -fx-background-color: #343434;
+}
+.login-panel .login-button:hover {
+    -fx-opacity: 1;
+}
+.login-panel .login-button-active {
+    -fx-opacity: 1;
 }
 
 .login-panel .remember-label {
@@ -28,4 +34,10 @@
     -fx-font-weight: 600;
     -fx-font-size: 15px;
     -fx-text-fill: rgb(150, 150, 150);
+}
+
+@font-face {
+    font-family: "Oswald";
+    font-style: normal;
+    src: url("../fonts/Oswald-Bold.ttf");
 }

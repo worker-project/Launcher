@@ -24,6 +24,10 @@ public class AccountSaver {
         accounts.add(account);
     }
 
+    public static void removeAccount(Account account) {
+        accounts.remove(account);
+    }
+
     public static void setCurrentAccount(Account account) {
         currentAccount = account;
     }

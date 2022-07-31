@@ -22,6 +22,7 @@ public class Requests {
             account.setAccessToken(accessToken);
 
             Database.addAccount(account);
+            AccountSaver.addAccount(account);
             App.getInstance().getLogger().debug(uuid + " added.");
         }
 

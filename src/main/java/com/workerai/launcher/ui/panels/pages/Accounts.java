@@ -42,16 +42,16 @@ public class Accounts extends Panel {
         GridPane accountCard = new GridPane();
         accountsPane.getChildren().add(accountCard);
 
-        double startX = 50d, startY = 180d;
+        double startX = 60d, startY = 200d;
         int accountNum = 0;
         for (Account account : AccountSaver.getAccounts()) {
             accountNum += 1;
             displayAccount(accountCard, account, createStackPane(startX, startY, 350d, 180d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
             if (accountNum % 3 != 0) {
-                startX += 35d + 350d;
+                startX += 45d + 350d;
             } else {
-                startY += 35d + 180d;
-                startX = 35d;
+                startX = 60d;
+                startY += 50d + 170d;
             }
         }
     }

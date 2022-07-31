@@ -42,12 +42,14 @@ public class DisplayManager {
         FontAwesomeIconView iconRemove = JuiInterface.JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.CROSSHAIRS, "20px", null, Color.WHITE, card);
         Button buttonRemove = createFontButton(15d, -10d, 150d, 30d, "Remove", "account-button-remove", null, iconRemove, Pos.BOTTOM_LEFT, card);
         buttonRemove.setOnMouseClicked(e -> {
-            if (Objects.equals(account.getUuid(), AccountSaver.getCurrentAccount().getUuid())) {
+            if (AccountSaver.getCurrentAccount() == null || !account.getUuid().equals(AccountSaver.getCurrentAccount().getUuid())) {
                 Requests.removeAccount(account.getUuid());
-                App.getInstance().getPanelManager().showPanel(new Login());
+                AccountSaver.removeAccount(account);
+                App.getInstance().getPanelManager().showPanel(new Accounts());
             } else {
                 Requests.removeAccount(account.getUuid());
-                App.getInstance().getPanelManager().showPanel(new Accounts());
+                AccountSaver.removeAccount(account);
+                App.getInstance().getPanelManager().showPanel(new Login());
             }
         });
 
@@ -86,19 +88,6 @@ public class DisplayManager {
                 createModuleDisplay(new Label("ZealotHunting"), moduleBox, 116.5d, 25.75d * 3 * -3.46, false);
             });
         }).start();
-
-        /*new Thread(() -> {
-            Response response = Response.getResponse(account.getUuid());
-            createModuleDisplay(new Label("Automine"), moduleBox, 11.5d, 7d * -1, response.hasAutomine());
-            createModuleDisplay(new Label("Foraging"), moduleBox, 86.5d, 28.25d * -2, response.hasForage());
-            createModuleDisplay(new Label("Fishing"), moduleBox, 156.5d, 26.25d * -4, false);
-
-            createModuleDisplay(new Label("Farming"), moduleBox, 11.5d, 28.075d * 2 * -2.45, false);
-            createModuleDisplay(new Label("DungeonHunting"), moduleBox, 78.5d, 25.75d * 2 * -3.625, false);
-
-            createModuleDisplay(new Label("BazaarFlipping"), moduleBox, 11.5d, 26.75d * 3 * -2.725, false);
-            createModuleDisplay(new Label("ZealotHunting"), moduleBox, 116.5d, 25.75d * 3 * -3.46, false);
-        }).start();*/
     }
 
     private static void createModuleDisplay(Label label, VBox moduleBox, double posX, double posY, boolean hasAccess) {
