@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+import static com.noideaindustry.jui.JuiGeometry.JuiRectangle.createRoundedRectangle;
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
 public abstract class JuiInterface {
@@ -32,7 +33,7 @@ public abstract class JuiInterface {
             iconView.setTranslateX(posX);
             iconView.setTranslateY(posY);
 
-            if(hoveredCursor != Cursor.DEFAULT){
+            if (hoveredCursor != Cursor.DEFAULT) {
                 iconView.setOnMouseEntered(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.HAND));
                 iconView.setOnMouseExited(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.DEFAULT));
             }
@@ -54,7 +55,7 @@ public abstract class JuiInterface {
             iconView.setTranslateX(posX);
             iconView.setTranslateY(posY);
 
-            if(hoveredCursor != Cursor.DEFAULT){
+            if (hoveredCursor != Cursor.DEFAULT) {
                 iconView.setOnMouseEntered(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.HAND));
                 iconView.setOnMouseExited(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.DEFAULT));
             }
@@ -91,23 +92,28 @@ public abstract class JuiInterface {
             return scrollPane;
         }
 
-        public static StackPane createStackPane(double posX, double posY, double width, double height, double arcHeight, double arcWidth, String styleClass, Pos alignement, Color color) {
+        public static StackPane createStackPane(double posX, double posY, double width, double height, double arcHeight, double arcWidth, boolean concat, String styleClass, Pos alignement, Color color) {
             StackPane stackPane = new StackPane();
 
+            if (concat) stackPane.setMaxSize(width, height);
+
             stackPane.setPrefSize(width, height);
+
             stackPane.setTranslateX(posX);
             stackPane.setTranslateY(posY);
 
-            stackPane.getChildren().add(JuiGeometry.JuiRectangle.createRoundedRectangle(0, 0, stackPane.getPrefWidth(), stackPane.getPrefHeight(), arcHeight, arcWidth, color));
+            stackPane.getChildren().add(createRoundedRectangle(0, 0, stackPane.getPrefWidth(), stackPane.getPrefHeight(), arcHeight, arcWidth, color));
             stackPane.getStyleClass().add(styleClass);
 
-            Region slip = new Region();
-            slip.setMaxWidth(width);
-            slip.setMaxHeight(height / 7);
+            if(!concat) {
+                Region slip = new Region();
+                slip.setMaxWidth(width);
+                slip.setMaxHeight(height / 7);
 
-            slip.getStyleClass().add("rectangle-border");
-            slip.setTranslateY(220 * height / 600 * -1);
-            stackPane.getChildren().add(slip);
+                slip.getStyleClass().add("rectangle-border");
+                slip.setTranslateY(220 * height / 600 * -1);
+                stackPane.getChildren().add(slip);
+            }
 
             if (alignement != null) StackPane.setAlignment(stackPane, alignement);
             return stackPane;
@@ -121,7 +127,7 @@ public abstract class JuiInterface {
             gridPane.setTranslateX(posX);
             gridPane.setTranslateY(posY);
 
-            gridPane.getChildren().add(JuiGeometry.JuiRectangle.createRoundedRectangle(0, 0, gridPane.getPrefWidth(), gridPane.getPrefHeight(), arcHeight, arcWidth, color));
+            gridPane.getChildren().add(createRoundedRectangle(0, 0, gridPane.getPrefWidth(), gridPane.getPrefHeight(), arcHeight, arcWidth, color));
 
             return gridPane;
         }
@@ -161,7 +167,7 @@ public abstract class JuiInterface {
     }
 
     public abstract static class JuiButton {
-        public static Button createFontButton(double posX, double posY, double width, double height, String displayText, String styleClass, Tooltip tooltip, FontAwesomeIconView displayIcon, Pos alignement, StackPane pane) {
+        public static Button createFontButton(double posX, double posY, double width, double height, String displayText, String styleClass, Tooltip tooltip, FontAwesomeIconView displayIcon, Pos alignement, Pane pane) {
             Button button = new Button();
 
             button.setTooltip(tooltip);
@@ -181,7 +187,7 @@ public abstract class JuiInterface {
             return button;
         }
 
-        public static Button createMaterialButton(double posX, double posY, double width, double height, String displayText, String styleClass, Tooltip tooltip, MaterialDesignIconView displayIcon, Pos alignement, StackPane pane) {
+        public static Button createMaterialButton(double posX, double posY, double width, double height, String displayText, String styleClass, Tooltip tooltip, MaterialDesignIconView displayIcon, Pos alignement, Pane pane) {
             Button button = new Button();
 
             button.setTooltip(tooltip);
@@ -215,21 +221,7 @@ public abstract class JuiInterface {
         return label;
     }
 
-    public static ImageView createImageView(double posX, double posY, double width, double height, boolean ratio, String displayUrl, Pos alignement, StackPane pane) {
-        ImageView imageView = new ImageView(new Image(displayUrl));
-
-        imageView.setPreserveRatio(ratio);
-        imageView.setFitHeight(height);
-        imageView.setFitWidth(width);
-        StackPane.setAlignment(imageView, alignement);
-        imageView.setTranslateX(posX);
-        imageView.setTranslateY(posY);
-
-        pane.getChildren().add(imageView);
-        return imageView;
-    }
-
-    public static ImageView createImageView(double posX, double posY, double width, double height, boolean ratio, String displayUrl, Pos alignement, GridPane pane) {
+    public static ImageView createImageView(double posX, double posY, double width, double height, boolean ratio, String displayUrl, Pos alignement, Pane pane) {
         ImageView imageView = new ImageView(new Image(displayUrl));
 
         imageView.setPreserveRatio(ratio);

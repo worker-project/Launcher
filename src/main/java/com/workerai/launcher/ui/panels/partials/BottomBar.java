@@ -30,7 +30,7 @@ public class BottomBar extends Panel {
 
     public static boolean DEBUG_MODE = false;
 
-    public FontAwesomeIconView homeButton, debugButton, logoutButton, settingsButton;
+    public FontAwesomeIconView homeButton, debugButton, logoutButton;
     private MaterialDesignIconView websiteButton, twitterButton, discordButton;
     private FontAwesomeIconView shoppingButton;
 
@@ -91,7 +91,6 @@ public class BottomBar extends Panel {
 
         homeButton = createFontIcon(0d, 5d, FontAwesomeIcon.HOME, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
         homeButton.setOnMouseClicked(e -> {
-            settingsButton.setVisible(true);
             homeButton.setVisible(false);
             this.panelManager.showPanel(new Home());
         });
@@ -106,33 +105,25 @@ public class BottomBar extends Panel {
             this.panelManager.showPanel(new Login());
         });
 
-        settingsButton = createFontIcon(0d, 5d, FontAwesomeIcon.GEARS, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
-        settingsButton.setOnMouseClicked(e -> {
-            this.panelManager.showPanel(new Settings());
-        });
-
-        setCanTakeAllWidth(websiteButton, twitterButton, discordButton, shoppingButton, settingsButton, homeButton, logoutButton);
+        setCanTakeAllWidth(websiteButton, twitterButton, discordButton, shoppingButton, homeButton, logoutButton);
     }
 
     public void setHomeIcons() {
         homeButton.setVisible(false);
         logoutButton.setVisible(true);
-        settingsButton.setVisible(true);
         debugButton.setVisible(false);
 
-        logoutButton.setTranslateX(this.panelManager.getStage().getWidth()/2-30d);
-        settingsButton.setTranslateX(this.panelManager.getStage().getWidth()/2+30d);
+        logoutButton.setTranslateX(debugButton.getTranslateX());
 
         websiteButton.setTranslateX(logoutButton.getTranslateX() - 120d);
         twitterButton.setTranslateX(logoutButton.getTranslateX() - 60d);
-        discordButton.setTranslateX(settingsButton.getTranslateX() + 60d);
-        shoppingButton.setTranslateX(settingsButton.getTranslateX() + 120d);
+        discordButton.setTranslateX(logoutButton.getTranslateX() + 60d);
+        shoppingButton.setTranslateX(logoutButton.getTranslateX() + 120d);
     }
 
     public void setLoginIcons() {
         homeButton.setVisible(false);
         logoutButton.setVisible(false);
-        settingsButton.setVisible(false);
         debugButton.setVisible(true);
 
         websiteButton.setTranslateX(debugButton.getTranslateX() - 120d);
@@ -141,18 +132,17 @@ public class BottomBar extends Panel {
         shoppingButton.setTranslateX(debugButton.getTranslateX() + 120d);
     }
 
-    public void setElseIcons() {
+    public void setDefaultIcons() {
         homeButton.setVisible(true);
-        logoutButton.setVisible(true);
-        settingsButton.setVisible(false);
+        logoutButton.setVisible(false);
         debugButton.setVisible(false);
 
-        homeButton.setTranslateX(settingsButton.getTranslateX());
+        homeButton.setTranslateX(logoutButton.getTranslateX());
 
         websiteButton.setTranslateX(logoutButton.getTranslateX() - 120d);
         twitterButton.setTranslateX(logoutButton.getTranslateX() - 60d);
-        discordButton.setTranslateX(settingsButton.getTranslateX() + 60d);
-        shoppingButton.setTranslateX(settingsButton.getTranslateX() + 120d);
+        discordButton.setTranslateX(logoutButton.getTranslateX() + 60d);
+        shoppingButton.setTranslateX(logoutButton.getTranslateX() + 120d);
     }
 
     public void enableDebugAccess() {

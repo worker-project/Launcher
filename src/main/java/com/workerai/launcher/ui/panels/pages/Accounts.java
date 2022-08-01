@@ -25,14 +25,13 @@ public class Accounts extends Panel {
     public void init(PanelManager panelManager) {
         super.init(panelManager);
 
-        BottomBar.getInstance().setElseIcons();
+        BottomBar.getInstance().setDefaultIcons();
 
-        // Background
         GridPane backgroundPane = createGridPane(0d, 0d, 0d, 0d, 0d, 0d, "background-login", Color.TRANSPARENT);
         this.layout.getChildren().add(backgroundPane);
         setCanTakeAllSize(this.layout, backgroundPane);
 
-        StackPane accountsPane = createStackPane(0d, 0d, 1200d, 600d, 15d, 15d, "accounts-panel", Pos.CENTER, Color.rgb(32, 31, 29));
+        StackPane accountsPane = createStackPane(0d, 0d, 1200d, 600d, 15d, 15d, false, "accounts-panel", Pos.CENTER, Color.rgb(32, 31, 29));
         this.layout.getChildren().add(accountsPane);
 
         FontAwesomeIconView titleIcon = JuiInterface.JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.GEARS, "25px", null, Color.WHITE, accountsPane);
@@ -46,7 +45,7 @@ public class Accounts extends Panel {
         int accountNum = 0;
         for (Account account : AccountSaver.getAccounts()) {
             accountNum += 1;
-            displayAccount(accountCard, account, createStackPane(startX, startY, 350d, 180d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
+            displayAccount(accountCard, account, createStackPane(startX, startY, 350d, 180d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
             if (accountNum % 3 != 0) {
                 startX += 45d + 350d;
             } else {

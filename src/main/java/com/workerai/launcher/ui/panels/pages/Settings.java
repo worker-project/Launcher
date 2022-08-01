@@ -24,13 +24,13 @@ public class Settings extends Panel {
     public void init(PanelManager panelManager) {
         super.init(panelManager);
 
-        BottomBar.getInstance().setElseIcons();
+        BottomBar.getInstance().setDefaultIcons();
 
         GridPane backgroundPane = createGridPane(0d, 0d, 0d, 0d, 0d, 0d, "background-login", Color.TRANSPARENT);
         this.layout.getChildren().add(backgroundPane);
         setCanTakeAllSize(this.layout, backgroundPane);
 
-        StackPane settingsPane = createStackPane(0d, 0d, 1200d, 600d, 15d, 15d, "settings-panel", Pos.CENTER, Color.rgb(32, 31, 29));
+        StackPane settingsPane = createStackPane(0d, 0d, 1200d, 600d, 15d, 15d, false, "settings-panel", Pos.CENTER, Color.rgb(32, 31, 29));
         this.layout.getChildren().add(settingsPane);
 
         FontAwesomeIconView titleIcon = JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.GEARS, "25px", null,Color.WHITE, settingsPane);
@@ -40,14 +40,14 @@ public class Settings extends Panel {
         GridPane card = new GridPane();
         settingsPane.getChildren().add(card);
 
-        WindowCard.create(card, saver, createStackPane(70d, 185d, 350d, 200d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
-        DirectoryCard.create(card, saver, createStackPane(70d, 185d * 2 + 45d, 350d, 200d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
-        MemoryCard.create(card, saver, createStackPane(70d + 350d + 35d, 185d, 350d, 200d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
-        ResolutionCard.create(card, saver, createStackPane(70d + 350d + 35d, 185d * 2 + 45d, 350d, 200d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
+        WindowCard.create(card, saver, createStackPane(70d, 185d, 350d, 200d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
+        DirectoryCard.create(card, saver, createStackPane(70d, 185d * 2 + 45d, 350d, 200d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
+        MemoryCard.create(card, saver, createStackPane(70d + 350d + 35d, 185d, 350d, 200d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
+        ResolutionCard.create(card, saver, createStackPane(70d + 350d + 35d, 185d * 2 + 45d, 350d, 200d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
 
-        FolderCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d, 350d, 125d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
-        LegalCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d, 350d, 125d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
-        LinksCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d * 2, 350d, 125d, 15d, 15d, null, null, Color.rgb(29, 29, 27)));
+        FolderCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d, 350d, 125d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
+        LegalCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d, 350d, 125d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
+        LinksCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d * 2, 350d, 125d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.workerai.launcher.utils;
 
 import com.workerai.launcher.App;
 import com.workerai.launcher.savers.AccountSaver;
-import com.workerai.launcher.ui.panels.partials.BottomBar;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.DownloadList;
 import fr.flowarg.flowupdater.download.IProgressCallback;
@@ -12,7 +11,6 @@ import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
 import fr.theshark34.openlauncherlib.external.ExternalLauncher;
 import fr.theshark34.openlauncherlib.minecraft.*;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
@@ -22,9 +20,6 @@ import java.text.DecimalFormat;
 
 public class PlayManager {
     private static final ProgressBar progressBar = new ProgressBar();
-    private static final Label stepLabel = new Label();
-    private static final Label fileLabel = new Label();
-    private static boolean isDownloading = false;
 
     private static StackPane homePane;
 
@@ -37,14 +32,8 @@ public class PlayManager {
         homePane = pane;
 
         progressBar.getStyleClass().add("download-progress");
-        stepLabel.getStyleClass().add("download-status");
-        fileLabel.getStyleClass().add("download-status");
+        progressBar.setTranslateY(-160d);
 
-        progressBar.setTranslateY(-25);
-        stepLabel.setTranslateY(15);
-        fileLabel.setTranslateY(25);
-
-        PlayManager.isDownloading = true;
         PlayManager.setProgress(0, 0);
         PlayManager.addComponents();
 
@@ -52,41 +41,23 @@ public class PlayManager {
     }
 
     static void addComponents() {
-        homePane.getChildren().addAll(progressBar, stepLabel, fileLabel);
+        homePane.getChildren().add(progressBar);
     }
 
     static void removeComponents() {
-        homePane.getChildren().removeAll(progressBar, stepLabel, fileLabel);
+        homePane.getChildren().remove(progressBar);
     }
 
     static void update() {
         IProgressCallback callback = new IProgressCallback() {
-            private final DecimalFormat decimalFormat = new DecimalFormat("#.#");
-            private String stepTxt = "";
-            private String percentTxt = "0.0%";
-
-            @Override
-            public void step(Step step) {
-                Platform.runLater(() -> {
-                    stepTxt = StepInfo.valueOf(step.name()).getDetails();
-                    PlayManager.setStatus(String.format("%s, (%s)", stepTxt, percentTxt));
-                });
-            }
-
             @Override
             public void update(DownloadList.DownloadInfo info) {
                 Platform.runLater(() -> {
-                    percentTxt = decimalFormat.format(info.getDownloadedBytes() * 100.d / info.getTotalToDownloadBytes()) + "%";
-                    if (!stepTxt.contains("Done!")) stepTxt = String.format("%s, (%s)", stepTxt, percentTxt);
                     PlayManager.setProgress(info.getDownloadedBytes(), info.getTotalToDownloadBytes());
-                });
-            }
 
-            @Override
-            public void onFileDownloaded(Path path) {
-                Platform.runLater(() -> {
-                    String p = path.toString();
-                    fileLabel.setText("..." + p.replace(App.getInstance().getSettingsManager().getGameDirectory().toFile().getAbsolutePath(), ""));
+                    if (info.getTotalToDownloadFiles() == 0) {
+                        PlayManager.setProgress(1, 1);
+                    }
                 });
             }
         };
@@ -142,7 +113,6 @@ public class PlayManager {
                     }
                 }
                 App.getInstance().getPanelManager().getStage().setIconified(false);
-                //removeComponents();
             });
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -222,9 +192,5 @@ public class PlayManager {
 
     static void setProgress(double current, double max) {
         progressBar.setProgress(current / max);
-    }
-
-    static void setStatus(String status) {
-        stepLabel.setText(status);
     }
 }

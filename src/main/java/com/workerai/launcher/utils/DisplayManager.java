@@ -1,6 +1,5 @@
 package com.workerai.launcher.utils;
 
-import com.noideaindustry.jui.JuiInterface;
 import com.workerai.launcher.App;
 import com.workerai.launcher.database.Account;
 import com.workerai.launcher.database.Requests;
@@ -16,30 +15,57 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 
-import java.util.Objects;
-
 import static com.noideaindustry.jui.JuiGeometry.JuiCircle.createStrokeCircle;
 import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
+import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createScrollPane;
+import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
 import static com.noideaindustry.jui.JuiInterface.createImageView;
 import static com.noideaindustry.jui.JuiInterface.createLabel;
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy.ALWAYS;
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy.NEVER;
 
 public class DisplayManager {
+
+    public static void displayBanner(Pane container, Pane card) {
+        container.getChildren().add(card);
+    }
+
+    public static void displayNews(Pane container, Pane card) {
+        container.getChildren().add(card);
+
+        displayNewsInfo(container, -360d);
+        displayNewsInfo(container, 0d);
+        displayNewsInfo(container, 360d);
+    }
+
+    public static void displayNewsInfo(Pane container, double posX) {
+        StackPane pane = createStackPane(posX, 112.5d, 340d, 245d, 15d, 15d, true, null, null, Color.rgb(32, 31, 29));
+        displayBanner(container, pane);
+        displayNewsImage(pane);
+
+    }
+
+    public static void displayNewsImage(Pane card) {
+        FontAwesomeIconView newsIcon = createFontIcon(-4d, 0d, FontAwesomeIcon.NEWSPAPER_ALT, "25px", null, Color.WHITE, null);
+        createLabel(0d, -90d, "NoIdeaIndustry News", newsIcon, "news-Label", null, card);
+        createImageView(0d, 0d, 100d, 200d, true, ResourceManager.getIcon(), null, card);
+    }
+
     public static void displayAccount(GridPane container, Account account, StackPane card) {
         container.getChildren().add(card);
 
         createLabel(0, 5d, "Account - " + account.getUsername(), null, "account-label", Pos.TOP_CENTER, card);
         createLabel(45d, 45d, "Available modules", null, "module-label", Pos.TOP_CENTER, card);
 
-        FontAwesomeIconView iconRemove = JuiInterface.JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.CROSSHAIRS, "20px", null, Color.WHITE, card);
+        FontAwesomeIconView iconRemove = createFontIcon(-4d, 0, FontAwesomeIcon.CROSSHAIRS, "20px", null, Color.WHITE, card);
         Button buttonRemove = createFontButton(15d, -10d, 150d, 30d, "Remove", "account-button-remove", null, iconRemove, Pos.BOTTOM_LEFT, card);
         buttonRemove.setOnMouseClicked(e -> {
             if (AccountSaver.getCurrentAccount() == null || !account.getUuid().equals(AccountSaver.getCurrentAccount().getUuid())) {
@@ -53,11 +79,11 @@ public class DisplayManager {
             }
         });
 
-        FontAwesomeIconView playIcon = JuiInterface.JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.GAMEPAD, "18px", null, Color.WHITE, card);
+        FontAwesomeIconView playIcon = createFontIcon(-4d, 0, FontAwesomeIcon.GAMEPAD, "18px", null, Color.WHITE, card);
         Button buttonPlay = createFontButton(-15d, -10d, 150d, 30d, "Play", "account-button-play", null, playIcon, Pos.BOTTOM_RIGHT, card);
         buttonPlay.setOnMouseClicked(e -> {
-                AccountSaver.setCurrentAccount(account);
-                PlayManager.downloadAndPlay(card);
+            AccountSaver.setCurrentAccount(account);
+            PlayManager.downloadAndPlay(card);
         });
 
         createImageView(20d, 0, 70d, 0d, true, "https://minotar.net/avatar/" + (account.getUuid() + ".png"), Pos.CENTER_LEFT, card);
@@ -76,7 +102,6 @@ public class DisplayManager {
 
         new Thread(() -> {
             Response response = Response.getResponse(account.getUuid());
-
             Platform.runLater(() -> {
                 createModuleDisplay(new Label("Automine"), moduleBox, 11.5d, 7d * -1, response.hasAutomine());
                 createModuleDisplay(new Label("Foraging"), moduleBox, 86.5d, 28.25d * -2, response.hasForage());

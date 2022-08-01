@@ -59,7 +59,7 @@ public class Login extends Panel {
             this.layout.getChildren().add(backgroundPane);
             setCanTakeAllSize(this.layout, backgroundPane);
 
-            StackPane loginPane = createStackPane(0d, 0d, 300d, 120d, 0d, 0d, "login-panel", Pos.CENTER, Color.TRANSPARENT);
+            StackPane loginPane = createStackPane(0d, 0d, 300d, 120d, 0d, 0d, false, "login-panel", Pos.CENTER, Color.TRANSPARENT);
             this.layout.getChildren().add(loginPane);
 
             TextField userField = createTextField(0d, -70d, 300d, 0d, "Account E-mail", "login-input", null, loginPane);
