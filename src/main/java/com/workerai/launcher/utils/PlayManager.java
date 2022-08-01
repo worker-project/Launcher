@@ -35,19 +35,18 @@ public class PlayManager {
         }
 
         homePane = pane;
-        homePane.getStyleClass().add("progressBar");
 
         progressBar.getStyleClass().add("download-progress");
         stepLabel.getStyleClass().add("download-status");
         fileLabel.getStyleClass().add("download-status");
 
-        progressBar.setTranslateY(-15);
-        stepLabel.setTranslateY(5);
-        fileLabel.setTranslateY(20);
+        progressBar.setTranslateY(-25);
+        stepLabel.setTranslateY(15);
+        fileLabel.setTranslateY(25);
 
-        isDownloading = true;
-        setProgress(0, 0);
-        addComponents();
+        PlayManager.isDownloading = true;
+        PlayManager.setProgress(0, 0);
+        PlayManager.addComponents();
 
         Platform.runLater(() -> new Thread(PlayManager::update).start());
     }
@@ -70,7 +69,7 @@ public class PlayManager {
             public void step(Step step) {
                 Platform.runLater(() -> {
                     stepTxt = StepInfo.valueOf(step.name()).getDetails();
-                    setStatus(String.format("%s, (%s)", stepTxt, percentTxt));
+                    PlayManager.setStatus(String.format("%s, (%s)", stepTxt, percentTxt));
                 });
             }
 
@@ -79,7 +78,7 @@ public class PlayManager {
                 Platform.runLater(() -> {
                     percentTxt = decimalFormat.format(info.getDownloadedBytes() * 100.d / info.getTotalToDownloadBytes()) + "%";
                     if (!stepTxt.contains("Done!")) stepTxt = String.format("%s, (%s)", stepTxt, percentTxt);
-                    setProgress(info.getDownloadedBytes(), info.getTotalToDownloadBytes());
+                    PlayManager.setProgress(info.getDownloadedBytes(), info.getTotalToDownloadBytes());
                 });
             }
 
@@ -106,11 +105,10 @@ public class PlayManager {
             PlayManager.startGame(updater.getVanillaVersion().getName());
         } catch (Exception exception) {
             App.getInstance().getLogger().err(exception.toString());
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("An error occurred when updating files...");
-            alert.setContentText(exception.getMessage());
-            alert.show();
+            AlertManager.ShowError(
+                    App.getInstance().getPanelManager().getStage(),
+                    "Error",
+                    exception.getMessage());
         }
     }
 
@@ -133,15 +131,18 @@ public class PlayManager {
             profile.getVmArgs().add(PlayManager.getRamArgs());
             ExternalLauncher launcher = new ExternalLauncher(profile);
 
-            launcher.launch();
+            Process p = launcher.launch();
             Platform.runLater(() -> {
                 if (App.getInstance().getSettingsManager().getSaver().get("HideAfterLaunch").equals("true")) {
                     App.getInstance().getPanelManager().getStage().setIconified(true);
+                    try {
+                        p.waitFor();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-                else {
-                    App.getInstance().getPanelManager().getStage().setIconified(false);
-                    removeComponents();
-                }
+                App.getInstance().getPanelManager().getStage().setIconified(false);
+                //removeComponents();
             });
         } catch (Exception exception) {
             exception.printStackTrace();
