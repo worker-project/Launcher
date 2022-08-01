@@ -6,60 +6,29 @@ import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.Cursor;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+
+import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
+import static com.noideaindustry.jui.JuiInterface.createImageView;
 
 public class TopBar extends Panel {
 
     @Override
     public void init(PanelManager panelManager) {
         super.init(panelManager);
+
         GridPane topBarPane = this.layout;
-        this.layout.getStyleClass().add("top");
+        this.layout.getStyleClass().add("top-bar");
         setCanTakeAllWidth(topBarPane);
 
-        //region [TopBar: Icon]
-        ImageView favIcon = new ImageView(ResourceManager.getFavIcon());
-        favIcon.setPreserveRatio(true);
-        favIcon.setFitHeight(28d);
-        favIcon.setTranslateX(5d);
-        favIcon.setTranslateY(4d);
-        setLeft(favIcon);
-        topBarPane.getChildren().add(favIcon);
-        //endregion
+        createImageView(5d, 3d, 0d, 28d, true, ResourceManager.getFavIcon(), null, topBarPane);
 
-        //region [TopBar: Button Close]
-        FontAwesomeIconView closeButton = new FontAwesomeIconView(FontAwesomeIcon.POWER_OFF);
-        closeButton.setFill(Color.WHITE);
-        closeButton.setOpacity(.7f);
-        closeButton.getStyleClass().add("button");
-        closeButton.setSize("25px");
-        setRight(closeButton);
-        closeButton.setTranslateX(-15f);
-        closeButton.setTranslateY(4d);
-        topBarPane.getChildren().add(closeButton);
-
-        closeButton.setOnMouseEntered(e -> this.panelManager.getStage().getScene().setCursor(Cursor.HAND));
-        closeButton.setOnMouseExited(e -> this.panelManager.getStage().getScene().setCursor(Cursor.DEFAULT));
+        FontAwesomeIconView closeButton = createFontIcon(this.panelManager.getStage().getWidth() - 35d, 4d, FontAwesomeIcon.POWER_OFF, "25px", "buttons", Color.WHITE, topBarPane, Cursor.HAND);
         closeButton.setOnMouseClicked(e -> System.exit(0));
-        //endregion
 
-        //region [TopBar: Minimize Close]
-        FontAwesomeIconView minimizeButton = new FontAwesomeIconView(FontAwesomeIcon.MINUS);
-        minimizeButton.setFill(Color.WHITE);
-        minimizeButton.setOpacity(.7f);
-        minimizeButton.getStyleClass().add("button");
-        minimizeButton.setSize("25px");
-        setRight(minimizeButton);
-        minimizeButton.setTranslateX(closeButton.getTranslateX() - 40d);
-        minimizeButton.setTranslateY(5f);
-        topBarPane.getChildren().add(minimizeButton);
-
-        minimizeButton.setOnMouseEntered(e -> this.panelManager.getStage().getScene().setCursor(Cursor.HAND));
-        minimizeButton.setOnMouseExited(e -> this.panelManager.getStage().getScene().setCursor(Cursor.DEFAULT));
+        FontAwesomeIconView minimizeButton = createFontIcon(this.panelManager.getStage().getWidth() - 70d, 5d, FontAwesomeIcon.MINUS, "25px", "buttons", Color.WHITE, topBarPane, Cursor.HAND);
         minimizeButton.setOnMouseClicked(e -> this.panelManager.getStage().setIconified(true));
-        //endregion
 
         setCanTakeAllWidth(closeButton, minimizeButton);
     }

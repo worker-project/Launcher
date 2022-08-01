@@ -21,49 +21,46 @@ import java.nio.file.Path;
 import java.text.DecimalFormat;
 
 public class PlayManager {
-    private final ProgressBar progressBar = new ProgressBar();
-    private final Label stepLabel = new Label();
-    private final Label fileLabel = new Label();
-    private boolean isDownloading = false;
+    private static final ProgressBar progressBar = new ProgressBar();
+    private static final Label stepLabel = new Label();
+    private static final Label fileLabel = new Label();
+    private static boolean isDownloading = false;
 
-    private final StackPane homePane;
+    private static StackPane homePane;
 
-    public PlayManager(StackPane pane) {
+    public static void downloadAndPlay(StackPane pane) {
+        if (AccountSaver.getCurrentAccount() == null) {
+            App.getInstance().getLogger().err("You are in debug session, no online services available!");
+            return;
+        }
+
+        homePane = pane;
+        homePane.getStyleClass().add("progressBar");
+
         progressBar.getStyleClass().add("download-progress");
         stepLabel.getStyleClass().add("download-status");
         fileLabel.getStyleClass().add("download-status");
 
         progressBar.setTranslateY(-15);
-
         stepLabel.setTranslateY(5);
-
         fileLabel.setTranslateY(20);
-
-        homePane = pane;
-    }
-
-    public void downloadAndPlay() {
-        if (BottomBar.DEBUG_MODE) {
-            App.getInstance().getLogger().err("You are in debug session, no online services available!");
-            return;
-        }
 
         isDownloading = true;
         setProgress(0, 0);
         addComponents();
 
-        Platform.runLater(() -> new Thread(this::update).start());
+        Platform.runLater(() -> new Thread(PlayManager::update).start());
     }
 
-    void addComponents() {
+    static void addComponents() {
         homePane.getChildren().addAll(progressBar, stepLabel, fileLabel);
     }
 
-    void removeComponents() {
+    static void removeComponents() {
         homePane.getChildren().removeAll(progressBar, stepLabel, fileLabel);
     }
 
-    void update() {
+    static void update() {
         IProgressCallback callback = new IProgressCallback() {
             private final DecimalFormat decimalFormat = new DecimalFormat("#.#");
             private String stepTxt = "";
@@ -81,7 +78,7 @@ public class PlayManager {
             public void update(DownloadList.DownloadInfo info) {
                 Platform.runLater(() -> {
                     percentTxt = decimalFormat.format(info.getDownloadedBytes() * 100.d / info.getTotalToDownloadBytes()) + "%";
-                    if (!stepTxt.contains("Done!")) String.format("%s, (%s)", stepTxt, percentTxt);
+                    if (!stepTxt.contains("Done!")) stepTxt = String.format("%s, (%s)", stepTxt, percentTxt);
                     setProgress(info.getDownloadedBytes(), info.getTotalToDownloadBytes());
                 });
             }
@@ -97,7 +94,7 @@ public class PlayManager {
 
         try {
             final VanillaVersion vanillaVersion = new VanillaVersion.VanillaVersionBuilder()
-                    .withName("1.8.8")
+                    .withName("1.12.2")
                     .build();
             final FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder()
                     .withVanillaVersion(vanillaVersion)
@@ -106,7 +103,7 @@ public class PlayManager {
                     .build();
 
             updater.update(App.getInstance().getSettingsManager().getGameDirectory());
-            this.startGame(updater.getVanillaVersion().getName());
+            PlayManager.startGame(updater.getVanillaVersion().getName());
         } catch (Exception exception) {
             App.getInstance().getLogger().err(exception.toString());
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -117,7 +114,7 @@ public class PlayManager {
         }
     }
 
-    void startGame(String gameVersion) {
+    static void startGame(String gameVersion) {
         GameInfos gInfos = new GameInfos(
                 "",
                 App.getInstance().getSettingsManager().getGameDirectory(),
@@ -133,19 +130,17 @@ public class PlayManager {
             );
 
             ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gInfos, GameFolder.FLOW_UPDATER, aInfos);
-            profile.getVmArgs().add(this.getRamArgs());
+            profile.getVmArgs().add(PlayManager.getRamArgs());
             ExternalLauncher launcher = new ExternalLauncher(profile);
 
-            Process p = launcher.launch();
+            launcher.launch();
             Platform.runLater(() -> {
-                if (App.getInstance().getSettingsManager().getSaver().get("HideAfterLaunch").equals("true"))
+                if (App.getInstance().getSettingsManager().getSaver().get("HideAfterLaunch").equals("true")) {
                     App.getInstance().getPanelManager().getStage().setIconified(true);
-                try {
-                    p.waitFor();
+                }
+                else {
                     App.getInstance().getPanelManager().getStage().setIconified(false);
                     removeComponents();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
                 }
             });
         } catch (Exception exception) {
@@ -154,7 +149,7 @@ public class PlayManager {
         }
     }
 
-    String getRamArgs() {
+    static String getRamArgs() {
         int defaultRam = 1024;
         try {
             if (App.getInstance().getSettingsManager().getSaver().get("AllocatedRAM") != null) {
@@ -170,7 +165,7 @@ public class PlayManager {
         return "-Xmx" + defaultRam + "M";
     }
 
-    String getHeightArgs() {
+    static String getHeightArgs() {
         int defaultHeight = 854;
         try {
             if (App.getInstance().getSettingsManager().getSaver().get("LaunchHeight") != null) {
@@ -185,7 +180,7 @@ public class PlayManager {
         return "--height" + defaultHeight;
     }
 
-    String getWidthArgs() {
+    static String getWidthArgs() {
         int defaultWidth = 480;
 
         try {
@@ -224,11 +219,11 @@ public class PlayManager {
         }
     }
 
-    void setProgress(double current, double max) {
-        this.progressBar.setProgress(current / max);
+    static void setProgress(double current, double max) {
+        progressBar.setProgress(current / max);
     }
 
-    void setStatus(String status) {
-        this.stepLabel.setText(status);
+    static void setStatus(String status) {
+        stepLabel.setText(status);
     }
 }

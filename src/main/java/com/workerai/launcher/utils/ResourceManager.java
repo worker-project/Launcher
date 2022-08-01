@@ -10,8 +10,8 @@ public class ResourceManager {
         return ICON_PATH;
     }
 
-    public static Image getFavIcon() {
-        return new Image(FAVICON_PATH);
+    public static String getFavIcon() {
+        return FAVICON_PATH;
     }
 
     private static final String LOGIN_DESIGN_PATH = "/resources/css/ui/panels/pages/login.css";

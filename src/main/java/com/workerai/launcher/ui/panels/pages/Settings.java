@@ -35,7 +35,7 @@ public class Settings extends Panel {
 
         FontAwesomeIconView titleIcon = JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.GEARS, "25px", null,Color.WHITE, settingsPane);
         createLabel(0d, 90d, "Launcher & Client Settings", titleIcon, "settings-label", Pos.TOP_CENTER, settingsPane);
-        createLabel(0d, 120d, "Memory allocation & Launcher preferences", null, "settings-subLabel", Pos.TOP_CENTER, settingsPane);
+        createLabel(0d, 120d, "Change your settings for a better personal fit.", null, "settings-subLabel", Pos.TOP_CENTER, settingsPane);
 
         GridPane card = new GridPane();
         settingsPane.getChildren().add(card);

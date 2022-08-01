@@ -56,7 +56,8 @@ public class DisplayManager {
         FontAwesomeIconView playIcon = JuiInterface.JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.GAMEPAD, "18px", null, Color.WHITE, card);
         Button buttonPlay = createFontButton(-15d, -10d, 150d, 30d, "Play", "account-button-play", null, playIcon, Pos.BOTTOM_RIGHT, card);
         buttonPlay.setOnMouseClicked(e -> {
-
+                AccountSaver.setCurrentAccount(account);
+                PlayManager.downloadAndPlay(card);
         });
 
         createImageView(20d, 0, 70d, 0d, true, "https://minotar.net/avatar/" + (account.getUuid() + ".png"), Pos.CENTER_LEFT, card);

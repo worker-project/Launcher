@@ -1,6 +1,5 @@
 package com.noideaindustry.jui;
 
-import com.workerai.launcher.App;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
@@ -18,8 +17,13 @@ import javafx.util.Duration;
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
 public abstract class JuiInterface {
+
     public abstract static class JuiIcon {
-        public static FontAwesomeIconView createFontIcon(double posX, double posY, FontAwesomeIcon displayIcon, String size, String styleClass, Color color, StackPane pane) {
+        public static FontAwesomeIconView createFontIcon(double posX, double posY, FontAwesomeIcon displayIcon, String size, String styleClass, Color color, Pane pane) {
+            return createFontIcon(posX, posY, displayIcon, size, styleClass, color, pane, Cursor.DEFAULT);
+        }
+
+        public static FontAwesomeIconView createFontIcon(double posX, double posY, FontAwesomeIcon displayIcon, String size, String styleClass, Color color, Pane pane, Cursor hoveredCursor) {
             FontAwesomeIconView iconView = new FontAwesomeIconView(displayIcon);
 
             iconView.getStyleClass().add(styleClass);
@@ -28,11 +32,20 @@ public abstract class JuiInterface {
             iconView.setTranslateX(posX);
             iconView.setTranslateY(posY);
 
+            if(hoveredCursor != Cursor.DEFAULT){
+                iconView.setOnMouseEntered(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.HAND));
+                iconView.setOnMouseExited(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.DEFAULT));
+            }
+
             if (pane != null) pane.getChildren().add(iconView);
             return iconView;
         }
 
-        public static MaterialDesignIconView createDesignIcon(double posX, double posY, MaterialDesignIcon displayIcon, String size, String styleClass, Color color, StackPane pane) {
+        public static MaterialDesignIconView createDesignIcon(double posX, double posY, MaterialDesignIcon displayIcon, String size, String styleClass, Color color, Pane pane) {
+            return createDesignIcon(posX, posY, displayIcon, size, styleClass, color, pane, Cursor.DEFAULT);
+        }
+
+        public static MaterialDesignIconView createDesignIcon(double posX, double posY, MaterialDesignIcon displayIcon, String size, String styleClass, Color color, Pane pane, Cursor hoveredCursor) {
             MaterialDesignIconView iconView = new MaterialDesignIconView(displayIcon);
 
             iconView.getStyleClass().add(styleClass);
@@ -40,6 +53,11 @@ public abstract class JuiInterface {
             iconView.setSize(size);
             iconView.setTranslateX(posX);
             iconView.setTranslateY(posY);
+
+            if(hoveredCursor != Cursor.DEFAULT){
+                iconView.setOnMouseEntered(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.HAND));
+                iconView.setOnMouseExited(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.DEFAULT));
+            }
 
             if (pane != null) pane.getChildren().add(iconView);
             return iconView;
@@ -156,12 +174,13 @@ public abstract class JuiInterface {
             button.setTranslateX(posX);
             button.setTranslateY(posY);
 
-            button.setOnMouseEntered(e -> App.getInstance().getPanelManager().getStage().getScene().setCursor(Cursor.HAND));
-            button.setOnMouseExited(e -> App.getInstance().getPanelManager().getStage().getScene().setCursor(Cursor.DEFAULT));
+            button.setOnMouseEntered(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.HAND));
+            button.setOnMouseExited(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.DEFAULT));
 
             if (pane != null) pane.getChildren().add(button);
             return button;
         }
+
         public static Button createMaterialButton(double posX, double posY, double width, double height, String displayText, String styleClass, Tooltip tooltip, MaterialDesignIconView displayIcon, Pos alignement, StackPane pane) {
             Button button = new Button();
 
@@ -175,15 +194,15 @@ public abstract class JuiInterface {
             button.setTranslateX(posX);
             button.setTranslateY(posY);
 
-            button.setOnMouseEntered(e -> App.getInstance().getPanelManager().getStage().getScene().setCursor(Cursor.HAND));
-            button.setOnMouseExited(e -> App.getInstance().getPanelManager().getStage().getScene().setCursor(Cursor.DEFAULT));
+            button.setOnMouseEntered(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.HAND));
+            button.setOnMouseExited(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.DEFAULT));
 
             if (pane != null) pane.getChildren().add(button);
             return button;
         }
     }
 
-    public static Label createLabel(double posX, double posY, String displayText, FontAwesomeIconView displayIcon, String styleClass, Pos alignement, StackPane pane) {
+    public static Label createLabel(double posX, double posY, String displayText, FontAwesomeIconView displayIcon, String styleClass, Pos alignement, Pane pane) {
         Label label = new Label(displayText);
 
         label.getStyleClass().add(styleClass);
@@ -197,6 +216,20 @@ public abstract class JuiInterface {
     }
 
     public static ImageView createImageView(double posX, double posY, double width, double height, boolean ratio, String displayUrl, Pos alignement, StackPane pane) {
+        ImageView imageView = new ImageView(new Image(displayUrl));
+
+        imageView.setPreserveRatio(ratio);
+        imageView.setFitHeight(height);
+        imageView.setFitWidth(width);
+        StackPane.setAlignment(imageView, alignement);
+        imageView.setTranslateX(posX);
+        imageView.setTranslateY(posY);
+
+        pane.getChildren().add(imageView);
+        return imageView;
+    }
+
+    public static ImageView createImageView(double posX, double posY, double width, double height, boolean ratio, String displayUrl, Pos alignement, GridPane pane) {
         ImageView imageView = new ImageView(new Image(displayUrl));
 
         imageView.setPreserveRatio(ratio);

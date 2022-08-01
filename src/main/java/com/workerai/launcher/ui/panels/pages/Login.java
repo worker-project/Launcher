@@ -53,6 +53,8 @@ public class Login extends Panel {
             logger.info("Logged as " + "\"" + AccountSaver.getCurrentAccount().getUsername() + "\"");
             this.panelManager.showPanel(new Home());
         } else {
+            BottomBar.getInstance().enableDebugAccess();
+
             GridPane backgroundPane = createGridPane(0d, 0d, 0d, 0d, 0d, 0d, "background-login", Color.TRANSPARENT);
             this.layout.getChildren().add(backgroundPane);
             setCanTakeAllSize(this.layout, backgroundPane);
@@ -68,10 +70,10 @@ public class Login extends Panel {
 
             FontAwesomeIconView signIcon = JuiInterface.JuiIcon.createFontIcon(-5d, 0, FontAwesomeIcon.SIGN_IN, "22px", null, Color.rgb(150, 150, 150), loginPane);
             Button signIn = createFontButton(-490d, -302.5d, 135d, 0d, "SIGN IN", "login-button", null, signIcon, Pos.BOTTOM_RIGHT, loginPane);
-
             signIn.setOnMouseClicked(e -> {
                 if(!isTryingToSignIn.get()) {
                     isTryingToSignIn.set(true);
+                    BottomBar.getInstance().disableDebugAccess();
                     signIn.getStyleClass().add("login-button-active");
                     this.authenticateMicrosoft(userField.getText(), passwordField.getText());
                 }

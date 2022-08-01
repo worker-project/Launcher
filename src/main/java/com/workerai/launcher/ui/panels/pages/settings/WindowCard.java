@@ -24,7 +24,7 @@ public class WindowCard extends Settings {
         createLabel(0, 20d, "Launcher Window", JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.PLAY_CIRCLE, "25px", null, Color.WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
         createLabel(0, 50d, "Select which action your launcher should take on launch", null, "afterLaunch-subLabel", Pos.TOP_CENTER, card);
 
-        FontAwesomeIconView tooltipIcon = JuiIcon.createFontIcon(0d, 0d, FontAwesomeIcon.INFO_CIRCLE, "20px", null, Color.WHITE, null);
+        FontAwesomeIconView tooltipIcon = JuiIcon.createFontIcon(0d, 0d, FontAwesomeIcon.INFO_CIRCLE, "20px", null, Color.WHITE, (StackPane) null);
         Tooltip tooltip = createTooltip("After the game is launched your launcher will remain open.", tooltipIcon, Duration.ZERO, Duration.ZERO);
 
         FontAwesomeIconView keepIcon = JuiIcon.createFontIcon(0, 0, FontAwesomeIcon.EXPAND, "18px", null, Color.WHITE, card);

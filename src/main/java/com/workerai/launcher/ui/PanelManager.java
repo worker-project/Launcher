@@ -1,6 +1,8 @@
 package com.workerai.launcher.ui;
 
 import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
+import com.noideaindustry.jui.JuiInitialization;
+import com.noideaindustry.jui.JuiInterface;
 import com.workerai.launcher.ui.utils.IPanel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.ui.panels.partials.TopBar;
@@ -18,7 +20,6 @@ import javafx.stage.StageStyle;
 public class PanelManager {
     private final Stage stage;
     private final GridPane panelContent = new GridPane();
-
     TopBar topBar = new TopBar();
     BottomBar bottomBar = new BottomBar();
 
@@ -27,16 +28,15 @@ public class PanelManager {
     }
 
     public void init() {
+        JuiInitialization.setFxStage(this.stage);
+
         this.stage.setTitle("WorkerAI - Launcher");
         this.stage.centerOnScreen();
-
         this.stage.setWidth(1260d);
         this.stage.setHeight(750d);
-
         this.stage.getIcons().add(new Image(ResourceManager.getIcon()));
 
         GridPane layout = new GridPane();
-
         if (Platform.isOnLinux()) {
             Scene scene = new Scene(layout);
             this.stage.setScene(scene);

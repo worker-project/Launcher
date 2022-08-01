@@ -1,14 +1,14 @@
-.top {
+.top-bar {
     -fx-background-color: rgb(52, 52, 52);
 }
 
-.button {
+.top-bar .buttons {
     -fx-border-color: transparent;
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
-    -fx-opacity: 0.8;
+    -fx-opacity: 0.6;
 }
-.button:hover {
-    -fx-opacity: 1.0;
+.top-bar .buttons:hover {
+    -fx-opacity: 0.8;
 }

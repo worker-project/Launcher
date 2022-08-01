@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
 import static com.noideaindustry.jui.JuiInterface.JuiField.createTextField;
+import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
 import static com.noideaindustry.jui.JuiInterface.*;
 
 public class ResolutionCard extends Settings {
@@ -30,10 +31,10 @@ public class ResolutionCard extends Settings {
     public static void create(GridPane container, Saver saver, StackPane card) {
         container.getChildren().add(card);
 
-        createLabel(0, 20d, "Game Resolution", JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.DESKTOP, "25px", null, Color.WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
+        createLabel(0, 20d, "Game Resolution", createFontIcon(-4d, 0, FontAwesomeIcon.DESKTOP, "25px", null, Color.WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
         createLabel(0, 50d, "Enter a resolution to launch your game in", null, "afterLaunch-subLabel", Pos.TOP_CENTER, card);
 
-        createLabel(-70d, -105d, "Width", JuiIcon.createFontIcon(-3d, -1d, FontAwesomeIcon.TEXT_WIDTH, "15px", null, Color.WHITE, card), "ratio-displayLabel", Pos.BOTTOM_CENTER, card);
+        createLabel(-70d, -105d, "Width", createFontIcon(-3d, -1d, FontAwesomeIcon.TEXT_WIDTH, "15px", null, Color.WHITE, card), "ratio-displayLabel", Pos.BOTTOM_CENTER, card);
         createRegion(-70d, 17.5d, "ratio-box", card);
         TextField widthField = createTextField(-70d, 17.5d, 90d, 35d, saver.get("LaunchWidth"), "ratio-promptText", Pos.BOTTOM_CENTER, card);
         widthField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -47,9 +48,9 @@ public class ResolutionCard extends Settings {
             }
         });
 
-        JuiIcon.createFontIcon(0d, 17.5d, FontAwesomeIcon.TIMES, "20px", null, Color.WHITE, card);
+        createFontIcon(0d, 17.5d, FontAwesomeIcon.TIMES, "20px", null, Color.WHITE, card);
 
-        createLabel(70d, -105d, "Height", JuiIcon.createFontIcon(-3d, -1d, FontAwesomeIcon.TEXT_HEIGHT, "15px", null, Color.WHITE, card), "ratio-displayLabel", Pos.BOTTOM_CENTER, card);
+        createLabel(70d, -105d, "Height", createFontIcon(-3d, -1d, FontAwesomeIcon.TEXT_HEIGHT, "15px", null, Color.WHITE, card), "ratio-displayLabel", Pos.BOTTOM_CENTER, card);
         createRegion(70d, 17.5d, "ratio-box", card);
         TextField heightField = createTextField(70d, 17.5d, 90d, 35d, saver.get("LaunchHeight"), "ratio-promptText", Pos.BOTTOM_CENTER, card);
         heightField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -63,14 +64,14 @@ public class ResolutionCard extends Settings {
             }
         });
 
-        FontAwesomeIconView presetsIcon = JuiIcon.createFontIcon(0d, 0d, FontAwesomeIcon.ANCHOR, "15px", null, Color.WHITE, card);
+        FontAwesomeIconView presetsIcon = createFontIcon(0d, 0d, FontAwesomeIcon.ANCHOR, "15px", null, Color.WHITE, card);
         Button presetsButton = createFontButton(-70d, -25d, 110d, 25d, "Presets", "directory-button", null, presetsIcon, Pos.BOTTOM_CENTER, card);
         presetsButton.setOnMouseClicked(e -> {
             if (isResolutionsOpen) hideResolutions(container);
             else showResolutions(container);
         });
 
-        FontAwesomeIconView renderIcon = JuiIcon.createFontIcon(0d, 0d, FontAwesomeIcon.EYE, "15px", null, Color.WHITE, card);
+        FontAwesomeIconView renderIcon = createFontIcon(0d, 0d, FontAwesomeIcon.EYE, "15px", null, Color.WHITE, card);
         Button renderButton = createFontButton(70d, -25d, 110d, 25d, "Soon", "directory-button", null, renderIcon, Pos.BOTTOM_CENTER, card);
         renderButton.setOnMouseClicked(e -> System.out.println("Everything has a time..., wait a bit more."));
 
@@ -112,7 +113,7 @@ public class ResolutionCard extends Settings {
         nodes.add(box);
 
         nodes.add(createLabel(0, 0d, "Resolution Presets", null, "afterLaunch-label", Pos.TOP_CENTER, null));
-        nodes.add(JuiIcon.createFontIcon(0d, 0d, FontAwesomeIcon.DESKTOP, "25px", null, Color.WHITE, null));
+        nodes.add(createFontIcon(0d, 0d, FontAwesomeIcon.DESKTOP, "25px", null, Color.WHITE, (StackPane) null));
         nodes.add(createLabel(0, 0d, "Select a preset resolution for your Minecraft window", null, "afterLaunch-subLabel", Pos.TOP_CENTER, null));
 
         nodes.add(createRegion(0d, 40d, "presets-box", null));
@@ -127,7 +128,7 @@ public class ResolutionCard extends Settings {
         Label preset1610Label = createLabel(-120d, 0, "16:10 Ratio", null, "ratio-columnLabels", Pos.TOP_CENTER, null);
         createChoices(preset1610Label, _16_10_, new Button[_16_10_.length], widthField, heightField);
 
-        FontAwesomeIconView closeIcon = JuiIcon.createFontIcon(0d, 0d, FontAwesomeIcon.CLOSE, "25px", "close-button", Color.INDIANRED, null);
+        FontAwesomeIconView closeIcon = createFontIcon(0d, 0d, FontAwesomeIcon.CLOSE, "25px", "close-button", Color.INDIANRED, (StackPane) null);
         Button closeButton = createFontButton(150d, 0d, 110d, 25d, null, null, null, closeIcon, Pos.TOP_CENTER, null);
         nodes.add(closeButton);
         closeButton.setOnMouseClicked(e -> hideResolutions(pane));

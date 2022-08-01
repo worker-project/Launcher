@@ -4,10 +4,11 @@
     -fx-font-size: 22px;
     -fx-text-fill: rgb(150, 150, 150);
     -fx-background-radius: 4px;
+    -fx-opacity: 0.8;
 
     -fx-background-color: #343434;
 }
-.home-panel .play-button:hover {
+.home-panel .home-button:hover {
     -fx-opacity: 1.0;
 }
 

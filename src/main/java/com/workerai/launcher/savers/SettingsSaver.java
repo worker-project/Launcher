@@ -21,7 +21,7 @@ public class SettingsSaver {
     private void checkSettings() {
         if (saver.get("AllocatedRAM") == null) {
             App.getInstance().getLogger().info("Creating \"AllocatedRAM\" in setting file!");
-            saver.set("AllocatedRAM", String.valueOf(512 / 1024.0));
+            saver.set("AllocatedRAM", String.valueOf(512));
         }
 
         if (saver.get("GameDirectory") == null) {
