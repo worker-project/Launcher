@@ -9,6 +9,8 @@ import com.workerai.launcher.ui.panels.pages.Accounts;
 import com.workerai.launcher.ui.panels.pages.Login;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,8 +24,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import static com.noideaindustry.jui.JuiGeometry.JuiCircle.createStrokeCircle;
 import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
+import static com.noideaindustry.jui.JuiInterface.JuiButton.createMaterialButton;
+import static com.noideaindustry.jui.JuiInterface.JuiIcon.createDesignIcon;
 import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createScrollPane;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
@@ -41,22 +50,31 @@ public class DisplayManager {
     public static void displayNews(Pane container, Pane card) {
         container.getChildren().add(card);
 
-        displayNewsInfo(container, -360d);
-        displayNewsInfo(container, 0d);
-        displayNewsInfo(container, 360d);
+        displayNews(container, -360d, new NewsManager.News("WorkerAI News", "https://noideaindustry.com/Minecraft", "Looking to test our available modules?", "Have a look at our free trials on our website!", ResourceManager.getMinecraftIcon()));
+        displayNews(container, 0d, new NewsManager.News("WorkerClient News", "https://noideaindustry.com/Mojang", "Want to control our modules via discord?", "Check our plans to get access to this feature.", ResourceManager.getMinecraftIcon()));
+        displayNews(container, 360d, new NewsManager.News("WorkerAI News", "https://noideaindustry.com/Microsoft", "Becoming one of our partner?", "Apply on our website and get free advantages.", ResourceManager.getMinecraftIcon()));
     }
 
-    public static void displayNewsInfo(Pane container, double posX) {
-        StackPane pane = createStackPane(posX, 112.5d, 340d, 245d, 15d, 15d, true, null, null, Color.rgb(32, 31, 29));
-        displayBanner(container, pane);
-        displayNewsImage(pane);
+    public static void displayNews(Pane container, double posX, NewsManager.News news) {
+        Pane card = createStackPane(posX, 112.5d, 340d, 245d, 15d, 15d, true, null, null, Color.rgb(32, 31, 29));
+        displayBanner(container, card);
 
-    }
-
-    public static void displayNewsImage(Pane card) {
         FontAwesomeIconView newsIcon = createFontIcon(-4d, 0d, FontAwesomeIcon.NEWSPAPER_ALT, "25px", null, Color.WHITE, null);
-        createLabel(0d, -90d, "NoIdeaIndustry News", newsIcon, "news-Label", null, card);
-        createImageView(0d, 0d, 100d, 200d, true, ResourceManager.getIcon(), null, card);
+        createLabel(0d, -100d, news.getName(), newsIcon, "news-Label", null, card);
+        createImageView(0d, -5d, 340d, 350d, true, news.getPreview(), null, card);
+
+        createLabel(15d, 85d, news.getDescription(), null, "news-desc-Label", Pos.CENTER_LEFT, card);
+        createLabel(15d, 100d, news.getSubDescription(), null, "news-desc-Label", Pos.CENTER_LEFT, card);
+
+        MaterialDesignIconView readIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.BOOK_OPEN_PAGE_VARIANT, "15px", null, Color.WHITE, null);
+        Button readNews = createMaterialButton(140d, 95d, 0d, 0d, null, "news-button", null, readIcon, null, card);
+        readNews.setOnMouseClicked(e -> {
+            try {
+                Desktop.getDesktop().browse(new URI(news.getUrl()));
+            } catch (IOException | URISyntaxException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
     public static void displayAccount(GridPane container, Account account, StackPane card) {
@@ -94,29 +112,25 @@ public class DisplayManager {
 
         createScrollPane(-16d, 6d, 230d, 60d, "scroll-pane", ALWAYS, NEVER, false, true, true, moduleBoxContent, Pos.CENTER_RIGHT, card);
 
-        displayModules(moduleBoxContent, account, card);
-    }
-
-    public static void displayModules(VBox moduleBox, Account account, StackPane card) {
-        card.getChildren().add(moduleBox);
+        card.getChildren().add(moduleBoxContent);
 
         new Thread(() -> {
             Response response = Response.getResponse(account.getUuid());
             Platform.runLater(() -> {
-                createModuleDisplay(new Label("Automine"), moduleBox, 11.5d, 7d * -1, response.hasAutomine());
-                createModuleDisplay(new Label("Foraging"), moduleBox, 86.5d, 28.25d * -2, response.hasForage());
-                createModuleDisplay(new Label("Fishing"), moduleBox, 156.5d, 26.25d * -4, false);
+                createModuleDisplay(new Label("Automine"), moduleBoxContent, 11.5d, 7d * -1, response.hasAutomine());
+                createModuleDisplay(new Label("Foraging"), moduleBoxContent, 86.5d, 28.25d * -2, response.hasForage());
+                createModuleDisplay(new Label("Fishing"), moduleBoxContent, 156.5d, 26.25d * -4, false);
 
-                createModuleDisplay(new Label("Farming"), moduleBox, 11.5d, 28.075d * 2 * -2.45, false);
-                createModuleDisplay(new Label("DungeonHunting"), moduleBox, 78.5d, 25.75d * 2 * -3.625, false);
+                createModuleDisplay(new Label("Farming"), moduleBoxContent, 11.5d, 28.075d * 2 * -2.45, false);
+                createModuleDisplay(new Label("DungeonHunting"), moduleBoxContent, 78.5d, 25.75d * 2 * -3.625, false);
 
-                createModuleDisplay(new Label("BazaarFlipping"), moduleBox, 11.5d, 26.75d * 3 * -2.725, false);
-                createModuleDisplay(new Label("ZealotHunting"), moduleBox, 116.5d, 25.75d * 3 * -3.46, false);
+                createModuleDisplay(new Label("BazaarFlipping"), moduleBoxContent, 11.5d, 26.75d * 3 * -2.725, false);
+                createModuleDisplay(new Label("ZealotHunting"), moduleBoxContent, 116.5d, 25.75d * 3 * -3.46, false);
             });
         }).start();
     }
 
-    private static void createModuleDisplay(Label label, VBox moduleBox, double posX, double posY, boolean hasAccess) {
+    static void createModuleDisplay(Label label, VBox moduleBox, double posX, double posY, boolean hasAccess) {
         label.getStyleClass().add("module-label");
         moduleBox.getChildren().add(label);
 

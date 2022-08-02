@@ -1,7 +1,5 @@
 package com.workerai.launcher.utils;
 
-import javafx.scene.image.Image;
-
 public class ResourceManager {
     private static final String ICON_PATH = "/resources/graphics/icons/icon.png";
     private static final String FAVICON_PATH = "/resources/graphics/icons/favicon.png";
@@ -9,9 +7,13 @@ public class ResourceManager {
     public static String getIcon() {
         return ICON_PATH;
     }
-
     public static String getFavIcon() {
         return FAVICON_PATH;
+    }
+
+    private static final String MINECRAFT_PATH = "/resources/graphics/minecraft.png";
+    public static String getMinecraftIcon() {
+        return MINECRAFT_PATH;
     }
 
     private static final String LOGIN_DESIGN_PATH = "/resources/css/ui/panels/pages/login.css";
@@ -22,15 +24,12 @@ public class ResourceManager {
     public static String getLoginDesign() {
         return LOGIN_DESIGN_PATH;
     }
-
     public static String getSettingsDesign() {
         return SETTINGS_DESIGN_PATH;
     }
-
     public static String getHomeDesign() {
         return HOME_DESIGN_PATH;
     }
-
     public static String getAccountDesign() {
         return ACCOUNT_DESIGN_PATH;
     }
@@ -41,7 +40,6 @@ public class ResourceManager {
     public static String getBottomDesign() {
         return BOTTOM_DESIGN_PATH;
     }
-
     public static String getTopDesign() {
         return TOP_DESIGN_PATH;
     }

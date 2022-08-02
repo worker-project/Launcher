@@ -46,7 +46,7 @@ public class Home extends Panel {
         displayBanner(homePane, createStackPane(0d, -100d, 1100d, 600d / 7, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
         displayNews(homePane, createStackPane(0d, 112.5d, 1100d, 300d, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
 
-        FontAwesomeIconView playIcon = createFontIcon(-5d, 0d, FontAwesomeIcon.PLAY_CIRCLE, "40px", null, Color.WHITE, homePane);
+        FontAwesomeIconView playIcon = createFontIcon(-5d, 0d, FontAwesomeIcon.PLAY_CIRCLE, "40px", null, Color.WHITE, null);
         Button playButton = createFontButton(350d, -100d, 325d, 60d, "LAUNCH CLIENT", "home-button", null, playIcon, null, homePane);
         playButton.setOnMouseClicked(e -> PlayManager.downloadAndPlay(homePane));
 
