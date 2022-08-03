@@ -5,6 +5,7 @@ import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.savers.SettingsSaver;
 import com.workerai.launcher.ui.PanelManager;
 import com.workerai.launcher.ui.panels.pages.Login;
+import com.workerai.launcher.utils.NewsManager;
 import com.workerai.launcher.utils.PlatformManager;
 import fr.flowarg.flowlogger.ILogger;
 import fr.flowarg.flowlogger.Logger;
@@ -22,6 +23,8 @@ public class App extends Application {
 
     private final ILogger LOGGER;
     private final SettingsSaver settingsSaver;
+
+    private static boolean DEBUG = false;
 
     private final Path launcherDirectory = PlatformManager.createAppFolder(".WorkerAI");
 
@@ -45,6 +48,7 @@ public class App extends Application {
 
         Requests.initRequests();
         AccountSaver.initAccounts();
+        NewsManager.initNews();
 
         this.panelManager.showPanel(new Login());
     }
@@ -74,4 +78,7 @@ public class App extends Application {
     public Path getLauncherDirectory() {
         return launcherDirectory;
     }
+
+    public static boolean isDebugMode() { return DEBUG; }
+    public static void setDebugMode(boolean isDebug) { DEBUG = isDebug; }
 }

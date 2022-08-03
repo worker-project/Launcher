@@ -5,25 +5,20 @@ import com.workerai.launcher.savers.AccountSaver;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.DownloadList;
 import fr.flowarg.flowupdater.download.IProgressCallback;
-import fr.flowarg.flowupdater.download.Step;
 import fr.flowarg.flowupdater.versions.VanillaVersion;
 import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
 import fr.theshark34.openlauncherlib.external.ExternalLauncher;
 import fr.theshark34.openlauncherlib.minecraft.*;
 import javafx.application.Platform;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.StackPane;
-
-import java.nio.file.Path;
-import java.text.DecimalFormat;
+import javafx.scene.layout.Pane;
 
 public class PlayManager {
     private static final ProgressBar progressBar = new ProgressBar();
 
-    private static StackPane homePane;
+    private static Pane homePane;
 
-    public static void downloadAndPlay(StackPane pane) {
+    public static void downloadAndPlay(Pane pane) {
         if (AccountSaver.getCurrentAccount() == null) {
             App.getInstance().getLogger().err("You are in debug session, no online services available!");
             return;

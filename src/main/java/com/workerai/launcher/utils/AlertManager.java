@@ -12,7 +12,7 @@ public class AlertManager {
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
         alert.initStyle(StageStyle.UNDECORATED);
-        alert.setTitle(title);
+        alert.setHeaderText(title);
         alert.setContentText(content);
         alert.show();
     }

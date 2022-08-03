@@ -8,6 +8,16 @@ public class Account {
         private String ACCESS_TOKEN;
     }
 
+    public Account getDebugAccount() {
+        Account debugAccount = new Account();
+        debugAccount.accountData.UUID = "null";
+        debugAccount.accountData.USERNAME = "null";
+        debugAccount.accountData.ACCESS_TOKEN = null;
+        debugAccount.accountData.CLIENT_TOKEN = null;
+
+        return  debugAccount;
+    }
+
     public AccountData accountData = new AccountData();
 
     public String getUuid() {

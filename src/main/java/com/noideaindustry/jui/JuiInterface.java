@@ -66,7 +66,7 @@ public abstract class JuiInterface {
     }
 
     public abstract static class JuiPane {
-        public static ScrollPane createScrollPane(double posX, double posY, double width, double height, String styleClass, ScrollBarPolicy vPolicy, ScrollBarPolicy hPolicy, boolean fitHeight, boolean fitWidth, boolean pannable, VBox content, Pos alignement, StackPane pane) {
+        public static ScrollPane createScrollPane(double posX, double posY, double width, double height, String styleClass, ScrollBarPolicy vPolicy, ScrollBarPolicy hPolicy, boolean fitHeight, boolean fitWidth, boolean pannable, VBox content, Pos alignement, Pane pane) {
             ScrollPane scrollPane = new ScrollPane();
 
             scrollPane.getStyleClass().add(styleClass);
@@ -134,7 +134,7 @@ public abstract class JuiInterface {
     }
 
     public abstract static class JuiField {
-        public static TextField createTextField(double posX, double posY, double width, double height, String promptText, String styleClass, Pos alignement, StackPane pane) {
+        public static TextField createTextField(double posX, double posY, double width, double height, String promptText, String styleClass, Pos alignement, Pane pane) {
             TextField textField = new TextField();
 
             if (alignement != null) textField.setAlignment(alignement);
@@ -150,7 +150,7 @@ public abstract class JuiInterface {
             return textField;
         }
 
-        public static PasswordField createPasswordField(double posX, double posY, double width, double height, String promptText, String styleClass, StackPane pane) {
+        public static PasswordField createPasswordField(double posX, double posY, double width, double height, String promptText, String styleClass, Pane pane) {
             PasswordField passwordField = new PasswordField();
 
             passwordField.setPromptText(promptText);
@@ -246,11 +246,13 @@ public abstract class JuiInterface {
         return tooltip;
     }
 
-    public static Region createRegion(double posX, double posY, String styleClass, StackPane pane) {
+    public static Region createRegion(double posX, double posY, double width, double height, String styleClass, Pane pane) {
         Region region = new Region();
         region.getStyleClass().add(styleClass);
         region.setTranslateX(posX);
         region.setTranslateY(posY);
+        region.setMaxWidth(width);
+        region.setMaxHeight(height);
 
         if (pane != null) pane.getChildren().add(region);
         return region;
@@ -272,7 +274,7 @@ public abstract class JuiInterface {
         return slider;
     }
 
-    public static HBox createHBox(double spacing, double topInsets, double rightInsets, double bottomInsets, double leftInsets, StackPane pane) {
+    public static HBox createHBox(double spacing, double topInsets, double rightInsets, double bottomInsets, double leftInsets, Pane pane) {
         HBox hBox = new HBox(spacing);
         hBox.setPadding(new Insets(topInsets, rightInsets, bottomInsets, leftInsets));
 

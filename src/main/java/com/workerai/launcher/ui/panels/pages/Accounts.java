@@ -9,7 +9,6 @@ import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -18,7 +17,7 @@ import javafx.scene.paint.Color;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createGridPane;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
 import static com.noideaindustry.jui.JuiInterface.createLabel;
-import static com.workerai.launcher.utils.DisplayManager.displayAccount;
+import static com.workerai.launcher.utils.DisplayManager.displayFullAccount;
 
 public class Accounts extends Panel {
     @Override
@@ -45,7 +44,7 @@ public class Accounts extends Panel {
         int accountNum = 0;
         for (Account account : AccountSaver.getAccounts()) {
             accountNum += 1;
-            displayAccount(accountCard, account, createStackPane(startX, startY, 350d, 180d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
+            displayFullAccount(accountCard, account, createStackPane(startX, startY, 350d, 180d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
             if (accountNum % 3 != 0) {
                 startX += 45d + 350d;
             } else {

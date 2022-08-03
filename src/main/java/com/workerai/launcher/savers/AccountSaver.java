@@ -33,6 +33,10 @@ public class AccountSaver {
     }
 
     public static Account getCurrentAccount() {
-        return currentAccount;
+        if(currentAccount != null) {
+            return currentAccount;
+        }
+        Account account = new Account();
+        return account.getDebugAccount();
     }
 }

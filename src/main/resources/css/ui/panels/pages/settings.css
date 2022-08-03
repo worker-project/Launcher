@@ -77,9 +77,6 @@
     -fx-border-style: solid;
     -fx-border-width: 1;
     -fx-border-color: gray;
-    -fx-max-width: 290;
-    -fx-max-height: 18;
-    x-max-height: 18;
 }
 .settings-panel .directory-displayLabel {
     -fx-font-family: "Signika";
@@ -138,8 +135,6 @@
     -fx-border-style: solid;
     -fx-border-width: 0.3;
     -fx-border-color: gray;
-    -fx-max-width: 100;
-    -fx-max-height: 40;
 }
 
 .settings-panel .ratio-displayLabel {

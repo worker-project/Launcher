@@ -1,7 +1,39 @@
 package com.workerai.launcher.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NewsManager {
-    public static class News {
+    private static final List<News> newsList = new ArrayList<>();
+
+    public static void initNews() {
+        newsList.add(new News(
+                "WorkerAI News",
+                "https://noideaindustry.com/Minecraft",
+                "Looking to test our available modules?",
+                "Have a look at our free trials on our website!",
+                ResourceManager.getMinecraftIcon()));
+
+        newsList.add(new News(
+                "WorkerClient News",
+                "https://noideaindustry.com/Mojang",
+                "Want to control our modules via discord?",
+                "Check our plans to get access to this feature.",
+                ResourceManager.getMinecraftIcon()));
+
+        newsList.add(new News(
+                "WorkerAI News",
+                "https://noideaindustry.com/Microsoft",
+                "Becoming one of our partner?",
+                "Apply on our website and get free advantages.",
+                ResourceManager.getMinecraftIcon()));
+    }
+
+    public static News getNewsList(int index) {
+        return newsList.get(index);
+    }
+
+    static class News {
         private final String description;
         private final String subDescription;
         private final String url;
@@ -20,23 +52,23 @@ public class NewsManager {
             this.preview = preview;
         }
 
-        public String getDescription() {
+        String getDescription() {
             return this.description;
         }
 
-        public String getSubDescription() {
+        String getSubDescription() {
             return subDescription;
         }
 
-        public String getUrl() {
+        String getUrl() {
             return this.url;
         }
 
-        public String getName() {
+        String getName() {
             return this.name;
         }
 
-        public String getPreview() {
+        String getPreview() {
             return this.preview;
         }
     }

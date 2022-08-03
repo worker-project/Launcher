@@ -28,8 +28,6 @@ import static com.noideaindustry.jui.JuiInterface.createLabel;
 public class BottomBar extends Panel {
     private static BottomBar INSTANCE;
 
-    public static boolean DEBUG_MODE = false;
-
     public FontAwesomeIconView homeButton, debugButton, logoutButton;
     private MaterialDesignIconView websiteButton, twitterButton, discordButton;
     private FontAwesomeIconView shoppingButton;
@@ -84,7 +82,7 @@ public class BottomBar extends Panel {
 
         debugButton = createFontIcon(this.panelManager.getStage().getWidth()/2, 5d, FontAwesomeIcon.BUG, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
         debugButton.setOnMouseClicked(e -> {
-            DEBUG_MODE = true;
+            App.setDebugMode(true);
             App.getInstance().getLogger().warn("Entering debug session, online services will be unavailable!");
             this.panelManager.showPanel(new Home());
         });
@@ -97,8 +95,8 @@ public class BottomBar extends Panel {
 
         logoutButton = createFontIcon(0d, 5d, FontAwesomeIcon.SIGN_OUT, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
         logoutButton.setOnMouseClicked(e -> {
-            if (DEBUG_MODE) {
-                DEBUG_MODE = false;
+            if (App.isDebugMode()) {
+                App.setDebugMode(false);
                 App.getInstance().getLogger().warn("Leaving debug session, online services will be available once connected!");
             }
             AccountSaver.setCurrentAccount(null);

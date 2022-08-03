@@ -41,7 +41,9 @@ import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
 import static com.noideaindustry.jui.JuiInterface.createImageView;
 
 public class Login extends Panel {
-    AtomicBoolean isTryingToSignIn = new AtomicBoolean(false);
+    private final AtomicBoolean isTryingToSignIn = new AtomicBoolean(false);
+
+    private Button signIn;
 
     @Override
     public void init(PanelManager panelManager) {
@@ -69,12 +71,10 @@ public class Login extends Panel {
             createImageView(0d, 180d, 0d, 250d, true, ResourceManager.getIcon(), Pos.CENTER, loginPane);
 
             FontAwesomeIconView signIcon = JuiInterface.JuiIcon.createFontIcon(-5d, 0, FontAwesomeIcon.SIGN_IN, "22px", null, Color.rgb(150, 150, 150), loginPane);
-            Button signIn = createFontButton(-490d, -302.5d, 135d, 0d, "SIGN IN", "login-button", null, signIcon, Pos.BOTTOM_RIGHT, loginPane);
+            signIn = createFontButton(-490d, -302.5d, 135d, 0d, "SIGN IN", "login-button", null, signIcon, Pos.BOTTOM_RIGHT, loginPane);
             signIn.setOnMouseClicked(e -> {
                 if(!isTryingToSignIn.get()) {
-                    isTryingToSignIn.set(true);
-                    BottomBar.getInstance().disableDebugAccess();
-                    signIn.getStyleClass().add("login-button-active");
+                    tryingConnecting();
                     this.authenticateMicrosoft(userField.getText(), passwordField.getText());
                 }
             });
@@ -189,9 +189,19 @@ public class Login extends Panel {
                         this.panelManager.getStage(),
                         "Authentication Error",
                         e.getMessage()));
-                isTryingToSignIn.set(false);
+                failedConnecting();
             }
         }).start();
+    }
+
+    void tryingConnecting() {
+        isTryingToSignIn.set(true);
+        BottomBar.getInstance().disableDebugAccess();
+        signIn.getStyleClass().add("login-button-active");
+    }
+    void failedConnecting() {
+        isTryingToSignIn.set(false);
+        signIn.getStyleClass().remove("login-button-active");
     }
 
     @Override

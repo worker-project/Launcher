@@ -1,8 +1,12 @@
 package com.workerai.launcher.ui.panels.pages;
 
+import com.workerai.launcher.App;
+import com.workerai.launcher.database.Account;
+import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.ui.PanelManager;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.ui.utils.Panel;
+import com.workerai.launcher.utils.AlertManager;
 import com.workerai.launcher.utils.PlayManager;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -22,8 +26,7 @@ import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createGridPane;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
 import static com.noideaindustry.jui.JuiInterface.createLabel;
-import static com.workerai.launcher.utils.DisplayManager.displayBanner;
-import static com.workerai.launcher.utils.DisplayManager.displayNews;
+import static com.workerai.launcher.utils.DisplayManager.*;
 
 public class Home extends Panel {
     @Override
@@ -43,21 +46,23 @@ public class Home extends Panel {
         createLabel(0d, 90d, "Ready to take advantage of WorkerAI?", titleIcon, "home-label", Pos.TOP_CENTER, homePane);
         createLabel(0d, 120d, "Start the game and have fun using our custom client!", null, "home-subLabel", Pos.TOP_CENTER, homePane);
 
-        displayBanner(homePane, createStackPane(0d, -100d, 1100d, 600d / 7, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
+        displayBanner(homePane, createStackPane(0d, -100d, 260d, 600d / 7, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
         displayNews(homePane, createStackPane(0d, 112.5d, 1100d, 300d, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
 
-        FontAwesomeIconView playIcon = createFontIcon(-5d, 0d, FontAwesomeIcon.PLAY_CIRCLE, "40px", null, Color.WHITE, null);
-        Button playButton = createFontButton(350d, -100d, 325d, 60d, "LAUNCH CLIENT", "home-button", null, playIcon, null, homePane);
+        FontAwesomeIconView playIcon = createFontIcon(0d, 0d, FontAwesomeIcon.PLAY_CIRCLE, "40px", null, Color.rgb(210,144,52), null);
+        Button playButton = createFontButton(80d, -100d, 40d, 60d, null, "home-button", null, playIcon, null, homePane);
         playButton.setOnMouseClicked(e -> PlayManager.downloadAndPlay(homePane));
 
-        MaterialDesignIconView accountsIcon = createDesignIcon(-5d, 0d, MaterialDesignIcon.VIEW_LIST, "40px", null, Color.WHITE, homePane);
-        Button accountsButton = createMaterialButton(-350d, -100d, 325d, 60d, "ACCOUNT MANAGER", "home-button", null, accountsIcon, null, homePane);
-        accountsButton.setOnMouseClicked(e -> this.panelManager.showPanel(new Accounts()));
-
-        FontAwesomeIconView settingsIcon = createFontIcon(-5d, 0d, FontAwesomeIcon.GEAR, "40px", null, Color.WHITE, homePane);
-        Button settingsButton = createFontButton(0d, -100d, 325d, 60d, "SETTINGS MANAGER", "home-button", null, settingsIcon, null, homePane);
+        FontAwesomeIconView settingsIcon = createFontIcon(0d, 0d, FontAwesomeIcon.GEAR, "40px", null, Color.rgb(210,144,52), homePane);
+        Button settingsButton = createFontButton(0d, -100d, 40d, 60d, null, "home-button", null, settingsIcon, null, homePane);
         settingsButton.setOnMouseClicked(e -> this.panelManager.showPanel(new Settings()));
 
+        MaterialDesignIconView accountsIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.VIEW_LIST, "36px", null, Color.rgb(210,144,52), homePane);
+        Button accountsButton = createMaterialButton(-80d, -100d, 36d, 60d, null, "home-button", null, accountsIcon, null, homePane);
+        accountsButton.setOnMouseClicked(e -> this.panelManager.showPanel(new Accounts()));
+
+        displayReducedAccount(homePane, AccountSaver.getCurrentAccount(), createStackPane(-350d, -100d, 400d, 600d / 7, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
+        displayReducedModules(homePane, AccountSaver.getCurrentAccount(), createStackPane(350d, -100d, 400d, 600d / 7, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
     }
 
     @Override

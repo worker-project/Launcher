@@ -60,7 +60,7 @@
 
 .home-panel .news-button {
     -fx-background-radius: 4px;
-    -fx-background-color: rgb(210,144,52);
+    -fx-background-color: #343434;
 
     -fx-opacity: 0.8;
     -fx-font-family: "Signika";
@@ -84,6 +84,49 @@
     -fx-font-weight: 700;
     -fx-font-size: 12px;
     -fx-text-fill: rgb(150, 150, 150);
+}
+
+.home-panel .account-label {
+    -fx-font-family: "Signika";
+    -fx-font-weight: 800;
+    -fx-font-size: 20px;
+    -fx-text-fill: rgb(150, 150, 150);
+}
+
+.home-panel .scroll-pane {
+    -fx-background: rgb(32,31,29);
+    -fx-border-color: rgb(52,52,52);
+    -fx-padding: 0px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.home-panel .scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: transparent;
+}
+.home-panel .increment-button, .decrement-button {
+    -fx-background: transparent;
+}
+.home-panel .scroll-bar:horizontal .track, .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+}
+.home-panel .scroll-bar:horizontal .thumb, .scroll-bar:vertical .thumb {
+    -fx-background-color: rgb(52,52,52);
+    -fx-background-radius: 5em;
+}
+
+.home-panel .module-label {
+    -fx-font-family: "Signika";
+    -fx-font-weight: 800;
+    -fx-font-size: 12px;
+    -fx-text-fill: rgb(150,150,150);
+}
+
+.home-panel .modules-container {
+    -fx-background-color: transparent;
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-color: gray;
 }
 
 @font-face {
