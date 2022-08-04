@@ -18,7 +18,7 @@ public class PlayManager {
 
     private static Pane homePane;
 
-    public static void downloadAndPlay(Pane pane) {
+    public static void downloadAndPlay(Pane pane, boolean isHome) {
         if (AccountSaver.getCurrentAccount() == null) {
             App.getInstance().getLogger().err("You are in debug session, no online services available!");
             return;
@@ -28,6 +28,10 @@ public class PlayManager {
 
         progressBar.getStyleClass().add("download-progress");
         progressBar.setTranslateY(-160d);
+
+        if(!isHome) {
+            progressBar.setTranslateY(-105d);
+        }
 
         PlayManager.setProgress(0, 0);
         PlayManager.addComponents();

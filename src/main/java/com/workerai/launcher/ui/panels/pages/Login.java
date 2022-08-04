@@ -157,6 +157,7 @@ public class Login extends Panel {
                 Requests.addAccount(
                         response.getProfile().getName(),
                         response.getProfile().getId(),
+                        "null",
                         response.getRefreshToken(),
                         response.getAccessToken()
                 );
@@ -178,6 +179,7 @@ public class Login extends Panel {
                 Requests.addAccount(
                         response.getSelectedProfile().getName(),
                         response.getSelectedProfile().getId(),
+                        null,
                         response.getClientToken(),
                         response.getAccessToken()
                 );

@@ -1,12 +1,9 @@
 package com.workerai.launcher.ui.panels.pages;
 
-import com.workerai.launcher.App;
-import com.workerai.launcher.database.Account;
 import com.workerai.launcher.savers.AccountSaver;
 import com.workerai.launcher.ui.PanelManager;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.ui.utils.Panel;
-import com.workerai.launcher.utils.AlertManager;
 import com.workerai.launcher.utils.PlayManager;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -49,20 +46,20 @@ public class Home extends Panel {
         displayBanner(homePane, createStackPane(0d, -100d, 260d, 600d / 7, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
         displayNews(homePane, createStackPane(0d, 112.5d, 1100d, 300d, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
 
-        FontAwesomeIconView playIcon = createFontIcon(0d, 0d, FontAwesomeIcon.PLAY_CIRCLE, "40px", null, Color.rgb(210,144,52), null);
+        FontAwesomeIconView playIcon = createFontIcon(0d, 0d, FontAwesomeIcon.PLAY_CIRCLE, "40px", null, Color.rgb(210, 144, 52), null);
         Button playButton = createFontButton(80d, -100d, 40d, 60d, null, "home-button", null, playIcon, null, homePane);
-        playButton.setOnMouseClicked(e -> PlayManager.downloadAndPlay(homePane));
+        playButton.setOnMouseClicked(e -> PlayManager.downloadAndPlay(homePane, true));
 
-        FontAwesomeIconView settingsIcon = createFontIcon(0d, 0d, FontAwesomeIcon.GEAR, "40px", null, Color.rgb(210,144,52), homePane);
+        FontAwesomeIconView settingsIcon = createFontIcon(0d, 0d, FontAwesomeIcon.GEAR, "40px", null, Color.rgb(210, 144, 52), homePane);
         Button settingsButton = createFontButton(0d, -100d, 40d, 60d, null, "home-button", null, settingsIcon, null, homePane);
         settingsButton.setOnMouseClicked(e -> this.panelManager.showPanel(new Settings()));
 
-        MaterialDesignIconView accountsIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.VIEW_LIST, "36px", null, Color.rgb(210,144,52), homePane);
+        MaterialDesignIconView accountsIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.VIEW_LIST, "36px", null, Color.rgb(210, 144, 52), homePane);
         Button accountsButton = createMaterialButton(-80d, -100d, 36d, 60d, null, "home-button", null, accountsIcon, null, homePane);
         accountsButton.setOnMouseClicked(e -> this.panelManager.showPanel(new Accounts()));
 
         displayReducedAccount(homePane, AccountSaver.getCurrentAccount(), createStackPane(-350d, -100d, 400d, 600d / 7, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
-        displayReducedModules(homePane, AccountSaver.getCurrentAccount(), createStackPane(350d, -100d, 400d, 600d / 7, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)));
+        displayAccount(homePane, AccountSaver.getCurrentAccount(), createStackPane(350d, -100d, 400d, 600d / 7, 15d, 15d, true, null, null, Color.rgb(29, 29, 27)), true);
     }
 
     @Override

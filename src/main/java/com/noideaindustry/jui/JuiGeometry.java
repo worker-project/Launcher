@@ -55,7 +55,7 @@ public abstract class JuiGeometry {
             circle.setStrokeType(strokeType);
             circle.setStroke(strokeColor);
 
-            pane.getChildren().add(circle);
+            if(pane != null) pane.getChildren().add(circle);
             return circle;
         }
 

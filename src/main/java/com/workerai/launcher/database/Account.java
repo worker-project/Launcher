@@ -4,6 +4,7 @@ public class Account {
     private static class AccountData {
         private String UUID;
         private String USERNAME;
+        private String DISCORD;
         private String CLIENT_TOKEN;
         private String ACCESS_TOKEN;
     }
@@ -12,10 +13,10 @@ public class Account {
         Account debugAccount = new Account();
         debugAccount.accountData.UUID = "null";
         debugAccount.accountData.USERNAME = "null";
+        debugAccount.accountData.DISCORD = "null";
         debugAccount.accountData.ACCESS_TOKEN = null;
         debugAccount.accountData.CLIENT_TOKEN = null;
-
-        return  debugAccount;
+        return debugAccount;
     }
 
     public AccountData accountData = new AccountData();
@@ -52,4 +53,7 @@ public class Account {
         accountData.ACCESS_TOKEN = accessToken;
     }
 
+    public void setDiscord(String discord) { accountData.DISCORD = discord; }
+
+    public String getDiscord() { return accountData.DISCORD; }
 }

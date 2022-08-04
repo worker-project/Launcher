@@ -22,6 +22,7 @@ public class Database {
                     " ID            INTEGER     PRIMARY KEY," +
                     " USERNAME      CHAR(16)    NOT NULL, " +
                     " UUID          CHAR(36)    NOT NULL, " +
+                    " DISCORD       CHAR(16)    NOT NULL, " +
                     " CLIENT_TOKEN  CHAR(255)   NOT NULL, " +
                     " ACCESS_TOKEN  CHAR(255)   NOT NULL" +
                     ");";
@@ -35,12 +36,13 @@ public class Database {
 
     static void addAccount(Account account) {
         try {
-            String sql = "INSERT INTO accounts (USERNAME, UUID, CLIENT_TOKEN, ACCESS_TOKEN) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO accounts (USERNAME, UUID, DISCORD, CLIENT_TOKEN, ACCESS_TOKEN) VALUES (?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, account.getUsername());
             stmt.setString(2, account.getUuid());
-            stmt.setString(3, account.getClientToken());
-            stmt.setString(4, account.getAccessToken());
+            stmt.setString(3, account.getDiscord());
+            stmt.setString(4, account.getClientToken());
+            stmt.setString(5, account.getAccessToken());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,6 +72,7 @@ public class Database {
             Account account = new Account();
             account.setUsername(rs.getString("USERNAME"));
             account.setUuid(rs.getString("UUID"));
+            account.setDiscord(rs.getString("DISCORD"));
             account.setClientToken(rs.getString("CLIENT_TOKEN"));
             account.setAccessToken(rs.getString("ACCESS_TOKEN"));
             return account;
@@ -92,6 +95,7 @@ public class Database {
                 Account account = new Account();
                 account.setUsername(rs.getString("USERNAME"));
                 account.setUuid(rs.getString("UUID"));
+                account.setDiscord(rs.getString("DISCORD"));
                 account.setClientToken(rs.getString("CLIENT_TOKEN"));
                 account.setAccessToken(rs.getString("ACCESS_TOKEN"));
                 accountList.add(account);

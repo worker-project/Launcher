@@ -66,7 +66,7 @@ public abstract class JuiInterface {
     }
 
     public abstract static class JuiPane {
-        public static ScrollPane createScrollPane(double posX, double posY, double width, double height, String styleClass, ScrollBarPolicy vPolicy, ScrollBarPolicy hPolicy, boolean fitHeight, boolean fitWidth, boolean pannable, VBox content, Pos alignement, Pane pane) {
+        public static ScrollPane createScrollPane(double posX, double posY, double width, double height, String styleClass, ScrollBarPolicy vPolicy, ScrollBarPolicy hPolicy, boolean fitHeight, boolean fitWidth, boolean pannable, Pane content, Pos alignement, Pane pane) {
             ScrollPane scrollPane = new ScrollPane();
 
             scrollPane.getStyleClass().add(styleClass);
@@ -231,7 +231,7 @@ public abstract class JuiInterface {
         imageView.setTranslateX(posX);
         imageView.setTranslateY(posY);
 
-        pane.getChildren().add(imageView);
+        if (pane != null) pane.getChildren().add(imageView);
         return imageView;
     }
 

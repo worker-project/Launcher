@@ -17,7 +17,7 @@ import javafx.scene.paint.Color;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createGridPane;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
 import static com.noideaindustry.jui.JuiInterface.createLabel;
-import static com.workerai.launcher.utils.DisplayManager.displayFullAccount;
+import static com.workerai.launcher.utils.DisplayManager.displayAccount;
 
 public class Accounts extends Panel {
     @Override
@@ -44,7 +44,7 @@ public class Accounts extends Panel {
         int accountNum = 0;
         for (Account account : AccountSaver.getAccounts()) {
             accountNum += 1;
-            displayFullAccount(accountCard, account, createStackPane(startX, startY, 350d, 180d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)));
+            displayAccount(accountCard, account, createStackPane(startX, startY, 350d, 180d, 15d, 15d, false, null, null, Color.rgb(29, 29, 27)), false);
             if (accountNum % 3 != 0) {
                 startX += 45d + 350d;
             } else {

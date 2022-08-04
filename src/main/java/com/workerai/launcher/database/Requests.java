@@ -11,13 +11,14 @@ public class Requests {
         Database.initDatabase();
     }
 
-    public static void addAccount(String username, String uuid, String clientToken, String accessToken) {
+    public static void addAccount(String username, String uuid, String discord, String clientToken, String accessToken) {
         Account account = Requests.getAccount(uuid);
 
         if (account == null) {
             account = new Account();
             account.setUsername(username);
             account.setUuid(uuid);
+            account.setDiscord(discord);
             account.setClientToken(clientToken);
             account.setAccessToken(accessToken);
 

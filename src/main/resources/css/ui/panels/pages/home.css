@@ -90,7 +90,14 @@
     -fx-font-family: "Signika";
     -fx-font-weight: 800;
     -fx-font-size: 20px;
-    -fx-text-fill: rgb(150, 150, 150);
+    -fx-text-fill: rgb(150,150,150);
+}
+
+.home-panel .account-scrollLabel {
+    -fx-font-family: "Signika";
+    -fx-font-weight: 800;
+    -fx-font-size: 12px;
+    -fx-text-fill: rgb(150,150,150);
 }
 
 .home-panel .scroll-pane {
@@ -120,6 +127,16 @@
     -fx-font-weight: 800;
     -fx-font-size: 12px;
     -fx-text-fill: rgb(150,150,150);
+}
+
+.home-panel .module-scrollLabel {
+    -fx-font-family: "Signika";
+    -fx-font-weight: 800;
+    -fx-font-size: 12px;
+    -fx-text-fill: rgb(150,150,150);
+
+    -fx-border-color: rgb(150,150,150);
+    -fx-padding: 0px 2px;
 }
 
 .home-panel .modules-container {
