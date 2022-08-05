@@ -48,7 +48,7 @@ public class Settings extends Panel {
         MemoryCard.create(card, saver, createStackPane(70d + 350d + 35d, 185d, 350d, 200d, 15d, 15d, false, null, null, DARK_BLACK));
         ResolutionCard.create(card, saver, createStackPane(70d + 350d + 35d, 185d * 2 + 45d, 350d, 200d, 15d, 15d, false, null, null, DARK_BLACK));
 
-        FolderCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d, 350d, 125d, 15d, 15d, false, null, null, DARK_BLACK));
+        FilesCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d, 350d, 125d, 15d, 15d, false, null, null, DARK_BLACK));
         LegalCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d, 350d, 125d, 15d, 15d, false, null, null, DARK_BLACK));
         LinksCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d * 2, 350d, 125d, 15d, 15d, false, null, null, DARK_BLACK));
     }

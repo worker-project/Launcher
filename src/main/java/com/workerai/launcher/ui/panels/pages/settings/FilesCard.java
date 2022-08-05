@@ -19,11 +19,11 @@ import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
 import static com.noideaindustry.jui.JuiInterface.JuiIcon;
 import static com.noideaindustry.jui.JuiInterface.createLabel;
 
-public class FolderCard extends Settings {
+public class FilesCard extends Settings {
     public static void create(GridPane container, Saver saver, StackPane card) {
         container.getChildren().add(card);
 
-        createLabel(0, 50d, "Launcher Folders", JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.ARCHIVE, "25px", null, Color.WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
+        createLabel(0, 50d, "Launcher Files", JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.ARCHIVE, "25px", null, Color.WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
         createLabel(0, 80d, "Having trouble launching? Send us your logs!", null, "afterLaunch-subLabel", Pos.TOP_CENTER, card);
 
         FontAwesomeIconView logIcon = JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.FILE_TEXT, "18px", null, Color.WHITE, card);

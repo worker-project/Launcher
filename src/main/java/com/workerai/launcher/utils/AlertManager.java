@@ -39,8 +39,6 @@ public class AlertManager {
         dialogPane.getStylesheets().add(getAlertDesignPath());
         dialogPane.getStyleClass().add("alert");
 
-        dialogPane.setCursor(Cursor.HAND);
-
         alert.showAndWait();
     }
 }

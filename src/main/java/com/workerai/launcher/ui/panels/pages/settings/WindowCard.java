@@ -22,16 +22,16 @@ public class WindowCard extends Settings {
         container.getChildren().add(card);
 
         createLabel(0, 20d, "Launcher Window", JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.PLAY_CIRCLE, "25px", null, Color.WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
-        createLabel(0, 50d, "Select which action your launcher should take on launch", null, "afterLaunch-subLabel", Pos.TOP_CENTER, card);
+        createLabel(0, 50d, "Select the window behavior after launching Minecraft", null, "afterLaunch-subLabel", Pos.TOP_CENTER, card);
 
         FontAwesomeIconView tooltipIcon = JuiIcon.createFontIcon(0d, 0d, FontAwesomeIcon.INFO_CIRCLE, "20px", null, Color.WHITE, (StackPane) null);
         Tooltip tooltip = createTooltip("After the game is launched your launcher will remain open.", tooltipIcon, Duration.ZERO, Duration.ZERO);
 
         FontAwesomeIconView keepIcon = JuiIcon.createFontIcon(0, 0, FontAwesomeIcon.EXPAND, "18px", null, Color.WHITE, card);
-        Button keepButton = createFontButton(0, -80d, 250d, 30d, "Keep Launcher Open", "afterLaunch-button", tooltip, keepIcon, Pos.BOTTOM_CENTER, card);
+        Button keepButton = createFontButton(0, -90d, 250d, 30d, "Keep Launcher Open", "afterLaunch-button", tooltip, keepIcon, Pos.BOTTOM_CENTER, card);
 
         FontAwesomeIconView hideIcon = JuiIcon.createFontIcon(0, 0, FontAwesomeIcon.COMPRESS, "18px", null, Color.WHITE, card);
-        Button hideButton = createFontButton(0, -35d, 250d, 30d, "Hide Launcher", "afterLaunch-button", null, hideIcon, Pos.BOTTOM_CENTER, card);
+        Button hideButton = createFontButton(0, -45d, 250d, 30d, "Hide Launcher", "afterLaunch-button", null, hideIcon, Pos.BOTTOM_CENTER, card);
 
         keepButton.setOnMouseClicked(e -> {
             setButtonProperty(keepButton, hideButton);
