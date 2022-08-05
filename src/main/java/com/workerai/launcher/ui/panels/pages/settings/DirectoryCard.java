@@ -28,12 +28,12 @@ public class DirectoryCard extends Settings {
         createLabel(0, 20d, "Game Directory", JuiInterface.JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.FOLDER_OPEN, "25px", null, Color.WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
         createLabel(0, 50d, "Select which directory to launch Minecraft from", null, "afterLaunch-subLabel", Pos.TOP_CENTER, card);
 
-        createLabel(0, -45d, "YOUR CURRENT DIRECTORY IS SET TO:", null, "directory-subLabel", Pos.BOTTOM_CENTER, card);
-        Label gamePath = createLabel(0, -25d, displayPathReduced(new File(saver.get("GameDirectory"))), null, "directory-displayLabel", Pos.BOTTOM_CENTER, card);
-        createRegion(gamePath.getTranslateX(), gamePath.getTranslateY() * -2.68d, 290, 18, "directory-container", card);
+        createLabel(0, -55d, "YOUR CURRENT DIRECTORY IS SET TO:", null, "directory-subLabel", Pos.BOTTOM_CENTER, card);
+        Label gamePath = createLabel(0, -35d, displayPathReduced(new File(saver.get("GameDirectory"))), null, "directory-displayLabel", Pos.BOTTOM_CENTER, card);
+        createRegion(gamePath.getTranslateX(), gamePath.getTranslateY() * -1.64d, 290, 18, "directory-container", card);
 
         FontAwesomeIconView directoryIcon = JuiInterface.JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.FILE_TEXT, "20px", null, Color.WHITE, card);
-        Button directoryButton = createFontButton(0, -70d, 200d, 30d, "Change Directory", "directory-button", null, directoryIcon, Pos.BOTTOM_CENTER, card);
+        Button directoryButton = createFontButton(0, -80d, 200d, 30d, "Change Directory", "directory-button", null, directoryIcon, Pos.BOTTOM_CENTER, card);
         directoryButton.setOnMouseClicked(e -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             File selectedDirectory = directoryChooser.showDialog(App.getInstance().getPanelManager().getStage());

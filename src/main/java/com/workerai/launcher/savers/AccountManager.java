@@ -40,4 +40,8 @@ public class AccountManager {
         return currentAccount;
     }
     public static void removeCurrentAccount() { currentAccount = null; }
+
+    public static Account getDebugAccount() {
+        return Account.createAccount(null, null, null, null, new Response(false, false));
+    }
 }

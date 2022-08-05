@@ -28,10 +28,10 @@ public class WindowCard extends Settings {
         Tooltip tooltip = createTooltip("After the game is launched your launcher will remain open.", tooltipIcon, Duration.ZERO, Duration.ZERO);
 
         FontAwesomeIconView keepIcon = JuiIcon.createFontIcon(0, 0, FontAwesomeIcon.EXPAND, "18px", null, Color.WHITE, card);
-        Button keepButton = createFontButton(0, -70d, 250d, 30d, "Keep Launcher Open", "afterLaunch-button", tooltip, keepIcon, Pos.BOTTOM_CENTER, card);
+        Button keepButton = createFontButton(0, -80d, 250d, 30d, "Keep Launcher Open", "afterLaunch-button", tooltip, keepIcon, Pos.BOTTOM_CENTER, card);
 
         FontAwesomeIconView hideIcon = JuiIcon.createFontIcon(0, 0, FontAwesomeIcon.COMPRESS, "18px", null, Color.WHITE, card);
-        Button hideButton = createFontButton(0, -25d, 250d, 30d, "Hide Launcher", "afterLaunch-button", null, hideIcon, Pos.BOTTOM_CENTER, card);
+        Button hideButton = createFontButton(0, -35d, 250d, 30d, "Hide Launcher", "afterLaunch-button", null, hideIcon, Pos.BOTTOM_CENTER, card);
 
         keepButton.setOnMouseClicked(e -> {
             setButtonProperty(keepButton, hideButton);
