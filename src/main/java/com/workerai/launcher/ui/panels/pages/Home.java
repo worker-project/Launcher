@@ -42,7 +42,7 @@ public class Home extends Panel {
         StackPane homePane = createStackPane(0d, 0d, 1200d, 600d, 15d, 15d, false, "home-panel", Pos.CENTER, LIGHT_BLACK);
         this.layout.getChildren().add(homePane);
 
-        FontAwesomeIconView titleIcon = createFontIcon(-4d, 0, FontAwesomeIcon.FLASK, "25px", null, Color.WHITE, homePane);
+        FontAwesomeIconView titleIcon = createFontIcon(-4d, 0, FontAwesomeIcon.FLASK, "25px", null, WHITE, homePane);
         createLabel(0d, 90d, "Ready to take advantage of WorkerAI?", titleIcon, "home-label", Pos.TOP_CENTER, homePane);
         createLabel(0d, 120d, "Start the game and have fun using our custom client!", null, "home-subLabel", Pos.TOP_CENTER, homePane);
 

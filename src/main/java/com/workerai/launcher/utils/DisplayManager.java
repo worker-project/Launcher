@@ -34,6 +34,7 @@ import static com.noideaindustry.jui.JuiInterface.JuiPane.createScrollPane;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
 import static com.noideaindustry.jui.JuiInterface.createImageView;
 import static com.noideaindustry.jui.JuiInterface.createLabel;
+import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy.ALWAYS;
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy.NEVER;
 
@@ -55,7 +56,7 @@ public class DisplayManager {
         Pane card = createStackPane(posX, 112.5d, 340d, 245d, 15d, 15d, true, null, null, Color.rgb(32, 31, 29));
         displayBanner(container, card);
 
-        FontAwesomeIconView newsIcon = createFontIcon(-4d, 0d, FontAwesomeIcon.NEWSPAPER_ALT, "25px", null, Color.WHITE, null);
+        FontAwesomeIconView newsIcon = createFontIcon(-4d, 0d, FontAwesomeIcon.NEWSPAPER_ALT, "25px", null, WHITE, null);
         createLabel(0d, -100d, news.getName(), newsIcon, "news-Label", null, card);
         createImageView(0d, -5d, 340d, 350d, true, news.getPreview(), null, card);
 
@@ -82,21 +83,22 @@ public class DisplayManager {
             createLabel(0, 5d, "Account - " + account.getUsername(), null, "account-label", Pos.TOP_CENTER, card);
             createLabel(45d, 45d, "Available modules", null, "module-label", Pos.TOP_CENTER, card);
 
-            FontAwesomeIconView iconRemove = createFontIcon(-4d, 0, FontAwesomeIcon.CROSSHAIRS, "20px", null, Color.WHITE, card);
+            FontAwesomeIconView iconRemove = createFontIcon(-4d, 0, FontAwesomeIcon.CROSSHAIRS, "20px", null, WHITE, card);
             Button buttonRemove = createFontButton(15d, -10d, 150d, 30d, "Remove", "account-button-remove", null, iconRemove, Pos.BOTTOM_LEFT, card);
             buttonRemove.setOnMouseClicked(e -> {
                 if (AccountManager.getCurrentAccount() == null || !account.getUuid().equals(AccountManager.getCurrentAccount().getUuid())) {
+                    AccountManager.removeLocalAccount(account);
+                    Requests.removeRemoteAccount(account.getUuid());
                     App.getInstance().getPanelManager().showPanel(new Accounts());
                 } else {
                     AccountManager.removeCurrentAccount();
+                    AccountManager.removeLocalAccount(account);
+                    Requests.removeRemoteAccount(account.getUuid());
                     App.getInstance().getPanelManager().showPanel(new Login());
                 }
-
-                AccountManager.removeLocalAccount(account);
-                Requests.removeRemoteAccount(account.getUuid());
             });
 
-            FontAwesomeIconView playIcon = createFontIcon(-4d, 0, FontAwesomeIcon.GAMEPAD, "18px", null, Color.WHITE, card);
+            FontAwesomeIconView playIcon = createFontIcon(-4d, 0, FontAwesomeIcon.GAMEPAD, "18px", null, WHITE, card);
             Button buttonPlay = createFontButton(-15d, -10d, 150d, 30d, "Play", "account-button-play", null, playIcon, Pos.BOTTOM_RIGHT, card);
             buttonPlay.setOnMouseClicked(e -> {
                 AccountManager.setCurrentAccount(account);

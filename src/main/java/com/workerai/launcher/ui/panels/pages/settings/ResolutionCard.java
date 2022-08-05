@@ -23,6 +23,7 @@ import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
 import static com.noideaindustry.jui.JuiInterface.JuiField.createTextField;
 import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
 import static com.noideaindustry.jui.JuiInterface.*;
+import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 
 public class ResolutionCard extends Settings {
     private static final List<Node> nodes = new ArrayList<>();
@@ -31,10 +32,10 @@ public class ResolutionCard extends Settings {
     public static void create(GridPane container, Saver saver, StackPane card) {
         container.getChildren().add(card);
 
-        createLabel(0, 20d, "Game Resolution", createFontIcon(-4d, 0, FontAwesomeIcon.DESKTOP, "25px", null, Color.WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
+        createLabel(0, 20d, "Game Resolution", createFontIcon(-4d, 0, FontAwesomeIcon.DESKTOP, "25px", null, WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
         createLabel(0, 50d, "Enter a resolution to launch your game in", null, "afterLaunch-subLabel", Pos.TOP_CENTER, card);
 
-        createLabel(-70d, -105d, "Width", createFontIcon(-3d, -1d, FontAwesomeIcon.TEXT_WIDTH, "15px", null, Color.WHITE, card), "ratio-displayLabel", Pos.BOTTOM_CENTER, card);
+        createLabel(-70d, -105d, "Width", createFontIcon(-3d, -1d, FontAwesomeIcon.TEXT_WIDTH, "15px", null, WHITE, card), "ratio-displayLabel", Pos.BOTTOM_CENTER, card);
         createRegion(-70d, 17.5d, 100, 40, "ratio-box", card);
         TextField widthField = createTextField(-70d, 17.5d, 90d, 35d, saver.get("LaunchWidth"), "ratio-promptText", Pos.BOTTOM_CENTER, card);
         widthField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -50,9 +51,9 @@ public class ResolutionCard extends Settings {
             }
         });
 
-        createFontIcon(0d, 17.5d, FontAwesomeIcon.TIMES, "20px", null, Color.WHITE, card);
+        createFontIcon(0d, 17.5d, FontAwesomeIcon.TIMES, "20px", null, WHITE, card);
 
-        createLabel(70d, -105d, "Height", createFontIcon(-3d, -1d, FontAwesomeIcon.TEXT_HEIGHT, "15px", null, Color.WHITE, card), "ratio-displayLabel", Pos.BOTTOM_CENTER, card);
+        createLabel(70d, -105d, "Height", createFontIcon(-3d, -1d, FontAwesomeIcon.TEXT_HEIGHT, "15px", null, WHITE, card), "ratio-displayLabel", Pos.BOTTOM_CENTER, card);
         createRegion(70d, 17.5d, 100, 40, "ratio-box", card);
         TextField heightField = createTextField(70d, 17.5d, 90d, 35d, saver.get("LaunchHeight"), "ratio-promptText", Pos.BOTTOM_CENTER, card);
         heightField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -66,14 +67,14 @@ public class ResolutionCard extends Settings {
             }
         });
 
-        FontAwesomeIconView presetsIcon = createFontIcon(0d, 0d, FontAwesomeIcon.ANCHOR, "15px", null, Color.WHITE, card);
+        FontAwesomeIconView presetsIcon = createFontIcon(0d, 0d, FontAwesomeIcon.ANCHOR, "15px", null, WHITE, card);
         Button presetsButton = createFontButton(-70d, -25d, 110d, 25d, "Presets", "directory-button", null, presetsIcon, Pos.BOTTOM_CENTER, card);
         presetsButton.setOnMouseClicked(e -> {
             if (isResolutionsOpen) hideResolutions(container);
             else showResolutions(container);
         });
 
-        FontAwesomeIconView renderIcon = createFontIcon(0d, 0d, FontAwesomeIcon.EYE, "15px", null, Color.WHITE, card);
+        FontAwesomeIconView renderIcon = createFontIcon(0d, 0d, FontAwesomeIcon.EYE, "15px", null, WHITE, card);
         Button renderButton = createFontButton(70d, -25d, 110d, 25d, "Soon", "directory-button", null, renderIcon, Pos.BOTTOM_CENTER, card);
         renderButton.setOnMouseClicked(e -> System.out.println("Everything has a time..., wait a bit more."));
 
@@ -115,7 +116,7 @@ public class ResolutionCard extends Settings {
         nodes.add(box);
 
         nodes.add(createLabel(0, 0d, "Resolution Presets", null, "afterLaunch-label", Pos.TOP_CENTER, null));
-        nodes.add(createFontIcon(0d, 0d, FontAwesomeIcon.DESKTOP, "25px", null, Color.WHITE, null));
+        nodes.add(createFontIcon(0d, 0d, FontAwesomeIcon.DESKTOP, "25px", null, WHITE, null));
         nodes.add(createLabel(0, 0d, "Select a preset resolution for your Minecraft window", null, "afterLaunch-subLabel", Pos.TOP_CENTER, null));
 
         //nodes.add(createRegion(0d, 40d, "presets-box", null));

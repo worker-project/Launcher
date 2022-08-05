@@ -1,7 +1,5 @@
 package com.workerai.launcher.utils;
 
-import com.noideaindustry.jui.JuiInitialization;
-import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
