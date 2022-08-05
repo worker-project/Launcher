@@ -1,5 +1,6 @@
 package com.workerai.launcher.ui.panels.pages.settings;
 
+import com.workerai.launcher.App;
 import com.workerai.launcher.ui.panels.pages.Settings;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import fr.theshark34.openlauncherlib.util.Saver;
@@ -32,8 +33,8 @@ public class MemoryCard extends Settings {
         Slider ramSlider = createSlider(5d, 15d, 180d, 0d, 0.5 * 1024, maxMemoryGB * 1024, (Double.parseDouble(saver.get("AllocatedRAM"))), "slider", createHBox(50, 50, 10, 50, 10, card));
         ramSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             memoryAllocated.setText(String.format("%.1f", newValue.floatValue() / 1024d) + " GB ALLOCATED");
-            saver.set("AllocatedRAM", String.format("%.0f", newValue.floatValue()));
             memoryLeft.setText("YOU HAVE " + String.format("%.1f", (maxMemoryGB - (Double.parseDouble(saver.get("AllocatedRAM")) / 1024d))) + " GB LEFT TO ALLOCATE");
+            saver.set("AllocatedRAM", String.format("%.0f", newValue.floatValue()));
         });
     }
 }

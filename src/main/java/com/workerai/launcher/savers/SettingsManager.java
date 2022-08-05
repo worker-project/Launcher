@@ -6,11 +6,11 @@ import fr.theshark34.openlauncherlib.util.Saver;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class SettingsSaver {
+public class SettingsManager {
     private final Saver saver;
     private Path gameDirectory;
 
-    public SettingsSaver(Saver saver) {
+    public SettingsManager(Saver saver) {
         this.saver = saver;
         this.saver.load();
 

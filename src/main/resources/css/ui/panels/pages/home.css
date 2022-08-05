@@ -121,6 +121,10 @@
     -fx-background-color: rgb(52,52,52);
     -fx-background-radius: 5em;
 }
+.home-panel .scroll-bar > .increment-button:hover,
+.home-panel .scroll-bar > .decrement-button:hover {
+    -fx-background-color: transparent;
+}
 
 .home-panel .module-label {
     -fx-font-family: "Signika";

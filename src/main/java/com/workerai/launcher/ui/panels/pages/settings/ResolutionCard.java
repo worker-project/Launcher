@@ -38,6 +38,8 @@ public class ResolutionCard extends Settings {
         createRegion(-70d, 17.5d, 100, 40, "ratio-box", card);
         TextField widthField = createTextField(-70d, 17.5d, 90d, 35d, saver.get("LaunchWidth"), "ratio-promptText", Pos.BOTTOM_CENTER, card);
         widthField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (App.isDebugMode()) return;
+
             if (!newValue.matches("\\d*")) {
                 widthField.setText(newValue.replaceAll("[^\\d]", ""));
             } else if (Objects.equals(newValue, "") || newValue.length() > 5) {
@@ -51,7 +53,7 @@ public class ResolutionCard extends Settings {
         createFontIcon(0d, 17.5d, FontAwesomeIcon.TIMES, "20px", null, Color.WHITE, card);
 
         createLabel(70d, -105d, "Height", createFontIcon(-3d, -1d, FontAwesomeIcon.TEXT_HEIGHT, "15px", null, Color.WHITE, card), "ratio-displayLabel", Pos.BOTTOM_CENTER, card);
-        createRegion(70d, 17.5d, 100, 40,"ratio-box", card);
+        createRegion(70d, 17.5d, 100, 40, "ratio-box", card);
         TextField heightField = createTextField(70d, 17.5d, 90d, 35d, saver.get("LaunchHeight"), "ratio-promptText", Pos.BOTTOM_CENTER, card);
         heightField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
@@ -113,7 +115,7 @@ public class ResolutionCard extends Settings {
         nodes.add(box);
 
         nodes.add(createLabel(0, 0d, "Resolution Presets", null, "afterLaunch-label", Pos.TOP_CENTER, null));
-        nodes.add(createFontIcon(0d, 0d, FontAwesomeIcon.DESKTOP, "25px", null, Color.WHITE, (StackPane) null));
+        nodes.add(createFontIcon(0d, 0d, FontAwesomeIcon.DESKTOP, "25px", null, Color.WHITE, null));
         nodes.add(createLabel(0, 0d, "Select a preset resolution for your Minecraft window", null, "afterLaunch-subLabel", Pos.TOP_CENTER, null));
 
         //nodes.add(createRegion(0d, 40d, "presets-box", null));
@@ -128,7 +130,7 @@ public class ResolutionCard extends Settings {
         Label preset1610Label = createLabel(-120d, 0, "16:10 Ratio", null, "ratio-columnLabels", Pos.TOP_CENTER, null);
         createChoices(preset1610Label, _16_10_, new Button[_16_10_.length], widthField, heightField);
 
-        FontAwesomeIconView closeIcon = createFontIcon(0d, 0d, FontAwesomeIcon.CLOSE, "25px", "close-button", Color.INDIANRED, (StackPane) null);
+        FontAwesomeIconView closeIcon = createFontIcon(0d, 0d, FontAwesomeIcon.CLOSE, "25px", "close-button", Color.INDIANRED, null);
         Button closeButton = createFontButton(150d, 0d, 110d, 25d, null, null, null, closeIcon, Pos.TOP_CENTER, null);
         nodes.add(closeButton);
         closeButton.setOnMouseClicked(e -> hideResolutions(pane));

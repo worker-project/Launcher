@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 
 import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
 import static com.noideaindustry.jui.JuiInterface.createImageView;
+import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 
 public class TopBar extends Panel {
 
@@ -24,10 +25,10 @@ public class TopBar extends Panel {
 
         createImageView(5d, 3d, 0d, 28d, true, ResourceManager.getFavIcon(), null, topBarPane);
 
-        FontAwesomeIconView closeButton = createFontIcon(this.panelManager.getStage().getWidth() - 35d, 4d, FontAwesomeIcon.POWER_OFF, "25px", "buttons", Color.WHITE, topBarPane, Cursor.HAND);
+        FontAwesomeIconView closeButton = createFontIcon(this.panelManager.getStage().getWidth() - 35d, 4d, FontAwesomeIcon.POWER_OFF, "25px", "buttons", WHITE, topBarPane, Cursor.HAND);
         closeButton.setOnMouseClicked(e -> System.exit(0));
 
-        FontAwesomeIconView minimizeButton = createFontIcon(this.panelManager.getStage().getWidth() - 70d, 5d, FontAwesomeIcon.MINUS, "25px", "buttons", Color.WHITE, topBarPane, Cursor.HAND);
+        FontAwesomeIconView minimizeButton = createFontIcon(this.panelManager.getStage().getWidth() - 70d, 5d, FontAwesomeIcon.MINUS, "25px", "buttons", WHITE, topBarPane, Cursor.HAND);
         minimizeButton.setOnMouseClicked(e -> this.panelManager.getStage().setIconified(true));
 
         setCanTakeAllWidth(closeButton, minimizeButton);

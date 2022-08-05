@@ -1,11 +1,10 @@
 package com.workerai.launcher.ui.panels.partials;
 
 import com.workerai.launcher.App;
-import com.workerai.launcher.savers.AccountSaver;
+import com.workerai.launcher.savers.AccountManager;
 import com.workerai.launcher.ui.PanelManager;
 import com.workerai.launcher.ui.panels.pages.Home;
 import com.workerai.launcher.ui.panels.pages.Login;
-import com.workerai.launcher.ui.panels.pages.Settings;
 import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -14,7 +13,6 @@ import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.scene.Cursor;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 import java.awt.*;
 import java.io.IOException;
@@ -24,6 +22,7 @@ import java.net.URISyntaxException;
 import static com.noideaindustry.jui.JuiInterface.JuiIcon.createDesignIcon;
 import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
 import static com.noideaindustry.jui.JuiInterface.createLabel;
+import static com.workerai.launcher.utils.LauncherInfos.DARK_GRAY;
 
 public class BottomBar extends Panel {
     private static BottomBar INSTANCE;
@@ -44,7 +43,7 @@ public class BottomBar extends Panel {
         createLabel(10d, 5d, "© NoIdeaIndustry, LLC 2022 • v1.0.0", null, "bottom-label", null, bottomBarPane);
         createLabel(this.panelManager.getStage().getWidth() - 220d - 10d, 5d, "Not affiliated with Mojang, AB.", null, "bottom-label", null, bottomBarPane);
 
-        websiteButton = createDesignIcon(0d, 5d, MaterialDesignIcon.WEB, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
+        websiteButton = createDesignIcon(0d, 5d, MaterialDesignIcon.WEB, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         websiteButton.setOnMouseClicked(e -> {
             try {
                 Desktop.getDesktop().browse(new URI("https://github.com/NoIdeaIndustry"));
@@ -53,7 +52,7 @@ public class BottomBar extends Panel {
             }
         });
 
-        twitterButton = createDesignIcon(0d, 5d, MaterialDesignIcon.TWITTER, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
+        twitterButton = createDesignIcon(0d, 5d, MaterialDesignIcon.TWITTER, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         twitterButton.setOnMouseClicked(e -> {
             try {
                 Desktop.getDesktop().browse(new URI("https://twitter.com/NoIdeaIndustry"));
@@ -62,7 +61,7 @@ public class BottomBar extends Panel {
             }
         });
 
-        discordButton = createDesignIcon(0d, 5d, MaterialDesignIcon.DISCORD, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
+        discordButton = createDesignIcon(0d, 5d, MaterialDesignIcon.DISCORD, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         discordButton.setOnMouseClicked(e -> {
             try {
                 Desktop.getDesktop().browse(new URI("https://discord.gg/MHRm4fyf9V"));
@@ -71,7 +70,7 @@ public class BottomBar extends Panel {
             }
         });
 
-        shoppingButton = createFontIcon(0d, 5d, FontAwesomeIcon.SHOPPING_CART, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
+        shoppingButton = createFontIcon(0d, 5d, FontAwesomeIcon.SHOPPING_CART, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         shoppingButton.setOnMouseClicked(e -> {
             try {
                 Desktop.getDesktop().browse(new URI("https://noideaindustry.com/shop"));
@@ -80,26 +79,26 @@ public class BottomBar extends Panel {
             }
         });
 
-        debugButton = createFontIcon(this.panelManager.getStage().getWidth()/2, 5d, FontAwesomeIcon.BUG, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
+        debugButton = createFontIcon(this.panelManager.getStage().getWidth()/2, 5d, FontAwesomeIcon.BUG, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         debugButton.setOnMouseClicked(e -> {
             App.setDebugMode(true);
             App.getInstance().getLogger().warn("Entering debug session, online services will be unavailable!");
             this.panelManager.showPanel(new Home());
         });
 
-        homeButton = createFontIcon(0d, 5d, FontAwesomeIcon.HOME, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
+        homeButton = createFontIcon(0d, 5d, FontAwesomeIcon.HOME, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         homeButton.setOnMouseClicked(e -> {
             homeButton.setVisible(false);
             this.panelManager.showPanel(new Home());
         });
 
-        logoutButton = createFontIcon(0d, 5d, FontAwesomeIcon.SIGN_OUT, "25px", "buttons", Color.rgb(67, 67, 67), bottomBarPane, Cursor.HAND);
+        logoutButton = createFontIcon(0d, 5d, FontAwesomeIcon.SIGN_OUT, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         logoutButton.setOnMouseClicked(e -> {
             if (App.isDebugMode()) {
                 App.setDebugMode(false);
                 App.getInstance().getLogger().warn("Leaving debug session, online services will be available once connected!");
             }
-            AccountSaver.setCurrentAccount(null);
+            AccountManager.setCurrentAccount(null);
             this.panelManager.showPanel(new Login());
         });
 

@@ -1,7 +1,7 @@
 package com.workerai.launcher.database;
 
 import com.workerai.launcher.App;
-import com.workerai.launcher.savers.AccountSaver;
+import com.workerai.launcher.savers.AccountManager;
 
 import java.util.List;
 
@@ -11,28 +11,26 @@ public class Requests {
         Database.initDatabase();
     }
 
-    public static void addAccount(String username, String uuid, String discord, String clientToken, String accessToken) {
-        Account account = Requests.getAccount(uuid);
+    public static void addRemoteAccount(Account account) {
+        Account acc = Requests.getRemoteAccount(account.getUuid());
 
-        if (account == null) {
-            account = new Account();
-            account.setUsername(username);
-            account.setUuid(uuid);
-            account.setDiscord(discord);
-            account.setClientToken(clientToken);
-            account.setAccessToken(accessToken);
+        if (acc == null) {
+            acc = new Account();
+            acc.setUsername(account.getUsername());
+            acc.setUuid(account.getUuid());
+            acc.setClientToken(account.getClientToken());
+            acc.setAccessToken(account.getAccessToken());
+            acc.setResponse(account.getResponse());
 
-            Database.addAccount(account);
-            AccountSaver.addAccount(account);
-            App.getInstance().getLogger().debug(uuid + " added.");
+            Database.addRemoteAccount(acc);
+            AccountManager.addLocalAccount(acc);
+            App.getInstance().getLogger().debug(acc.getUuid() + " added.");
         }
-
-        AccountSaver.setCurrentAccount(account);
     }
 
-    public static Account getAccount(String uuid) {
+    public static Account getRemoteAccount(String uuid) {
         App.getInstance().getLogger().debug("Searching " + uuid + " in SQLite...");
-        Account account = Database.getAccount(uuid);
+        Account account = Database.getRemoteAccount(uuid);
 
         if (account == null) {
             App.getInstance().getLogger().debug(uuid + " doesn't exist.");
@@ -42,27 +40,27 @@ public class Requests {
         return account;
     }
 
-    public static List<Account> getAccounts() {
+    public static List<Account> getRemoteAccounts() {
         App.getInstance().getLogger().debug("Searching all accounts in SQLite...");
-        List<Account> accountList = Database.getAccounts();
+        List<Account> remoteAccounts = Database.getRemoteAccounts();
 
-        if(accountList == null) {
+        if(remoteAccounts == null) {
             App.getInstance().getLogger().debug("No account found in SQLite.");
             return null;
         }
 
-        for (Account account : accountList) {
+        for (Account account : remoteAccounts) {
             App.getInstance().getLogger().debug("Found " + account.getUuid() + " in SQLite.");
         }
-        return accountList;
+        return remoteAccounts;
     }
 
-    public static void removeAccount(String uuid) {
-        Account account = Requests.getAccount(uuid);
+    public static void removeRemoteAccount(String uuid) {
+        Account account = Requests.getRemoteAccount(uuid);
 
         if (account == null) return;
 
-        Database.removeAccount(account.getUuid());
+        Database.removeRemoteAccount(account.getUuid());
         App.getInstance().getLogger().debug(uuid + " removed.");
     }
 }

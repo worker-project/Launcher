@@ -3,8 +3,7 @@ package com.workerai.launcher.utils;
 import com.workerai.launcher.App;
 import com.workerai.launcher.database.Account;
 import com.workerai.launcher.database.Requests;
-import com.workerai.launcher.database.Response;
-import com.workerai.launcher.savers.AccountSaver;
+import com.workerai.launcher.savers.AccountManager;
 import com.workerai.launcher.ui.panels.pages.Accounts;
 import com.workerai.launcher.ui.panels.pages.Login;
 import com.workerai.launcher.utils.NewsManager.News;
@@ -64,7 +63,7 @@ public class DisplayManager {
         createLabel(15d, 100d, news.getSubDescription(), null, "news-desc-Label", Pos.CENTER_LEFT, card);
 
         MaterialDesignIconView readIcon = createDesignIcon(0d, -1d, MaterialDesignIcon.BOOK_OPEN_PAGE_VARIANT, "20px", null, Color.rgb(210, 144, 52), null);
-        Button readNews = createMaterialButton(140d, 95d, 0d, 0d, null, "news-button", null, readIcon, null, card);
+        Button readNews = createMaterialButton(140d, 95d, 0d, 0d, true,null, "news-button", null, readIcon, null, card);
         readNews.setOnMouseClicked(e -> {
             try {
                 Desktop.getDesktop().browse(new URI(news.getUrl()));
@@ -86,21 +85,21 @@ public class DisplayManager {
             FontAwesomeIconView iconRemove = createFontIcon(-4d, 0, FontAwesomeIcon.CROSSHAIRS, "20px", null, Color.WHITE, card);
             Button buttonRemove = createFontButton(15d, -10d, 150d, 30d, "Remove", "account-button-remove", null, iconRemove, Pos.BOTTOM_LEFT, card);
             buttonRemove.setOnMouseClicked(e -> {
-                if (AccountSaver.getCurrentAccount() == null || !account.getUuid().equals(AccountSaver.getCurrentAccount().getUuid())) {
+                if (AccountManager.getCurrentAccount() == null || !account.getUuid().equals(AccountManager.getCurrentAccount().getUuid())) {
                     App.getInstance().getPanelManager().showPanel(new Accounts());
                 } else {
-                    AccountSaver.removeCurrentAccount();
+                    AccountManager.removeCurrentAccount();
                     App.getInstance().getPanelManager().showPanel(new Login());
                 }
 
-                Requests.removeAccount(account.getUuid());
-                AccountSaver.removeAccount(account);
+                AccountManager.removeLocalAccount(account);
+                Requests.removeRemoteAccount(account.getUuid());
             });
 
             FontAwesomeIconView playIcon = createFontIcon(-4d, 0, FontAwesomeIcon.GAMEPAD, "18px", null, Color.WHITE, card);
             Button buttonPlay = createFontButton(-15d, -10d, 150d, 30d, "Play", "account-button-play", null, playIcon, Pos.BOTTOM_RIGHT, card);
             buttonPlay.setOnMouseClicked(e -> {
-                AccountSaver.setCurrentAccount(account);
+                AccountManager.setCurrentAccount(account);
                 PlayManager.downloadAndPlay(card, false);
             });
         }
@@ -109,32 +108,25 @@ public class DisplayManager {
     }
 
     static void createDisplayModules(Pane container, Account account, Pane card, boolean isReduced) {
-        if (!container.getChildren().contains(card)) {
-            container.getChildren().add(card);
-        }
+        if (!container.getChildren().contains(card)) container.getChildren().add(card);
 
         if (isReduced) createLabel(0d, 0d, "Current modules", null, "account-label", Pos.TOP_CENTER, card);
 
-        new Thread(() -> {
-            Response response = App.isDebugMode() ? new Response(false, false) : account.getUuid().equals(AccountSaver.getCurrentAccount().getUuid()) ? AccountSaver.getCurrentResponse() : Response.getResponse(account.getUuid());
+        new Thread(() -> Platform.runLater(() -> {
+            GridPane scrollContent = new GridPane();
+            createModule("AutomineAI", account.getResponse().hasAutomine(), scrollContent, isReduced);
+            createModule("ForagingAI", account.getResponse().hasAutomine(), scrollContent, isReduced);
+            createModule("FishingAI", false, scrollContent, isReduced);
+            createModule("FarmingAI", false, scrollContent, isReduced);
+            createModule("DungeonAI", false, scrollContent, isReduced);
+            createModule("BazaarAI", false, scrollContent, isReduced);
+            createModule("Soon", false, scrollContent, isReduced);
 
-            Platform.runLater(() -> {
-                GridPane scrollContent = new GridPane();
-                createModuleDisplay("AutomineAI", response.hasAutomine(), scrollContent, isReduced);
-                createModuleDisplay("ForagingAI", response.hasForage(), scrollContent, isReduced);
-                createModuleDisplay("FishingAI", false, scrollContent, isReduced);
-                createModuleDisplay("FarmingAI", false, scrollContent, isReduced);
-                createModuleDisplay("DungeonAI", false, scrollContent, isReduced);
-                createModuleDisplay("BazaarAI", false, scrollContent, isReduced);
-                createModuleDisplay("Soon", false, scrollContent, isReduced);
-
-                createScrollPane(-16d, isReduced ? 10d : 6d, isReduced ? 370d : 230d, isReduced ? 50d : 60d, "scroll-pane", ALWAYS, NEVER, false, true, true, scrollContent, Pos.CENTER_RIGHT, card);
-
-            });
-        }).start();
+            createScrollPane(-16d, isReduced ? 10d : 6d, isReduced ? 370d : 230d, isReduced ? 50d : 60d, "scroll-pane", ALWAYS, NEVER, false, true, true, scrollContent, Pos.CENTER_RIGHT, card);
+        })).start();
     }
 
-    static void createModuleDisplay(String moduleName, boolean hasAccess, GridPane parent, boolean isReduced) {
+    static void createModule(String moduleName, boolean hasAccess, GridPane parent, boolean isReduced) {
         GridPane scrollContent = new GridPane();
         scrollContent.setPadding(isReduced ? new Insets(2.5d, 1d, 1d, 2.5d) : new Insets(5d, 1d, 5d, 6d));
         scrollContent.setHgap(isReduced ? 5d : 10d);
@@ -145,19 +137,15 @@ public class DisplayManager {
         parent.add(scrollContent, parent.getChildren().size() % modulo, parent.getChildren().size() / modulo);
     }
 
-    public static void displayReducedAccount(Pane container, Account account, Pane card) {
+    public static void displayCurrentSession(Pane container, Account account, Pane card) {
         container.getChildren().add(card);
 
         createLabel(0d, 0d, "Current session", null, "account-label", Pos.TOP_CENTER, card);
 
         GridPane scrollContent = new GridPane();
-        scrollContent.setPadding(new Insets(0d, 0d, 0d, 0d));
-        scrollContent.setHgap(0d);
-
         scrollContent.add(createImageView(10d, 4d, 40d, 0d, true, !App.isDebugMode() ? "https://minotar.net/avatar/" + (account.getUuid() + ".png") : "https://minotar.net/avatar/MHF_Steve", Pos.CENTER_LEFT, null), 0, 0);
-        scrollContent.add(createLabel(20d, -9d, "Username - " + account.getUsername(), null, "account-scrollLabel", null, null), 1, 0);
-        scrollContent.add(createLabel(20d, 4d, "Discord - " + account.getUsername(), null, "account-scrollLabel", null, null), 1, 0);
-        scrollContent.add(createLabel(20d, 17d, "Uuid - " + account.getUuid(), null, "account-scrollLabel", null, null), 1, 0);
+        scrollContent.add(createLabel(20d, 4d - 8d, "Username - " + !App.isDebugMode() ? account.getUsername() : "", null, "account-scrollLabel", null, null), 1, 0);
+        scrollContent.add(createLabel(20d, 4d + 8d, "Uuid - " + account.getUuid(), null, "account-scrollLabel", null, null), 1, 0);
 
         createScrollPane(-16d, 10d, 370d, 50d, "scroll-pane", ALWAYS, NEVER, false, true, true, scrollContent, Pos.CENTER_RIGHT, card);
     }

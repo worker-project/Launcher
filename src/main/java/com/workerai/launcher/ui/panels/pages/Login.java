@@ -1,15 +1,18 @@
 package com.workerai.launcher.ui.panels.pages;
 
-import com.noideaindustry.jui.JuiInterface;
+import com.workerai.launcher.database.Account;
 import com.workerai.launcher.database.Requests;
-import com.workerai.launcher.savers.AccountSaver;
+import com.workerai.launcher.database.Response;
+import com.workerai.launcher.savers.AccountManager;
 import com.workerai.launcher.ui.PanelManager;
-import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
+import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.utils.AlertManager;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import fr.litarvan.openauth.AuthPoints;
 import fr.litarvan.openauth.AuthenticationException;
 import fr.litarvan.openauth.Authenticator;
@@ -34,15 +37,19 @@ import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
+import static com.noideaindustry.jui.JuiInterface.JuiButton.createMaterialButton;
 import static com.noideaindustry.jui.JuiInterface.JuiField.createPasswordField;
 import static com.noideaindustry.jui.JuiInterface.JuiField.createTextField;
+import static com.noideaindustry.jui.JuiInterface.JuiIcon.createDesignIcon;
+import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createGridPane;
 import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
 import static com.noideaindustry.jui.JuiInterface.createImageView;
+import static com.workerai.launcher.utils.LauncherInfos.LIGHT_GRAY;
 
 public class Login extends Panel {
     private final AtomicBoolean isTryingToSignIn = new AtomicBoolean(false);
-
+    private Response response;
     private Button signIn;
 
     @Override
@@ -52,7 +59,7 @@ public class Login extends Panel {
         BottomBar.getInstance().setLoginIcons();
 
         if (checkAuthentication()) {
-            logger.info("Logged as " + "\"" + AccountSaver.getCurrentAccount().getUsername() + "\"");
+            logger.info("Logged as " + "\"" + AccountManager.getCurrentAccount().getUsername() + "\"");
             this.panelManager.showPanel(new Home());
         } else {
             BottomBar.getInstance().enableDebugAccess();
@@ -64,23 +71,32 @@ public class Login extends Panel {
             StackPane loginPane = createStackPane(0d, 0d, 300d, 120d, 0d, 0d, false, "login-panel", Pos.CENTER, Color.TRANSPARENT);
             this.layout.getChildren().add(loginPane);
 
-            TextField userField = createTextField(0d, -70d, 300d, 0d, "Account E-mail", "login-input", null, loginPane);
+            MaterialDesignIconView emailIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.EMAIL, "22px", "logo-rectangle", LIGHT_GRAY, null);
+            ;
+            createMaterialButton(-175d, -50d, 0d, 0d, false, null, "logo-rectangle", null, emailIcon, null, loginPane);
+
+            MaterialDesignIconView lockIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.LOCK, "22px", "logo-rectangle", LIGHT_GRAY, null);
+            ;
+            createMaterialButton(-175d, -5d, 0d, 0d, false, null, "logo-rectangle", null, lockIcon, null, loginPane);
+
+            TextField userField = createTextField(0d, -50d, 300d, 0d, "Account E-mail", "login-input", null, loginPane);
             userField.setText("compte1@nxgroupe.com");
-            PasswordField passwordField = createPasswordField(0d, -22.5d, 300d, 0d, "Account Password", "login-input", loginPane);
+            PasswordField passwordField = createPasswordField(0d, -5d, 300d, 0d, "Account Password", "login-input", loginPane);
             passwordField.setText("^B=*_&8nB8ssp-q+");
+
             createImageView(0d, 180d, 0d, 250d, true, ResourceManager.getIcon(), Pos.CENTER, loginPane);
 
-            FontAwesomeIconView signIcon = JuiInterface.JuiIcon.createFontIcon(-5d, 0, FontAwesomeIcon.SIGN_IN, "22px", null, Color.rgb(150, 150, 150), loginPane);
-            signIn = createFontButton(-490d, -302.5d, 135d, 0d, "SIGN IN", "login-button", null, signIcon, Pos.BOTTOM_RIGHT, loginPane);
+            FontAwesomeIconView signIcon = createFontIcon(-5d, 0, FontAwesomeIcon.SIGN_IN, "22px", null, Color.rgb(150, 150, 150), loginPane);
+            signIn = createFontButton(-490d, -302.5d + 15d, 135d, 0d, "SIGN IN", "login-button", null, signIcon, Pos.BOTTOM_RIGHT, loginPane);
             signIn.setOnMouseClicked(e -> {
-                if(!isTryingToSignIn.get()) {
+                if (!isTryingToSignIn.get()) {
                     tryingConnecting();
                     this.authenticateMicrosoft(userField.getText(), passwordField.getText());
                 }
             });
 
-            FontAwesomeIconView bugIcon = JuiInterface.JuiIcon.createFontIcon(-5d, 0, FontAwesomeIcon.PAPER_PLANE, "22px", null, Color.rgb(150, 150, 150), loginPane);
-            Button reportBug = createFontButton(490d, -302.5d, 135d, 0d, "REPORT BUG", "login-button", null, bugIcon, Pos.BOTTOM_LEFT, loginPane);
+            FontAwesomeIconView bugIcon = createFontIcon(-5d, 0, FontAwesomeIcon.PAPER_PLANE, "22px", null, Color.rgb(150, 150, 150), loginPane);
+            Button reportBug = createFontButton(490d, -302.5d + 15d, 135d, 0d, "REPORT BUG", "login-button", null, bugIcon, Pos.BOTTOM_LEFT, loginPane);
             reportBug.setOnMouseClicked(e -> {
                 try {
                     Desktop.getDesktop().browse(new URI("https://github.com/NoIdeaIndustry"));
@@ -153,16 +169,24 @@ public class Login extends Panel {
             MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
             try {
                 this.logger.info("MicrosoftAuth | Trying resolving account information.");
-                MicrosoftAuthResult response = authenticator.loginWithCredentials(email, password);
-                Requests.addAccount(
-                        response.getProfile().getName(),
-                        response.getProfile().getId(),
-                        "null",
-                        response.getRefreshToken(),
-                        response.getAccessToken()
-                );
-                this.logger.info("MicrosoftAuth | Successfully connected to " + "\"" + AccountSaver.getCurrentAccount().getUsername() + "\"");
-                Platform.runLater(() -> panelManager.showPanel(new Home()));
+                MicrosoftAuthResult result = authenticator.loginWithCredentials(email, password);
+
+                response = Response.getUser(result.getProfile().getId());
+
+                if (response == null) {
+                    failedConnecting();
+                    Platform.runLater(() -> AlertManager.ShowError(
+                            this.panelManager.getStage(),
+                            "Authentication Error",
+                            "Your account isn't registered in our records!\nFeel free to contact us if you think this is a mistake."));
+                } else {
+                    Account account = Account.createAccount(result.getProfile().getName(), result.getProfile().getId(), result.getRefreshToken(), result.getAccessToken(), response);
+                    AccountManager.setCurrentAccount(account);
+                    Requests.addRemoteAccount(account);
+
+                    this.logger.info("MicrosoftAuth | Successfully connected to " + "\"" + AccountManager.getCurrentAccount().getUsername() + "\"");
+                    Platform.runLater(() -> panelManager.showPanel(new Home()));
+                }
             } catch (MicrosoftAuthenticationException e) {
                 this.logger.warn("MicrosoftAuth | Failed resolving account information.");
                 authenticateMojang(email, password);
@@ -175,16 +199,24 @@ public class Login extends Panel {
             Authenticator authenticator = new Authenticator(Authenticator.MOJANG_AUTH_URL, AuthPoints.NORMAL_AUTH_POINTS);
             try {
                 this.logger.info("MojangAuth | Trying resolving account information.");
-                AuthResponse response = authenticator.authenticate(AuthAgent.MINECRAFT, email, password, null);
-                Requests.addAccount(
-                        response.getSelectedProfile().getName(),
-                        response.getSelectedProfile().getId(),
-                        null,
-                        response.getClientToken(),
-                        response.getAccessToken()
-                );
-                this.logger.info("MojangAuth | Successfully connected to " + "\"" + AccountSaver.getCurrentAccount().getUsername() + "\"");
-                Platform.runLater(() -> panelManager.showPanel(new Home()));
+                AuthResponse result = authenticator.authenticate(AuthAgent.MINECRAFT, email, password, null);
+
+                response = Response.getUser(result.getSelectedProfile().getId());
+
+                if (response == null) {
+                    failedConnecting();
+                    Platform.runLater(() -> AlertManager.ShowError(
+                            this.panelManager.getStage(),
+                            "Authentication Error",
+                            "Your account isn't registered in our records!\nFeel free to contact us if you think this is a mistake."));
+                } else {
+                    Account account = Account.createAccount(result.getSelectedProfile().getName(), result.getSelectedProfile().getId(), result.getClientToken(), result.getAccessToken(), response);
+                    AccountManager.setCurrentAccount(account);
+                    Requests.addRemoteAccount(account);
+
+                    this.logger.info("MojangAuth | Successfully connected to " + "\"" + AccountManager.getCurrentAccount().getUsername() + "\"");
+                    Platform.runLater(() -> panelManager.showPanel(new Home()));
+                }
             } catch (AuthenticationException e) {
                 this.logger.warn("MojangAuth | Failed resolving account information.");
                 Platform.runLater(() -> AlertManager.ShowError(
@@ -201,8 +233,10 @@ public class Login extends Panel {
         BottomBar.getInstance().disableDebugAccess();
         signIn.getStyleClass().add("login-button-active");
     }
+
     void failedConnecting() {
         isTryingToSignIn.set(false);
+        BottomBar.getInstance().enableDebugAccess();
         signIn.getStyleClass().remove("login-button-active");
     }
 

@@ -1,59 +1,60 @@
 package com.workerai.launcher.database;
 
 public class Account {
-    private static class AccountData {
-        private String UUID;
-        private String USERNAME;
-        private String DISCORD;
-        private String CLIENT_TOKEN;
-        private String ACCESS_TOKEN;
-    }
+    private String UUID;
+    private String USERNAME;
+    private String CLIENT_TOKEN;
+    private String ACCESS_TOKEN;
+    private Response RESPONSE;
 
-    public Account getDebugAccount() {
-        Account debugAccount = new Account();
-        debugAccount.accountData.UUID = "null";
-        debugAccount.accountData.USERNAME = "null";
-        debugAccount.accountData.DISCORD = "null";
-        debugAccount.accountData.ACCESS_TOKEN = null;
-        debugAccount.accountData.CLIENT_TOKEN = null;
-        return debugAccount;
-    }
+    public static Account createAccount(String username, String uuid, String clientToken, String accessToken, Response response) {
+        Account account = new Account();
 
-    public AccountData accountData = new AccountData();
+        account.USERNAME = username;
+        account.UUID = uuid;
+        account.CLIENT_TOKEN = clientToken;
+        account.ACCESS_TOKEN = accessToken;
+        account.RESPONSE = response;
+
+        return account;
+    }
 
     public String getUuid() {
-        return accountData.UUID;
+        return UUID;
     }
 
     public void setUuid(String uuid) {
-        accountData.UUID = uuid;
+        UUID = uuid;
     }
 
     public String getUsername() {
-        return accountData.USERNAME;
+        return USERNAME;
     }
 
     public void setUsername(String username) {
-        accountData.USERNAME = username;
+        USERNAME = username;
     }
 
     public String getClientToken() {
-        return accountData.CLIENT_TOKEN;
+        return CLIENT_TOKEN;
     }
 
     public void setClientToken(String clientToken) {
-        accountData.CLIENT_TOKEN = clientToken;
+        CLIENT_TOKEN = clientToken;
     }
 
     public String getAccessToken() {
-        return accountData.ACCESS_TOKEN;
+        return ACCESS_TOKEN;
     }
 
     public void setAccessToken(String accessToken) {
-        accountData.ACCESS_TOKEN = accessToken;
+        ACCESS_TOKEN = accessToken;
     }
 
-    public void setDiscord(String discord) { accountData.DISCORD = discord; }
-
-    public String getDiscord() { return accountData.DISCORD; }
+    public void setResponse(Response response) {
+        RESPONSE = response;
+    }
+    public Response getResponse() {
+        return RESPONSE;
+    }
 }

@@ -48,7 +48,7 @@ public class DirectoryCard extends Settings {
         });
     }
 
-    private static String displayPathReduced(File file) {
+    static String displayPathReduced(File file) {
         String relativePath = String.valueOf(Path.of(file.getAbsolutePath()));
         if (relativePath.length() > 44) {
             String s = relativePath.substring(43);

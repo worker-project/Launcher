@@ -187,7 +187,7 @@ public abstract class JuiInterface {
             return button;
         }
 
-        public static Button createMaterialButton(double posX, double posY, double width, double height, String displayText, String styleClass, Tooltip tooltip, MaterialDesignIconView displayIcon, Pos alignement, Pane pane) {
+        public static Button createMaterialButton(double posX, double posY, double width, double height, boolean listener, String displayText, String styleClass, Tooltip tooltip, MaterialDesignIconView displayIcon, Pos alignement, Pane pane) {
             Button button = new Button();
 
             button.setTooltip(tooltip);
@@ -200,8 +200,13 @@ public abstract class JuiInterface {
             button.setTranslateX(posX);
             button.setTranslateY(posY);
 
-            button.setOnMouseEntered(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.HAND));
-            button.setOnMouseExited(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.DEFAULT));
+            if(listener) {
+                button.setOnMouseEntered(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.HAND));
+                button.setOnMouseExited(e -> JuiInitialization.getFxStage().getScene().setCursor(Cursor.DEFAULT));
+            } else {
+                button.setDisable(true);
+                button.setStyle("-fx-opacity: 1.0;");
+            }
 
             if (pane != null) pane.getChildren().add(button);
             return button;

@@ -1,7 +1,7 @@
 package com.workerai.launcher.utils;
 
 import com.workerai.launcher.App;
-import com.workerai.launcher.savers.AccountSaver;
+import com.workerai.launcher.savers.AccountManager;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.DownloadList;
 import fr.flowarg.flowupdater.download.IProgressCallback;
@@ -16,35 +16,34 @@ import javafx.scene.layout.Pane;
 public class PlayManager {
     private static final ProgressBar progressBar = new ProgressBar();
 
-    private static Pane homePane;
+    private static Pane parentPane;
 
     public static void downloadAndPlay(Pane pane, boolean isHome) {
-        if (AccountSaver.getCurrentAccount() == null) {
+        if (App.isDebugMode()) {
             App.getInstance().getLogger().err("You are in debug session, no online services available!");
+            AlertManager.ShowWarning(App.getInstance().getPanelManager().getStage(),
+                    "Launching Error" ,
+                    "You are in debug session, no online services available!\nPlease connect to your account in order to play.");
             return;
         }
 
-        homePane = pane;
-
+        parentPane = pane;
         progressBar.getStyleClass().add("download-progress");
         progressBar.setTranslateY(-160d);
 
-        if(!isHome) {
-            progressBar.setTranslateY(-105d);
-        }
+        if(!isHome) progressBar.setTranslateY(-105d);
 
         PlayManager.setProgress(0, 0);
         PlayManager.addComponents();
-
         Platform.runLater(() -> new Thread(PlayManager::update).start());
     }
 
     static void addComponents() {
-        homePane.getChildren().add(progressBar);
+        parentPane.getChildren().add(progressBar);
     }
 
     static void removeComponents() {
-        homePane.getChildren().remove(progressBar);
+        parentPane.getChildren().remove(progressBar);
     }
 
     static void update() {
@@ -91,10 +90,10 @@ public class PlayManager {
         );
 
         try {
-            AuthInfos aInfos = new AuthInfos(AccountSaver.getCurrentAccount().getUsername(),
-                    AccountSaver.getCurrentAccount().getAccessToken(),
-                    AccountSaver.getCurrentAccount().getClientToken(),
-                    AccountSaver.getCurrentAccount().getUuid()
+            AuthInfos aInfos = new AuthInfos(AccountManager.getCurrentAccount().getUsername(),
+                    AccountManager.getCurrentAccount().getAccessToken(),
+                    AccountManager.getCurrentAccount().getClientToken(),
+                    AccountManager.getCurrentAccount().getUuid()
             );
 
             ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gInfos, GameFolder.FLOW_UPDATER, aInfos);

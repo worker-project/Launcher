@@ -21,7 +21,6 @@ public class Database {
             String sql = "CREATE TABLE IF NOT EXISTS accounts (" +
                     " ID            INTEGER     PRIMARY KEY," +
                     " USERNAME      CHAR(16)    NOT NULL, " +
-                    " DISCORD       CHAR(16)    NOT NULL, " +
                     " UUID          CHAR(36)    NOT NULL, " +
                     " CLIENT_TOKEN  CHAR(255)   NOT NULL, " +
                     " ACCESS_TOKEN  CHAR(255)   NOT NULL" +
@@ -34,22 +33,21 @@ public class Database {
         }
     }
 
-    static void addAccount(Account account) {
+    static void addRemoteAccount(Account account) {
         try {
-            String sql = "INSERT INTO accounts (USERNAME, DISCORD, UUID, CLIENT_TOKEN, ACCESS_TOKEN) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO accounts (USERNAME, UUID, CLIENT_TOKEN, ACCESS_TOKEN) VALUES (?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, account.getUsername());
-            stmt.setString(2, account.getDiscord());
-            stmt.setString(3, account.getUuid());
-            stmt.setString(4, account.getClientToken());
-            stmt.setString(5, account.getAccessToken());
+            stmt.setString(2, account.getUuid());
+            stmt.setString(3, account.getClientToken());
+            stmt.setString(4, account.getAccessToken());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    static void removeAccount(String uuid) {
+    static void removeRemoteAccount(String uuid) {
         try {
             String sql = "DELETE FROM accounts WHERE UUID = ?;";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -60,7 +58,7 @@ public class Database {
         }
     }
 
-    static Account getAccount(String uuid) {
+    static Account getRemoteAccount(String uuid) {
         try {
             String sql = "SELECT * FROM accounts WHERE UUID = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -71,7 +69,6 @@ public class Database {
 
             Account account = new Account();
             account.setUsername(rs.getString("USERNAME"));
-            account.setDiscord(rs.getString("DISCORD"));
             account.setUuid(rs.getString("UUID"));
             account.setClientToken(rs.getString("CLIENT_TOKEN"));
             account.setAccessToken(rs.getString("ACCESS_TOKEN"));
@@ -83,25 +80,24 @@ public class Database {
         }
     }
 
-    static List<Account> getAccounts() {
+    static List<Account> getRemoteAccounts() {
         try {
             String sql = "SELECT * FROM accounts";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
 
-            List<Account> accountList = new ArrayList<>();
+            List<Account> remoteAccounts = new ArrayList<>();
 
             while (rs.next()) {
                 Account account = new Account();
                 account.setUsername(rs.getString("USERNAME"));
-                account.setDiscord(rs.getString("DISCORD"));
                 account.setUuid(rs.getString("UUID"));
                 account.setClientToken(rs.getString("CLIENT_TOKEN"));
                 account.setAccessToken(rs.getString("ACCESS_TOKEN"));
-                accountList.add(account);
+                remoteAccounts.add(account);
             }
 
-            return accountList;
+            return remoteAccounts;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -1,8 +1,8 @@
 package com.workerai.launcher;
 
 import com.workerai.launcher.database.Requests;
-import com.workerai.launcher.savers.AccountSaver;
-import com.workerai.launcher.savers.SettingsSaver;
+import com.workerai.launcher.savers.AccountManager;
+import com.workerai.launcher.savers.SettingsManager;
 import com.workerai.launcher.ui.PanelManager;
 import com.workerai.launcher.ui.panels.pages.Login;
 import com.workerai.launcher.utils.NewsManager;
@@ -22,7 +22,7 @@ public class App extends Application {
     private PanelManager panelManager = null;
 
     private final ILogger LOGGER;
-    private final SettingsSaver settingsSaver;
+    private final SettingsManager settingsManager;
 
     private static boolean DEBUG = false;
 
@@ -37,7 +37,7 @@ public class App extends Application {
             }
         }
 
-        settingsSaver = new SettingsSaver(new Saver(launcherDirectory.resolve("settings.save").toFile()));
+        settingsManager = new SettingsManager(new Saver(launcherDirectory.resolve("settings.save").toFile()));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class App extends Application {
         this.panelManager.init();
 
         Requests.initRequests();
-        AccountSaver.initAccounts();
+        AccountManager.initLocalAccounts();
         NewsManager.initNews();
 
         this.panelManager.showPanel(new Login());
@@ -67,8 +67,8 @@ public class App extends Application {
         return INSTANCE;
     }
 
-    public SettingsSaver getSettingsManager() {
-        return settingsSaver;
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 
     public PanelManager getPanelManager() {

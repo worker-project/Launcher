@@ -34,9 +34,9 @@ public class WindowCard extends Settings {
         Button hideButton = createFontButton(0, -25d, 250d, 30d, "Hide Launcher", "afterLaunch-button", null, hideIcon, Pos.BOTTOM_CENTER, card);
 
         keepButton.setOnMouseClicked(e -> {
+            setButtonProperty(keepButton, hideButton);
             App.getInstance().getSettingsManager().getSaver().set("KeepAfterLaunch", String.valueOf(true));
             App.getInstance().getSettingsManager().getSaver().set("HideAfterLaunch", String.valueOf(false));
-            setButtonProperty(keepButton, hideButton);
         });
 
         keepButton.setOnMouseMoved(e -> {
@@ -45,9 +45,9 @@ public class WindowCard extends Settings {
         });
 
         hideButton.setOnMouseClicked(e -> {
+            setButtonProperty(hideButton, keepButton);
             App.getInstance().getSettingsManager().getSaver().set("HideAfterLaunch", String.valueOf(true));
             App.getInstance().getSettingsManager().getSaver().set("KeepAfterLaunch", String.valueOf(false));
-            setButtonProperty(hideButton, keepButton);
         });
 
         if (saver.get("KeepAfterLaunch").equals(String.valueOf(true))) {

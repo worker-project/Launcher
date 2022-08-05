@@ -39,7 +39,7 @@ public class Response {
         this.accountModules.setForage(forage);
     }
 
-    public static Response getResponse(String uuid) {
+    public static Response getUser(String uuid) {
         try {
             URL url = new URL(String.format("http://185.245.183.191:2929/jWuR0gHff54WvVzL?&uuid=%s", uuid));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -58,13 +58,13 @@ public class Response {
             JsonObject obj = (JsonObject) JsonParser.parseString(response.toString());
 
             if (!obj.get("exists").getAsBoolean()) {
-                return new Response(false, false);
+                return null;
             }
 
             return new Response(obj.get("automine").getAsBoolean(), obj.get("forage").getAsBoolean());
         } catch (IOException e) {
             App.getInstance().getLogger().err("Remote SQLite doesn't respond! Returning default values...");
-            return new Response(false, false);
+            return null;
         }
     }
 
