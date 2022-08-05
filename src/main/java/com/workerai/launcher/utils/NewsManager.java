@@ -40,7 +40,7 @@ public class NewsManager {
         private final String name;
         private final String preview;
 
-        public News(String name, String url, String description, String subDescription, String preview) {
+        News(String name, String url, String description, String subDescription, String preview) {
             if (description.length() > 48 || subDescription.length() > 46) {
                 throw new RuntimeException("Description or Sub Description too long (max 46 chars...)" + "\n ###actual desc = " + description.length() + "\n ###actual subDesc = " + subDescription.length());
             }

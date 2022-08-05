@@ -1,5 +1,6 @@
 package com.workerai.launcher.ui.panels.pages;
 
+import com.workerai.launcher.App;
 import com.workerai.launcher.database.Account;
 import com.workerai.launcher.database.Requests;
 import com.workerai.launcher.database.Response;
@@ -72,11 +73,9 @@ public class Login extends Panel {
             this.layout.getChildren().add(loginPane);
 
             MaterialDesignIconView emailIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.EMAIL, "22px", "logo-rectangle", LIGHT_GRAY, null);
-            ;
             createMaterialButton(-175d, -50d, 0d, 0d, false, null, "logo-rectangle", null, emailIcon, null, loginPane);
 
             MaterialDesignIconView lockIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.LOCK, "22px", "logo-rectangle", LIGHT_GRAY, null);
-            ;
             createMaterialButton(-175d, -5d, 0d, 0d, false, null, "logo-rectangle", null, lockIcon, null, loginPane);
 
             TextField userField = createTextField(0d, -50d, 300d, 0d, "Account E-mail", "login-input", null, loginPane);

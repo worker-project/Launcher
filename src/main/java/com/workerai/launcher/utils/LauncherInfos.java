@@ -8,5 +8,6 @@ public class LauncherInfos {
     public final static Color LIGHT_BLACK = Color.rgb(32, 31, 29);
     public final static Color DARK_GRAY = Color.rgb(67, 67, 67);
     public final static Color LIGHT_GRAY = Color.rgb(150, 150, 150);
+
     public final static Color WHITE = Color.rgb(255,255,255);
 }

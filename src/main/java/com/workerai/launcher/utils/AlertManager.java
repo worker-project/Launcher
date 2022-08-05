@@ -1,10 +1,15 @@
 package com.workerai.launcher.utils;
 
+import com.noideaindustry.jui.JuiInitialization;
+import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DialogPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import static com.workerai.launcher.utils.ResourceManager.getAlertDesignPath;
 
 public class AlertManager {
     public static void ShowError(Stage stage, String title, String content) {
@@ -14,7 +19,12 @@ public class AlertManager {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setHeaderText(title);
         alert.setContentText(content);
-        alert.show();
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getAlertDesignPath());
+        dialogPane.getStyleClass().add("alert");
+
+        alert.showAndWait();
     }
 
     public static void ShowWarning(Stage stage, String title, String content) {
@@ -24,6 +34,13 @@ public class AlertManager {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setHeaderText(title);
         alert.setContentText(content);
-        alert.show();
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getAlertDesignPath());
+        dialogPane.getStyleClass().add("alert");
+
+        dialogPane.setCursor(Cursor.HAND);
+
+        alert.showAndWait();
     }
 }
