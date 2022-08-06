@@ -1,4 +1,4 @@
-package com.workerai.launcher.ui.panels.pages.settings;
+package com.workerai.launcher.ui.panels.settings;
 
 import com.workerai.launcher.ui.panels.pages.Settings;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -11,15 +11,18 @@ import javafx.scene.layout.StackPane;
 import oshi.SystemInfo;
 import oshi.hardware.GlobalMemory;
 
-import static com.noideaindustry.jui.JuiInterface.*;
 import static com.noideaindustry.jui.JuiUtils.bytesFormater;
+import static com.noideaindustry.jui.interfaces.JuiBox.createHBox;
+import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
+import static com.noideaindustry.jui.interfaces.JuiSlider.createSlider;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 
 public class MemoryCard extends Settings {
     public static void create(GridPane container, Saver saver, StackPane card) {
         container.getChildren().add(card);
 
-        createLabel(0, 20d, "Allocated Memory", JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.SLIDERS, "25px", null, WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
+        createLabel(0, 20d, "Allocated Memory", createAwesomeIcon(-4d, 0, FontAwesomeIcon.SLIDERS, "25px", WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
         createLabel(0, 50d, "How much memory should we allocate to the game", null, "afterLaunch-subLabel", Pos.TOP_CENTER, card);
 
         SystemInfo systemInfo = new SystemInfo();

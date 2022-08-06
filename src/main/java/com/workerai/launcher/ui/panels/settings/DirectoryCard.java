@@ -1,6 +1,6 @@
-package com.workerai.launcher.ui.panels.pages.settings;
+package com.workerai.launcher.ui.panels.settings;
 
-import com.workerai.launcher.App;
+import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.ui.panels.pages.Settings;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -15,35 +15,35 @@ import javafx.stage.DirectoryChooser;
 import java.io.File;
 import java.nio.file.Path;
 
-import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
-import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
-import static com.noideaindustry.jui.JuiInterface.createLabel;
-import static com.noideaindustry.jui.JuiInterface.createRegion;
+import static com.noideaindustry.jui.interfaces.JuiButton.createFontButton;
+import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
+import static com.noideaindustry.jui.interfaces.JuiRegion.createRegion;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 
 public class DirectoryCard extends Settings {
     public static void create(GridPane container, Saver saver, StackPane card) {
         container.getChildren().add(card);
 
-        createLabel(0, 20d, "Game Directory", createFontIcon(-4d, 0, FontAwesomeIcon.FOLDER_OPEN, "25px", null, WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
+        createLabel(0, 20d, "Game Directory", createAwesomeIcon(-4d, 0, FontAwesomeIcon.FOLDER_OPEN, "25px", WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
         createLabel(0, 50d, "Select which directory to launch Minecraft from", null, "afterLaunch-subLabel", Pos.TOP_CENTER, card);
 
         createLabel(0, -65d, "YOUR CURRENT DIRECTORY IS SET TO:", null, "directory-subLabel", Pos.BOTTOM_CENTER, card);
         Label gamePath = createLabel(0, -45d, displayPathReduced(new File(saver.get("GameDirectory"))), null, "directory-displayLabel", Pos.BOTTOM_CENTER, card);
         createRegion(gamePath.getTranslateX(), gamePath.getTranslateY() * -1.05d, 290, 18, "directory-container", card);
 
-        FontAwesomeIconView directoryIcon = createFontIcon(-4d, 0, FontAwesomeIcon.FILE_TEXT, "20px", null, WHITE, card);
+        FontAwesomeIconView directoryIcon = createAwesomeIcon(-4d, 0, FontAwesomeIcon.FILE_TEXT, "20px", WHITE, card);
         Button directoryButton = createFontButton(0, -90d, 200d, 30d, "Change Directory", "directory-button", null, directoryIcon, Pos.BOTTOM_CENTER, card);
         directoryButton.setOnMouseClicked(e -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
-            File selectedDirectory = directoryChooser.showDialog(App.getInstance().getPanelManager().getStage());
+            File selectedDirectory = directoryChooser.showDialog(WorkerLauncher.getInstance().getPanelManager().getStage());
             try {
-                App.getInstance().getSettingsManager().setGameDirectory(Path.of(selectedDirectory.getAbsolutePath()));
+                WorkerLauncher.getInstance().getSettingsManager().setGameDirectory(Path.of(selectedDirectory.getAbsolutePath()));
                 gamePath.setText(displayPathReduced(selectedDirectory));
                 saver.set("GameDirectory", selectedDirectory.getAbsolutePath());
-                App.getInstance().getLogger().info("New game directory set at: " + Path.of(selectedDirectory.getAbsolutePath()));
+                WorkerLauncher.getInstance().getLogger().info("New game directory set at: " + Path.of(selectedDirectory.getAbsolutePath()));
             } catch (Exception ex) {
-                App.getInstance().getLogger().warn("Failed finding new game directory file, aborting!");
+                WorkerLauncher.getInstance().getLogger().warn("Failed finding new game directory file, aborting!");
             }
         });
     }

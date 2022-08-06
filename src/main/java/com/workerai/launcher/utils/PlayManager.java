@@ -1,6 +1,6 @@
 package com.workerai.launcher.utils;
 
-import com.workerai.launcher.App;
+import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.savers.AccountManager;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.DownloadList;
@@ -19,9 +19,9 @@ public class PlayManager {
     private static Pane parentPane;
 
     public static void downloadAndPlay(Pane pane, boolean isHome) {
-        if (App.isDebugMode()) {
-            App.getInstance().getLogger().err("You are in debug session, no online services available!");
-            AlertManager.ShowWarning(App.getInstance().getPanelManager().getStage(),
+        if (WorkerLauncher.isDebugMode()) {
+            WorkerLauncher.getInstance().getLogger().err("You are in debug session, no online services available!");
+            AlertManager.ShowWarning(WorkerLauncher.getInstance().getPanelManager().getStage(),
                     "Launching Error" ,
                     "You are in debug session, no online services available!\nPlease connect to your account in order to play.");
             return;
@@ -66,16 +66,16 @@ public class PlayManager {
                     .build();
             final FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder()
                     .withVanillaVersion(vanillaVersion)
-                    .withLogger(App.getInstance().getLogger())
+                    .withLogger(WorkerLauncher.getInstance().getLogger())
                     .withProgressCallback(callback)
                     .build();
 
-            updater.update(App.getInstance().getSettingsManager().getGameDirectory());
+            updater.update(WorkerLauncher.getInstance().getSettingsManager().getGameDirectory());
             PlayManager.startGame(updater.getVanillaVersion().getName());
         } catch (Exception exception) {
-            App.getInstance().getLogger().err(exception.toString());
+            WorkerLauncher.getInstance().getLogger().err(exception.toString());
             AlertManager.ShowError(
-                    App.getInstance().getPanelManager().getStage(),
+                    WorkerLauncher.getInstance().getPanelManager().getStage(),
                     "Error",
                     exception.getMessage());
         }
@@ -84,7 +84,7 @@ public class PlayManager {
     static void startGame(String gameVersion) {
         GameInfos gInfos = new GameInfos(
                 "",
-                App.getInstance().getSettingsManager().getGameDirectory(),
+                WorkerLauncher.getInstance().getSettingsManager().getGameDirectory(),
                 new GameVersion(gameVersion, GameType.V1_8_HIGHER),
                 new GameTweak[]{}
         );
@@ -102,34 +102,34 @@ public class PlayManager {
 
             Process p = launcher.launch();
             Platform.runLater(() -> {
-                if (App.getInstance().getSettingsManager().getSaver().get("HideAfterLaunch").equals("true")) {
-                    App.getInstance().getPanelManager().getStage().setIconified(true);
+                if (WorkerLauncher.getInstance().getSettingsManager().getSaver().get("HideAfterLaunch").equals("true")) {
+                    WorkerLauncher.getInstance().getPanelManager().getStage().setIconified(true);
                     try {
                         p.waitFor();
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 }
-                App.getInstance().getPanelManager().getStage().setIconified(false);
+                WorkerLauncher.getInstance().getPanelManager().getStage().setIconified(false);
             });
         } catch (Exception exception) {
             exception.printStackTrace();
-            App.getInstance().getLogger().err(exception.toString());
+            WorkerLauncher.getInstance().getLogger().err(exception.toString());
         }
     }
 
     static String getRamArgs() {
         int defaultRam = 1024;
         try {
-            if (App.getInstance().getSettingsManager().getSaver().get("AllocatedRAM") != null) {
-                defaultRam = Integer.parseInt(App.getInstance().getSettingsManager().getSaver().get("AllocatedRAM"));
+            if (WorkerLauncher.getInstance().getSettingsManager().getSaver().get("AllocatedRAM") != null) {
+                defaultRam = Integer.parseInt(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("AllocatedRAM"));
                 System.out.println(defaultRam);
             } else {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException error) {
-            App.getInstance().getSettingsManager().getSaver().set("AllocatedRAM", String.valueOf(defaultRam));
-            App.getInstance().getSettingsManager().getSaver().save();
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().set("AllocatedRAM", String.valueOf(defaultRam));
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().save();
         }
         return "-Xmx" + defaultRam + "M";
     }
@@ -137,14 +137,14 @@ public class PlayManager {
     static String getHeightArgs() {
         int defaultHeight = 854;
         try {
-            if (App.getInstance().getSettingsManager().getSaver().get("LaunchHeight") != null) {
-                defaultHeight = Integer.parseInt(App.getInstance().getSettingsManager().getSaver().get("LaunchHeight"));
+            if (WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchHeight") != null) {
+                defaultHeight = Integer.parseInt(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchHeight"));
             } else {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException error) {
-            App.getInstance().getSettingsManager().getSaver().set("LaunchHeight", String.valueOf(defaultHeight));
-            App.getInstance().getSettingsManager().getSaver().save();
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().set("LaunchHeight", String.valueOf(defaultHeight));
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().save();
         }
         return "--height" + defaultHeight;
     }
@@ -153,14 +153,14 @@ public class PlayManager {
         int defaultWidth = 480;
 
         try {
-            if (App.getInstance().getSettingsManager().getSaver().get("LaunchWidth") != null) {
-                defaultWidth = Integer.parseInt(App.getInstance().getSettingsManager().getSaver().get("LaunchWidth"));
+            if (WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchWidth") != null) {
+                defaultWidth = Integer.parseInt(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchWidth"));
             } else {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException error) {
-            App.getInstance().getSettingsManager().getSaver().set("LaunchWidth", String.valueOf(defaultWidth));
-            App.getInstance().getSettingsManager().getSaver().save();
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().set("LaunchWidth", String.valueOf(defaultWidth));
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().save();
         }
 
         return "--width" + defaultWidth;

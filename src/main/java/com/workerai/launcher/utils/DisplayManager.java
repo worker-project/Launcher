@@ -1,6 +1,6 @@
 package com.workerai.launcher.utils;
 
-import com.workerai.launcher.App;
+import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.database.Account;
 import com.workerai.launcher.database.Requests;
 import com.workerai.launcher.savers.AccountManager;
@@ -25,18 +25,17 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static com.noideaindustry.jui.JuiGeometry.JuiCircle.createStrokeCircle;
-import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
-import static com.noideaindustry.jui.JuiInterface.JuiButton.createMaterialButton;
-import static com.noideaindustry.jui.JuiInterface.JuiIcon.createDesignIcon;
-import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
-import static com.noideaindustry.jui.JuiInterface.JuiPane.createScrollPane;
-import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
-import static com.noideaindustry.jui.JuiInterface.createImageView;
-import static com.noideaindustry.jui.JuiInterface.createLabel;
+import static com.noideaindustry.jui.geometry.JuiCircle.createStrokeCircle;
+import static com.noideaindustry.jui.interfaces.JuiButton.createFontButton;
+import static com.noideaindustry.jui.interfaces.JuiButton.createMaterialButton;
+import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.interfaces.JuiIcon.createDesignIcon;
+import static com.noideaindustry.jui.interfaces.JuiImageView.createImageView;
+import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
+import static com.noideaindustry.jui.interfaces.JuiPane.createScrollPane;
+import static com.noideaindustry.jui.interfaces.JuiPane.createStackPane;
+import static com.workerai.launcher.utils.LauncherInfos.LIGHT_BLACK;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
-import static javafx.scene.control.ScrollPane.ScrollBarPolicy.ALWAYS;
-import static javafx.scene.control.ScrollPane.ScrollBarPolicy.NEVER;
 
 public class DisplayManager {
 
@@ -53,18 +52,18 @@ public class DisplayManager {
     }
 
     static void createDisplayNews(Pane container, double posX, News news) {
-        Pane card = createStackPane(posX, 112.5d, 340d, 245d, 15d, 15d, true, null, null, Color.rgb(32, 31, 29));
+        Pane card = createStackPane(posX, 112.5d, 340d, 245d, true, LIGHT_BLACK);
         displayBanner(container, card);
 
-        FontAwesomeIconView newsIcon = createFontIcon(-4d, 0d, FontAwesomeIcon.NEWSPAPER_ALT, "25px", null, WHITE, null);
+        FontAwesomeIconView newsIcon = createAwesomeIcon(-4d, 0d, FontAwesomeIcon.NEWSPAPER_ALT, "25px", WHITE, null);
         createLabel(0d, -100d, news.getName(), newsIcon, "news-Label", null, card);
-        createImageView(0d, -5d, 340d, 350d, true, news.getPreview(), null, card);
+        createImageView(0d, -5d, 340d, 350d, news.getPreview(), card);
 
         createLabel(15d, 85d, news.getDescription(), null, "news-desc-Label", Pos.CENTER_LEFT, card);
         createLabel(15d, 100d, news.getSubDescription(), null, "news-desc-Label", Pos.CENTER_LEFT, card);
 
-        MaterialDesignIconView readIcon = createDesignIcon(0d, -1d, MaterialDesignIcon.BOOK_OPEN_PAGE_VARIANT, "20px", null, Color.rgb(210, 144, 52), null);
-        Button readNews = createMaterialButton(140d, 95d, 0d, 0d, true,null, "news-button", null, readIcon, null, card);
+        MaterialDesignIconView readIcon = createDesignIcon(0d, -1d, MaterialDesignIcon.BOOK_OPEN_PAGE_VARIANT, "20px", Color.rgb(210, 144, 52), null);
+        Button readNews = createMaterialButton(140d, 95d, 0d, 0d, true, "news-button", readIcon, card);
         readNews.setOnMouseClicked(e -> {
             try {
                 Desktop.getDesktop().browse(new URI(news.getUrl()));
@@ -78,27 +77,27 @@ public class DisplayManager {
         container.getChildren().add(card);
 
         if (!isReduced) {
-            createImageView(20d, 0, 70d, 0d, true, "https://minotar.net/avatar/" + (account.getUuid() + ".png"), Pos.CENTER_LEFT, card);
+            createImageView(20d, 0, 70d, 0d, "https://minotar.net/avatar/" + (account.getUuid() + ".png"), Pos.CENTER_LEFT, card);
 
             createLabel(0, 5d, "Account - " + account.getUsername(), null, "account-label", Pos.TOP_CENTER, card);
             createLabel(45d, 45d, "Available modules", null, "module-label", Pos.TOP_CENTER, card);
 
-            FontAwesomeIconView iconRemove = createFontIcon(-4d, 0, FontAwesomeIcon.CROSSHAIRS, "20px", null, WHITE, card);
+            FontAwesomeIconView iconRemove = createAwesomeIcon(-4d, 0, FontAwesomeIcon.CROSSHAIRS, "20px", WHITE, card);
             Button buttonRemove = createFontButton(15d, -10d, 150d, 30d, "Remove", "account-button-remove", null, iconRemove, Pos.BOTTOM_LEFT, card);
             buttonRemove.setOnMouseClicked(e -> {
                 if (AccountManager.getCurrentAccount() == null || !account.getUuid().equals(AccountManager.getCurrentAccount().getUuid())) {
                     AccountManager.removeLocalAccount(account);
                     Requests.removeRemoteAccount(account.getUuid());
-                    App.getInstance().getPanelManager().showPanel(new Accounts());
+                    WorkerLauncher.getInstance().getPanelManager().showPanel(new Accounts());
                 } else {
                     AccountManager.removeCurrentAccount();
                     AccountManager.removeLocalAccount(account);
                     Requests.removeRemoteAccount(account.getUuid());
-                    App.getInstance().getPanelManager().showPanel(new Login());
+                    WorkerLauncher.getInstance().getPanelManager().showPanel(new Login());
                 }
             });
 
-            FontAwesomeIconView playIcon = createFontIcon(-4d, 0, FontAwesomeIcon.GAMEPAD, "18px", null, WHITE, card);
+            FontAwesomeIconView playIcon = createAwesomeIcon(-4d, 0, FontAwesomeIcon.GAMEPAD, "18px", WHITE, card);
             Button buttonPlay = createFontButton(-15d, -10d, 150d, 30d, "Play", "account-button-play", null, playIcon, Pos.BOTTOM_RIGHT, card);
             buttonPlay.setOnMouseClicked(e -> {
                 AccountManager.setCurrentAccount(account);
@@ -124,7 +123,7 @@ public class DisplayManager {
             createModule("BazaarAI", false, scrollContent, isReduced);
             createModule("Soon", false, scrollContent, isReduced);
 
-            createScrollPane(-16d, isReduced ? 10d : 6d, isReduced ? 370d : 230d, isReduced ? 50d : 60d, "scroll-pane", ALWAYS, NEVER, false, true, true, scrollContent, Pos.CENTER_RIGHT, card);
+            createScrollPane(-16d, isReduced ? 10d : 6d, isReduced ? 370d : 230d, isReduced ? 50d : 60d, "scroll-pane", scrollContent, card);
         })).start();
     }
 
@@ -145,10 +144,10 @@ public class DisplayManager {
         createLabel(0d, 0d, "Current session", null, "account-label", Pos.TOP_CENTER, card);
 
         GridPane scrollContent = new GridPane();
-        scrollContent.add(createImageView(10d, 4d, 40d, 0d, true, !App.isDebugMode() ? "https://minotar.net/avatar/" + (account.getUuid() + ".png") : "https://minotar.net/avatar/MHF_Steve.png", Pos.CENTER_LEFT, null), 0, 0);
+        scrollContent.add(createImageView(10d, 4d, 40d, 0d, !WorkerLauncher.isDebugMode() ? "https://minotar.net/avatar/" + (account.getUuid() + ".png") : "https://minotar.net/avatar/MHF_Steve.png", Pos.CENTER_LEFT, null), 0, 0);
         scrollContent.add(createLabel(20d, 4d - 8d, "Username - " + account.getUsername(), null, "account-scrollLabel", null, null), 1, 0);
         scrollContent.add(createLabel(20d, 4d + 8d, "Uuid - " + account.getUuid(), null, "account-scrollLabel", null, null), 1, 0);
 
-        createScrollPane(-16d, 10d, 370d, 50d, "scroll-pane", ALWAYS, NEVER, false, true, true, scrollContent, Pos.CENTER_RIGHT, card);
+        createScrollPane(-16d, 10d, 370d, 50d, "scroll-pane", scrollContent, card);
     }
 }

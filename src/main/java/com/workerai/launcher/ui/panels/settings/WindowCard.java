@@ -1,6 +1,6 @@
-package com.workerai.launcher.ui.panels.pages.settings;
+package com.workerai.launcher.ui.panels.settings;
 
-import com.workerai.launcher.App;
+import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.ui.panels.pages.Settings;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -12,8 +12,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
-import static com.noideaindustry.jui.JuiInterface.*;
+import static com.noideaindustry.jui.interfaces.JuiButton.createFontButton;
+import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
+import static com.noideaindustry.jui.interfaces.JuiToolTip.createTooltip;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 import static java.awt.MouseInfo.getPointerInfo;
 
@@ -21,22 +23,22 @@ public class WindowCard extends Settings {
     public static void create(GridPane container, Saver saver, StackPane card) {
         container.getChildren().add(card);
 
-        createLabel(0, 20d, "Launcher Window", JuiIcon.createFontIcon(-4d, 0, FontAwesomeIcon.PLAY_CIRCLE, "25px", null, WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
+        createLabel(0, 20d, "Launcher Window", createAwesomeIcon(-4d, 0, FontAwesomeIcon.PLAY_CIRCLE, "25px", WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);
         createLabel(0, 50d, "Select the window behavior after launching Minecraft", null, "afterLaunch-subLabel", Pos.TOP_CENTER, card);
 
-        FontAwesomeIconView tooltipIcon = JuiIcon.createFontIcon(0d, 0d, FontAwesomeIcon.INFO_CIRCLE, "20px", null, WHITE, (StackPane) null);
-        Tooltip tooltip = createTooltip("After the game is launched your launcher will remain open.", tooltipIcon, Duration.ZERO, Duration.ZERO);
+        FontAwesomeIconView tooltipIcon = createAwesomeIcon(0d, 0d, FontAwesomeIcon.INFO_CIRCLE, "20px", WHITE, null);
+        Tooltip tooltip = createTooltip("After the game is launched your launcher will remain open.", tooltipIcon);
 
-        FontAwesomeIconView keepIcon = JuiIcon.createFontIcon(0, 0, FontAwesomeIcon.EXPAND, "18px", null, WHITE, card);
+        FontAwesomeIconView keepIcon = createAwesomeIcon(0, 0, FontAwesomeIcon.EXPAND, "18px", WHITE, card);
         Button keepButton = createFontButton(0, -90d, 250d, 30d, "Keep Launcher Open", "afterLaunch-button", tooltip, keepIcon, Pos.BOTTOM_CENTER, card);
 
-        FontAwesomeIconView hideIcon = JuiIcon.createFontIcon(0, 0, FontAwesomeIcon.COMPRESS, "18px", null, WHITE, card);
+        FontAwesomeIconView hideIcon = createAwesomeIcon(0, 0, FontAwesomeIcon.COMPRESS, "18px", WHITE, card);
         Button hideButton = createFontButton(0, -45d, 250d, 30d, "Hide Launcher", "afterLaunch-button", null, hideIcon, Pos.BOTTOM_CENTER, card);
 
         keepButton.setOnMouseClicked(e -> {
             setButtonProperty(keepButton, hideButton);
-            App.getInstance().getSettingsManager().getSaver().set("KeepAfterLaunch", String.valueOf(true));
-            App.getInstance().getSettingsManager().getSaver().set("HideAfterLaunch", String.valueOf(false));
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().set("KeepAfterLaunch", String.valueOf(true));
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().set("HideAfterLaunch", String.valueOf(false));
         });
 
         keepButton.setOnMouseMoved(e -> {
@@ -46,8 +48,8 @@ public class WindowCard extends Settings {
 
         hideButton.setOnMouseClicked(e -> {
             setButtonProperty(hideButton, keepButton);
-            App.getInstance().getSettingsManager().getSaver().set("HideAfterLaunch", String.valueOf(true));
-            App.getInstance().getSettingsManager().getSaver().set("KeepAfterLaunch", String.valueOf(false));
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().set("HideAfterLaunch", String.valueOf(true));
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().set("KeepAfterLaunch", String.valueOf(false));
         });
 
         if (saver.get("KeepAfterLaunch").equals(String.valueOf(true))) {

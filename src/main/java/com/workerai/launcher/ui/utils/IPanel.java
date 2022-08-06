@@ -1,6 +1,6 @@
 package com.workerai.launcher.ui.utils;
 
-import com.workerai.launcher.ui.PanelManager;
+import com.workerai.launcher.ui.panels.PanelManager;
 import javafx.scene.layout.GridPane;
 
 public interface IPanel {

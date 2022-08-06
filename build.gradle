@@ -37,15 +37,15 @@ dependencies {
     implementation 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
     implementation 'de.jensd:fontawesomefx-materialdesignfont:2.0.26-9.1.2'
 
-    implementation 'fr.flowarg:flowupdater:1.7.0'
-    implementation 'fr.flowarg:openlauncherlib:3.2.4'
+    implementation 'fr.flowarg:flowupdater:1.7.1'
+    implementation 'fr.flowarg:openlauncherlib:3.2.5'
 
     implementation 'com.github.goxr3plus:FX-BorderlessScene:4.+'
-    implementation 'com.github.oshi:oshi-core:6.1.6'
+    implementation 'com.github.oshi:oshi-core:6.2.2'
 }
 
 javafx {
-    version = 12
+    version = 17
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.swing']
 }
 
@@ -63,11 +63,7 @@ jar {
 
 sourceSets {
     main {
-        java {
-            srcDirs= ["src/main/"]
-        }
-        resources {
-            srcDirs= ["src/main/"]
-        }
+        java.srcDir('src/main')
+        resources.srcDir('src/main')
     }
 }

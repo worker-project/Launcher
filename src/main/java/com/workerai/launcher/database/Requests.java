@@ -1,6 +1,6 @@
 package com.workerai.launcher.database;
 
-import com.workerai.launcher.App;
+import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.savers.AccountManager;
 
 import java.util.List;
@@ -24,33 +24,33 @@ public class Requests {
 
             Database.addRemoteAccount(acc);
             AccountManager.addLocalAccount(acc);
-            App.getInstance().getLogger().debug(acc.getUuid() + " added.");
+            WorkerLauncher.getInstance().getLogger().debug(acc.getUuid() + " added.");
         }
     }
 
     public static Account getRemoteAccount(String uuid) {
-        App.getInstance().getLogger().debug("Searching " + uuid + " in SQLite...");
+        WorkerLauncher.getInstance().getLogger().debug("Searching " + uuid + " in SQLite...");
         Account account = Database.getRemoteAccount(uuid);
 
         if (account == null) {
-            App.getInstance().getLogger().debug(uuid + " doesn't exist.");
+            WorkerLauncher.getInstance().getLogger().debug(uuid + " doesn't exist.");
             return null;
         }
-        App.getInstance().getLogger().debug(uuid + " exist.");
+        WorkerLauncher.getInstance().getLogger().debug(uuid + " exist.");
         return account;
     }
 
     public static List<Account> getRemoteAccounts() {
-        App.getInstance().getLogger().debug("Searching all accounts in SQLite...");
+        WorkerLauncher.getInstance().getLogger().debug("Searching all accounts in SQLite...");
         List<Account> remoteAccounts = Database.getRemoteAccounts();
 
         if(remoteAccounts == null) {
-            App.getInstance().getLogger().debug("No account found in SQLite.");
+            WorkerLauncher.getInstance().getLogger().debug("No account found in SQLite.");
             return null;
         }
 
         for (Account account : remoteAccounts) {
-            App.getInstance().getLogger().debug("Found " + account.getUuid() + " in SQLite.");
+            WorkerLauncher.getInstance().getLogger().debug("Found " + account.getUuid() + " in SQLite.");
         }
         return remoteAccounts;
     }
@@ -61,6 +61,6 @@ public class Requests {
         if (account == null) return;
 
         Database.removeRemoteAccount(account.getUuid());
-        App.getInstance().getLogger().debug(uuid + " removed.");
+        WorkerLauncher.getInstance().getLogger().debug(uuid + " removed.");
     }
 }

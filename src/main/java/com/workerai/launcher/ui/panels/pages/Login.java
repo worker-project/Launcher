@@ -1,11 +1,11 @@
 package com.workerai.launcher.ui.panels.pages;
 
-import com.workerai.launcher.App;
+import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.database.Account;
 import com.workerai.launcher.database.Requests;
 import com.workerai.launcher.database.Response;
 import com.workerai.launcher.savers.AccountManager;
-import com.workerai.launcher.ui.PanelManager;
+import com.workerai.launcher.ui.panels.PanelManager;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.utils.AlertManager;
@@ -37,15 +37,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.noideaindustry.jui.JuiInterface.JuiButton.createFontButton;
-import static com.noideaindustry.jui.JuiInterface.JuiButton.createMaterialButton;
-import static com.noideaindustry.jui.JuiInterface.JuiField.createPasswordField;
-import static com.noideaindustry.jui.JuiInterface.JuiField.createTextField;
-import static com.noideaindustry.jui.JuiInterface.JuiIcon.createDesignIcon;
-import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
-import static com.noideaindustry.jui.JuiInterface.JuiPane.createGridPane;
-import static com.noideaindustry.jui.JuiInterface.JuiPane.createStackPane;
-import static com.noideaindustry.jui.JuiInterface.createImageView;
+import static com.noideaindustry.jui.interfaces.JuiButton.createFontButton;
+import static com.noideaindustry.jui.interfaces.JuiButton.createMaterialButton;
+import static com.noideaindustry.jui.interfaces.JuiField.createPasswordField;
+import static com.noideaindustry.jui.interfaces.JuiField.createTextField;
+import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.interfaces.JuiIcon.createDesignIcon;
+import static com.noideaindustry.jui.interfaces.JuiImageView.createImageView;
+import static com.noideaindustry.jui.interfaces.JuiPane.createGridPane;
+import static com.noideaindustry.jui.interfaces.JuiPane.createStackPane;
 import static com.workerai.launcher.utils.LauncherInfos.LIGHT_GRAY;
 
 public class Login extends Panel {
@@ -60,12 +60,12 @@ public class Login extends Panel {
         BottomBar.getInstance().setLoginIcons();
 
         if (checkAuthentication()) {
-            logger.info("Logged as " + "\"" + AccountManager.getCurrentAccount().getUsername() + "\"");
+            WorkerLauncher.getInstance().getLogger().info("Logged as " + "\"" + AccountManager.getCurrentAccount().getUsername() + "\"");
             this.panelManager.showPanel(new Home());
         } else {
             BottomBar.getInstance().enableDebugAccess();
 
-            GridPane backgroundPane = createGridPane(0d, 0d, 0d, 0d, 0d, 0d, "background-login", Color.TRANSPARENT);
+            GridPane backgroundPane = createGridPane("background-login");
             this.layout.getChildren().add(backgroundPane);
             setCanTakeAllSize(this.layout, backgroundPane);
 
@@ -73,19 +73,19 @@ public class Login extends Panel {
             this.layout.getChildren().add(loginPane);
 
             MaterialDesignIconView emailIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.EMAIL, "22px", "logo-rectangle", LIGHT_GRAY, null);
-            createMaterialButton(-175d, -50d, 0d, 0d, false, null, "logo-rectangle", null, emailIcon, null, loginPane);
+            createMaterialButton(-175d, -50d, false, "logo-rectangle", emailIcon, loginPane);
 
             MaterialDesignIconView lockIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.LOCK, "22px", "logo-rectangle", LIGHT_GRAY, null);
-            createMaterialButton(-175d, -5d, 0d, 0d, false, null, "logo-rectangle", null, lockIcon, null, loginPane);
+            createMaterialButton(-175d, -5d, false, "logo-rectangle", lockIcon, loginPane);
 
             TextField userField = createTextField(0d, -50d, 300d, 0d, "Account E-mail", "login-input", null, loginPane);
             userField.setText("compte1@nxgroupe.com");
             PasswordField passwordField = createPasswordField(0d, -5d, 300d, 0d, "Account Password", "login-input", loginPane);
             passwordField.setText("^B=*_&8nB8ssp-q+");
 
-            createImageView(0d, 180d, 0d, 250d, true, ResourceManager.getIcon(), Pos.CENTER, loginPane);
+            createImageView(0d, 180d, 0d, 250d, ResourceManager.getIcon(), Pos.CENTER, loginPane);
 
-            FontAwesomeIconView signIcon = createFontIcon(-5d, 0, FontAwesomeIcon.SIGN_IN, "22px", null, Color.rgb(150, 150, 150), loginPane);
+            FontAwesomeIconView signIcon = createAwesomeIcon(-5d, 0, FontAwesomeIcon.SIGN_IN, "22px", LIGHT_GRAY, loginPane);
             signIn = createFontButton(-490d, -302.5d + 15d, 135d, 0d, "SIGN IN", "login-button", null, signIcon, Pos.BOTTOM_RIGHT, loginPane);
             signIn.setOnMouseClicked(e -> {
                 if (!isTryingToSignIn.get()) {
@@ -94,7 +94,7 @@ public class Login extends Panel {
                 }
             });
 
-            FontAwesomeIconView bugIcon = createFontIcon(-5d, 0, FontAwesomeIcon.PAPER_PLANE, "22px", null, Color.rgb(150, 150, 150), loginPane);
+            FontAwesomeIconView bugIcon = createAwesomeIcon(-5d, 0, FontAwesomeIcon.PAPER_PLANE, "22px", LIGHT_GRAY, loginPane);
             Button reportBug = createFontButton(490d, -302.5d + 15d, 135d, 0d, "REPORT BUG", "login-button", null, bugIcon, Pos.BOTTOM_LEFT, loginPane);
             reportBug.setOnMouseClicked(e -> {
                 try {
@@ -110,18 +110,18 @@ public class Login extends Panel {
     }
 
     private boolean checkAuthentication() {
-        /*if(App.getInstance().getSettingsManager().getSaver().get("AutoAuth").equals("true")) {
+        /*if(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("AutoAuth").equals("true")) {
             try {
                 MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
-                MicrosoftAuthResult response = authenticator.loginWithRefreshToken(App.getInstance().getAccountManager().getDatabase().getStatement("CLIENT_TOKEN"));
-                App.getInstance().getAccountManager().getDatabase().createStatement(
+                MicrosoftAuthResult response = authenticator.loginWithRefreshToken(WorkerLauncher.getInstance().getAccountManager().getDatabase().getStatement("CLIENT_TOKEN"));
+                WorkerLauncher.getInstance().getAccountManager().getDatabase().createStatement(
                         response.getProfile().getName(),
                         response.getProfile().getId(),
                         response.getRefreshToken(),
                         response.getAccessToken()
                 );
 
-                App.getInstance().setAuthInfos(new AuthInfos(
+                WorkerLauncher.getInstance().setAuthInfos(new AuthInfos(
                         response.getProfile().getName(),
                         response.getAccessToken(),
                         response.getProfile().getId()
@@ -131,18 +131,18 @@ public class Login extends Panel {
                 try {
                     Authenticator authenticator = new Authenticator(Authenticator.MOJANG_AUTH_URL, AuthPoints.NORMAL_AUTH_POINTS);
                     RefreshResponse response = authenticator.refresh(
-                            App.getInstance().getAccountManager().getDatabase().getStatement("CLIENT_TOKEN"),
-                            App.getInstance().getAccountManager().getDatabase().getStatement("ACCESS_TOKEN")
+                            WorkerLauncher.getInstance().getAccountManager().getDatabase().getStatement("CLIENT_TOKEN"),
+                            WorkerLauncher.getInstance().getAccountManager().getDatabase().getStatement("ACCESS_TOKEN")
                     );
 
-                    App.getInstance().getAccountManager().getDatabase().createStatement(
+                    WorkerLauncher.getInstance().getAccountManager().getDatabase().createStatement(
                             response.getSelectedProfile().getName(),
                             response.getSelectedProfile().getId(),
                             response.getClientToken(),
                             response.getAccessToken()
                     );
 
-                    App.getInstance().setAuthInfos(new AuthInfos(
+                    WorkerLauncher.getInstance().setAuthInfos(new AuthInfos(
                             response.getSelectedProfile().getName(),
                             response.getAccessToken(),
                             response.getClientToken(),
@@ -150,8 +150,8 @@ public class Login extends Panel {
                     ));
                     return true;
                 } catch (AuthenticationException er) {
-                    App.getInstance().getSettingsManager().getSaver().set("AutoAuth", String.valueOf(false));
-                    App.getInstance().getAccountManager().getDatabase().createStatement(
+                    WorkerLauncher.getInstance().getSettingsManager().getSaver().set("AutoAuth", String.valueOf(false));
+                    WorkerLauncher.getInstance().getAccountManager().getDatabase().createStatement(
                             null,
                             null,
                             null,
@@ -167,7 +167,7 @@ public class Login extends Panel {
         new Thread(() -> {
             MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
             try {
-                this.logger.info("MicrosoftAuth | Trying resolving account information.");
+                WorkerLauncher.getInstance().getLogger().info("MicrosoftAuth | Trying resolving account information.");
                 MicrosoftAuthResult result = authenticator.loginWithCredentials(email, password);
 
                 response = Response.getUser(result.getProfile().getId());
@@ -183,11 +183,11 @@ public class Login extends Panel {
                     AccountManager.setCurrentAccount(account);
                     Requests.addRemoteAccount(account);
 
-                    this.logger.info("MicrosoftAuth | Successfully connected to " + "\"" + AccountManager.getCurrentAccount().getUsername() + "\"");
+                    WorkerLauncher.getInstance().getLogger().info("MicrosoftAuth | Successfully connected to " + "\"" + AccountManager.getCurrentAccount().getUsername() + "\"");
                     Platform.runLater(() -> panelManager.showPanel(new Home()));
                 }
             } catch (MicrosoftAuthenticationException e) {
-                this.logger.warn("MicrosoftAuth | Failed resolving account information.");
+                WorkerLauncher.getInstance().getLogger().warn("MicrosoftAuth | Failed resolving account information.");
                 authenticateMojang(email, password);
             }
         }).start();
@@ -197,7 +197,7 @@ public class Login extends Panel {
         new Thread(() -> {
             Authenticator authenticator = new Authenticator(Authenticator.MOJANG_AUTH_URL, AuthPoints.NORMAL_AUTH_POINTS);
             try {
-                this.logger.info("MojangAuth | Trying resolving account information.");
+                WorkerLauncher.getInstance().getLogger().info("MojangAuth | Trying resolving account information.");
                 AuthResponse result = authenticator.authenticate(AuthAgent.MINECRAFT, email, password, null);
 
                 response = Response.getUser(result.getSelectedProfile().getId());
@@ -213,11 +213,11 @@ public class Login extends Panel {
                     AccountManager.setCurrentAccount(account);
                     Requests.addRemoteAccount(account);
 
-                    this.logger.info("MojangAuth | Successfully connected to " + "\"" + AccountManager.getCurrentAccount().getUsername() + "\"");
+                    WorkerLauncher.getInstance().getLogger().info("MojangAuth | Successfully connected to " + "\"" + AccountManager.getCurrentAccount().getUsername() + "\"");
                     Platform.runLater(() -> panelManager.showPanel(new Home()));
                 }
             } catch (AuthenticationException e) {
-                this.logger.warn("MojangAuth | Failed resolving account information.");
+                WorkerLauncher.getInstance().getLogger().warn("MojangAuth | Failed resolving account information.");
                 Platform.runLater(() -> AlertManager.ShowError(
                         this.panelManager.getStage(),
                         "Authentication Error",

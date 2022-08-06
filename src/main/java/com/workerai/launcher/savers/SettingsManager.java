@@ -1,6 +1,6 @@
 package com.workerai.launcher.savers;
 
-import com.workerai.launcher.App;
+import com.workerai.launcher.WorkerLauncher;
 import fr.theshark34.openlauncherlib.util.Saver;
 
 import java.nio.file.Files;
@@ -20,43 +20,43 @@ public class SettingsManager {
 
     private void checkSettings() {
         if (saver.get("AllocatedRAM") == null) {
-            App.getInstance().getLogger().info("Creating \"AllocatedRAM\" in setting file!");
+            WorkerLauncher.getInstance().getLogger().info("Creating \"AllocatedRAM\" in setting file!");
             saver.set("AllocatedRAM", String.valueOf(512));
         }
 
         if (saver.get("GameDirectory") == null) {
-            App.getInstance().getLogger().info("Creating \"AllocatedRAM\" in setting file!");
-            saver.set("GameDirectory", String.valueOf(App.getInstance().getLauncherDirectory()));
+            WorkerLauncher.getInstance().getLogger().info("Creating \"AllocatedRAM\" in setting file!");
+            saver.set("GameDirectory", String.valueOf(WorkerLauncher.getInstance().getLauncherDirectory()));
         }
 
         if (saver.get("HideAfterLaunch") == null) {
-            App.getInstance().getLogger().info("Creating \"HideAfterLaunch\" in setting file!");
+            WorkerLauncher.getInstance().getLogger().info("Creating \"HideAfterLaunch\" in setting file!");
             saver.set("HideAfterLaunch", String.valueOf(false));
         }
 
         if (saver.get("LaunchHeight") == null) {
-            App.getInstance().getLogger().info("Creating \"LaunchHeight\" in setting file!");
+            WorkerLauncher.getInstance().getLogger().info("Creating \"LaunchHeight\" in setting file!");
             saver.set("LaunchHeight", String.valueOf(480));
         }
 
         if (saver.get("KeepAfterLaunch") == null) {
-            App.getInstance().getLogger().info("Creating \"KeepAfterLaunch\" in setting file!");
+            WorkerLauncher.getInstance().getLogger().info("Creating \"KeepAfterLaunch\" in setting file!");
             saver.set("KeepAfterLaunch", String.valueOf(true));
         }
 
         if (saver.get("LaunchWidth") == null) {
-            App.getInstance().getLogger().info("Creating \"LaunchWidth\" in setting file!");
+            WorkerLauncher.getInstance().getLogger().info("Creating \"LaunchWidth\" in setting file!");
             saver.set("LaunchWidth", String.valueOf(854));
         }
     }
 
     public void checkGameDirectory() {
         if (Files.notExists(Path.of(saver.get("GameDirectory")))) {
-            App.getInstance().getLogger().info("No game directory found, setting default directory at:" + App.getInstance().getLauncherDirectory());
-            saver.set("GameDirectory", String.valueOf(App.getInstance().getLauncherDirectory()));
-            setGameDirectory(Path.of(String.valueOf(App.getInstance().getLauncherDirectory())));
+            WorkerLauncher.getInstance().getLogger().info("No game directory found, setting default directory at:" + WorkerLauncher.getInstance().getLauncherDirectory());
+            saver.set("GameDirectory", String.valueOf(WorkerLauncher.getInstance().getLauncherDirectory()));
+            setGameDirectory(Path.of(String.valueOf(WorkerLauncher.getInstance().getLauncherDirectory())));
         } else {
-            App.getInstance().getLogger().info("Found game directory at:" + saver.get("GameDirectory"));
+            WorkerLauncher.getInstance().getLogger().info("Found game directory at:" + saver.get("GameDirectory"));
             setGameDirectory(Path.of(saver.get("GameDirectory")));
         }
     }

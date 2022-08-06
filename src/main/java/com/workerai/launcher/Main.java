@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Class.forName("javafx.application.Application");
-            Application.launch(App.class, args);
+            Application.launch(WorkerLauncher.class, args);
         } catch (ClassNotFoundException e) {
             JOptionPane.showMessageDialog(
                     null,

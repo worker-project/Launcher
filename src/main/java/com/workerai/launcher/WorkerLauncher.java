@@ -3,7 +3,7 @@ package com.workerai.launcher;
 import com.workerai.launcher.database.Requests;
 import com.workerai.launcher.savers.AccountManager;
 import com.workerai.launcher.savers.SettingsManager;
-import com.workerai.launcher.ui.PanelManager;
+import com.workerai.launcher.ui.panels.PanelManager;
 import com.workerai.launcher.ui.panels.pages.Login;
 import com.workerai.launcher.utils.NewsManager;
 import com.workerai.launcher.utils.PlatformManager;
@@ -17,8 +17,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class App extends Application {
-    private static App INSTANCE;
+public class WorkerLauncher extends Application {
+    private static WorkerLauncher INSTANCE;
     private PanelManager panelManager = null;
 
     private final ILogger LOGGER;
@@ -28,7 +28,7 @@ public class App extends Application {
 
     private final Path launcherDirectory = PlatformManager.createAppFolder(".WorkerAI");
 
-    public App() throws IOException {
+    public WorkerLauncher() throws IOException {
         INSTANCE = this;
         this.LOGGER = new Logger("[WorkerAI]", launcherDirectory.resolve("logs.log"));
         if (!this.launcherDirectory.toFile().exists()) {
@@ -59,12 +59,12 @@ public class App extends Application {
         System.exit(0);
     }
 
-    public ILogger getLogger() {
-        return LOGGER;
+    public static WorkerLauncher getInstance() {
+        return INSTANCE;
     }
 
-    public static App getInstance() {
-        return INSTANCE;
+    public ILogger getLogger() {
+        return LOGGER;
     }
 
     public SettingsManager getSettingsManager() {

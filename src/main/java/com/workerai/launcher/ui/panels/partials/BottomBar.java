@@ -1,8 +1,8 @@
 package com.workerai.launcher.ui.panels.partials;
 
-import com.workerai.launcher.App;
+import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.savers.AccountManager;
-import com.workerai.launcher.ui.PanelManager;
+import com.workerai.launcher.ui.panels.PanelManager;
 import com.workerai.launcher.ui.panels.pages.Home;
 import com.workerai.launcher.ui.panels.pages.Login;
 import com.workerai.launcher.ui.utils.Panel;
@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static com.noideaindustry.jui.JuiInterface.JuiIcon.createDesignIcon;
-import static com.noideaindustry.jui.JuiInterface.JuiIcon.createFontIcon;
-import static com.noideaindustry.jui.JuiInterface.createLabel;
+import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.interfaces.JuiIcon.createDesignIcon;
+import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
 import static com.workerai.launcher.utils.LauncherInfos.DARK_GRAY;
 
 public class BottomBar extends Panel {
@@ -70,7 +70,7 @@ public class BottomBar extends Panel {
             }
         });
 
-        shoppingButton = createFontIcon(0d, 5d, FontAwesomeIcon.SHOPPING_CART, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
+        shoppingButton = createAwesomeIcon(0d, 5d, FontAwesomeIcon.SHOPPING_CART, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         shoppingButton.setOnMouseClicked(e -> {
             try {
                 Desktop.getDesktop().browse(new URI("https://noideaindustry.com/shop"));
@@ -79,24 +79,24 @@ public class BottomBar extends Panel {
             }
         });
 
-        debugButton = createFontIcon(this.panelManager.getStage().getWidth()/2, 5d, FontAwesomeIcon.BUG, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
+        debugButton = createAwesomeIcon(this.panelManager.getStage().getWidth() / 2, 5d, FontAwesomeIcon.BUG, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         debugButton.setOnMouseClicked(e -> {
-            App.setDebugMode(true);
-            App.getInstance().getLogger().warn("Entering debug session, online services will be unavailable!");
+            WorkerLauncher.setDebugMode(true);
+            WorkerLauncher.getInstance().getLogger().warn("Entering debug session, online services will be unavailable!");
             this.panelManager.showPanel(new Home());
         });
 
-        homeButton = createFontIcon(0d, 5d, FontAwesomeIcon.HOME, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
+        homeButton = createAwesomeIcon(0d, 5d, FontAwesomeIcon.HOME, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         homeButton.setOnMouseClicked(e -> {
             homeButton.setVisible(false);
             this.panelManager.showPanel(new Home());
         });
 
-        logoutButton = createFontIcon(0d, 5d, FontAwesomeIcon.SIGN_OUT, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
+        logoutButton = createAwesomeIcon(0d, 5d, FontAwesomeIcon.SIGN_OUT, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         logoutButton.setOnMouseClicked(e -> {
-            if (App.isDebugMode()) {
-                App.setDebugMode(false);
-                App.getInstance().getLogger().warn("Leaving debug session, online services will be available once connected!");
+            if (WorkerLauncher.isDebugMode()) {
+                WorkerLauncher.setDebugMode(false);
+                WorkerLauncher.getInstance().getLogger().warn("Leaving debug session, online services will be available once connected!");
             }
             AccountManager.setCurrentAccount(null);
             this.panelManager.showPanel(new Login());

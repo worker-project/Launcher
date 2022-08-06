@@ -1,8 +1,7 @@
-package com.workerai.launcher.ui;
+package com.workerai.launcher.ui.panels;
 
 import com.goxr3plus.fxborderlessscene.borderless.BorderlessScene;
 import com.noideaindustry.jui.JuiInitialization;
-import com.noideaindustry.jui.JuiInterface;
 import com.workerai.launcher.ui.utils.IPanel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.ui.panels.partials.TopBar;

@@ -1,6 +1,6 @@
 package com.workerai.launcher.database;
 
-import com.workerai.launcher.App;
+import com.workerai.launcher.WorkerLauncher;
 
 import java.io.File;
 import java.sql.*;
@@ -12,11 +12,11 @@ public class Database {
 
     static void initDatabase() {
         try {
-            String url = String.valueOf(new File(App.getInstance().getLauncherDirectory().toFile(), "data.sqlite"));
+            String url = String.valueOf(new File(WorkerLauncher.getInstance().getLauncherDirectory().toFile(), "data.sqlite"));
 
             conn = DriverManager.getConnection("jdbc:sqlite:" + url);
 
-            App.getInstance().getLogger().debug("Connection to SQLite has been established.");
+            WorkerLauncher.getInstance().getLogger().debug("Connection to SQLite has been established.");
 
             String sql = "CREATE TABLE IF NOT EXISTS accounts (" +
                     " ID            INTEGER     PRIMARY KEY," +
