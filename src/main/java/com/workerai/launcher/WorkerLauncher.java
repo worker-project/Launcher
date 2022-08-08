@@ -79,6 +79,11 @@ public class WorkerLauncher extends Application {
         return launcherDirectory;
     }
 
-    public static boolean isDebugMode() { return DEBUG; }
-    public static void setDebugMode(boolean isDebug) { DEBUG = isDebug; }
+    public static boolean isDebugMode() {
+        return DEBUG;
+    }
+
+    public static void setDebugMode(boolean isDebug) {
+        DEBUG = isDebug;
+    }
 }
