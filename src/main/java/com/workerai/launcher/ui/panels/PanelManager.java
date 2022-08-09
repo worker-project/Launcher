@@ -5,6 +5,7 @@ import com.noideaindustry.jui.JuiInitialization;
 import com.workerai.launcher.ui.utils.IPanel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.ui.panels.partials.TopBar;
+import com.workerai.launcher.utils.MoveHelper;
 import com.workerai.launcher.utils.ResourceManager;
 import fr.flowarg.flowcompat.Platform;
 import javafx.geometry.VPos;
@@ -21,6 +22,9 @@ public class PanelManager {
     private final GridPane panelContent = new GridPane();
     TopBar topBar = new TopBar();
     BottomBar bottomBar = new BottomBar();
+    public static final double WINDOW_WIDTH = 1260.d;
+    public static final double WINDOW_HEIGHT = 750.d;
+    public static final double TOP_BAR_HEIGHT = 35;
 
     public PanelManager(Stage stage) {
         this.stage = stage;
@@ -31,9 +35,14 @@ public class PanelManager {
 
         this.stage.setTitle("WorkerAI - Launcher");
         this.stage.centerOnScreen();
-        this.stage.setWidth(1260d);
-        this.stage.setHeight(750d);
+        this.stage.setWidth(WINDOW_WIDTH);
+        this.stage.setHeight(WINDOW_HEIGHT);
         this.stage.getIcons().add(new Image(ResourceManager.getIcon()));
+
+//        this.stage.heightProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue.doubleValue() != 750d)
+//                this.stage.setHeight(750d);
+//        });
 
         GridPane layout = new GridPane();
         if (Platform.isOnLinux()) {
@@ -43,16 +52,17 @@ public class PanelManager {
             this.stage.initStyle(StageStyle.UNDECORATED);
 
             BorderlessScene scene = new BorderlessScene(this.stage, StageStyle.UNDECORATED, layout);
-            scene.setMoveControl(topBar.getLayout());
+//            scene.setMoveControl(topBar.getLayout());
             scene.removeDefaultCSS();
             scene.setResizable(false);
 
             this.stage.setScene(scene);
+            MoveHelper.addResizeListener(this.stage);
 
             RowConstraints topPaneConstraints = new RowConstraints();
             topPaneConstraints.setValignment(VPos.TOP);
-            topPaneConstraints.setMinHeight(35);
-            topPaneConstraints.setMaxHeight(35);
+            topPaneConstraints.setMinHeight(TOP_BAR_HEIGHT);
+            topPaneConstraints.setMaxHeight(TOP_BAR_HEIGHT);
             layout.getRowConstraints().addAll(topPaneConstraints, new RowConstraints());
             layout.add(topBar.getLayout(), 0, 0);
             topBar.init(this);

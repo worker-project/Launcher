@@ -2,8 +2,8 @@ package com.workerai.launcher.ui.panels.pages;
 
 import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.database.Account;
+import com.workerai.launcher.database.authentication.ModuleResponse;
 import com.workerai.launcher.database.Requests;
-import com.workerai.launcher.database.Response;
 import com.workerai.launcher.savers.AccountManager;
 import com.workerai.launcher.ui.panels.PanelManager;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
@@ -37,20 +37,20 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.noideaindustry.jui.interfaces.JuiButton.createFontButton;
-import static com.noideaindustry.jui.interfaces.JuiButton.createMaterialButton;
-import static com.noideaindustry.jui.interfaces.JuiField.createPasswordField;
-import static com.noideaindustry.jui.interfaces.JuiField.createTextField;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createDesignIcon;
-import static com.noideaindustry.jui.interfaces.JuiImageView.createImageView;
-import static com.noideaindustry.jui.interfaces.JuiPane.createGridPane;
-import static com.noideaindustry.jui.interfaces.JuiPane.createStackPane;
+import static com.noideaindustry.jui.components.JuiButton.createFontButton;
+import static com.noideaindustry.jui.components.JuiButton.createMaterialButton;
+import static com.noideaindustry.jui.components.JuiField.createPasswordField;
+import static com.noideaindustry.jui.components.JuiField.createTextField;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiIcon.createDesignIcon;
+import static com.noideaindustry.jui.components.JuiImageView.createImageView;
+import static com.noideaindustry.jui.components.JuiPane.createGridPane;
+import static com.noideaindustry.jui.components.JuiPane.createStackPane;
 import static com.workerai.launcher.utils.LauncherInfos.LIGHT_GRAY;
 
 public class Login extends Panel {
     private final AtomicBoolean isTryingToSignIn = new AtomicBoolean(false);
-    private Response response;
+    private ModuleResponse moduleResponse;
     private Button signIn;
 
     @Override
@@ -113,40 +113,40 @@ public class Login extends Panel {
         /*if(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("AutoAuth").equals("true")) {
             try {
                 MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
-                MicrosoftAuthResult response = authenticator.loginWithRefreshToken(WorkerLauncher.getInstance().getAccountManager().getDatabase().getStatement("CLIENT_TOKEN"));
+                MicrosoftAuthResult moduleResponse = authenticator.loginWithRefreshToken(WorkerLauncher.getInstance().getAccountManager().getDatabase().getStatement("CLIENT_TOKEN"));
                 WorkerLauncher.getInstance().getAccountManager().getDatabase().createStatement(
-                        response.getProfile().getName(),
-                        response.getProfile().getId(),
-                        response.getRefreshToken(),
-                        response.getAccessToken()
+                        moduleResponse.getProfile().getName(),
+                        moduleResponse.getProfile().getId(),
+                        moduleResponse.getRefreshToken(),
+                        moduleResponse.getAccessToken()
                 );
 
                 WorkerLauncher.getInstance().setAuthInfos(new AuthInfos(
-                        response.getProfile().getName(),
-                        response.getAccessToken(),
-                        response.getProfile().getId()
+                        moduleResponse.getProfile().getName(),
+                        moduleResponse.getAccessToken(),
+                        moduleResponse.getProfile().getId()
                 ));
                 return true;
             } catch (MicrosoftAuthenticationException err) {
                 try {
                     Authenticator authenticator = new Authenticator(Authenticator.MOJANG_AUTH_URL, AuthPoints.NORMAL_AUTH_POINTS);
-                    RefreshResponse response = authenticator.refresh(
+                    RefreshResponse moduleResponse = authenticator.refresh(
                             WorkerLauncher.getInstance().getAccountManager().getDatabase().getStatement("CLIENT_TOKEN"),
                             WorkerLauncher.getInstance().getAccountManager().getDatabase().getStatement("ACCESS_TOKEN")
                     );
 
                     WorkerLauncher.getInstance().getAccountManager().getDatabase().createStatement(
-                            response.getSelectedProfile().getName(),
-                            response.getSelectedProfile().getId(),
-                            response.getClientToken(),
-                            response.getAccessToken()
+                            moduleResponse.getSelectedProfile().getName(),
+                            moduleResponse.getSelectedProfile().getId(),
+                            moduleResponse.getClientToken(),
+                            moduleResponse.getAccessToken()
                     );
 
                     WorkerLauncher.getInstance().setAuthInfos(new AuthInfos(
-                            response.getSelectedProfile().getName(),
-                            response.getAccessToken(),
-                            response.getClientToken(),
-                            response.getSelectedProfile().getId()
+                            moduleResponse.getSelectedProfile().getName(),
+                            moduleResponse.getAccessToken(),
+                            moduleResponse.getClientToken(),
+                            moduleResponse.getSelectedProfile().getId()
                     ));
                     return true;
                 } catch (AuthenticationException er) {
@@ -170,16 +170,16 @@ public class Login extends Panel {
                 WorkerLauncher.getInstance().getLogger().info("MicrosoftAuth | Trying resolving account information.");
                 MicrosoftAuthResult result = authenticator.loginWithCredentials(email, password);
 
-                response = Response.getUser(result.getProfile().getId());
+                moduleResponse = ModuleResponse.getUserFromUuid(result.getProfile().getId());
 
-                if (response == null) {
+                if (moduleResponse == null) {
                     failedConnecting();
                     Platform.runLater(() -> AlertManager.ShowError(
                             this.panelManager.getStage(),
                             "Authentication Error",
                             "Your account isn't registered in our records!\nFeel free to contact us if you think this is a mistake."));
                 } else {
-                    Account account = Account.createAccount(result.getProfile().getName(), result.getProfile().getId(), result.getRefreshToken(), result.getAccessToken(), response);
+                    Account account = Account.createAccount(result.getProfile().getName(), result.getProfile().getId(), result.getRefreshToken(), result.getAccessToken(), moduleResponse);
                     AccountManager.setCurrentAccount(account);
                     Requests.addRemoteAccount(account);
 
@@ -200,16 +200,16 @@ public class Login extends Panel {
                 WorkerLauncher.getInstance().getLogger().info("MojangAuth | Trying resolving account information.");
                 AuthResponse result = authenticator.authenticate(AuthAgent.MINECRAFT, email, password, null);
 
-                response = Response.getUser(result.getSelectedProfile().getId());
+                moduleResponse = ModuleResponse.getUserFromUuid(result.getSelectedProfile().getId());
 
-                if (response == null) {
+                if (moduleResponse == null) {
                     failedConnecting();
                     Platform.runLater(() -> AlertManager.ShowError(
                             this.panelManager.getStage(),
                             "Authentication Error",
                             "Your account isn't registered in our records!\nFeel free to contact us if you think this is a mistake."));
                 } else {
-                    Account account = Account.createAccount(result.getSelectedProfile().getName(), result.getSelectedProfile().getId(), result.getClientToken(), result.getAccessToken(), response);
+                    Account account = Account.createAccount(result.getSelectedProfile().getName(), result.getSelectedProfile().getId(), result.getClientToken(), result.getAccessToken(), moduleResponse);
                     AccountManager.setCurrentAccount(account);
                     Requests.addRemoteAccount(account);
 

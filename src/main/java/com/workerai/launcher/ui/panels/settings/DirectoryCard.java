@@ -8,21 +8,21 @@ import fr.theshark34.openlauncherlib.util.Saver;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.nio.file.Path;
 
-import static com.noideaindustry.jui.interfaces.JuiButton.createFontButton;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
-import static com.noideaindustry.jui.interfaces.JuiRegion.createRegion;
+import static com.noideaindustry.jui.components.JuiButton.createFontButton;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiLabel.createLabel;
+import static com.noideaindustry.jui.components.JuiRegion.createRegion;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 
 public class DirectoryCard extends Settings {
-    public static void create(GridPane container, Saver saver, StackPane card) {
+    public static void create(Pane container, Saver saver, StackPane card) {
         container.getChildren().add(card);
 
         createLabel(0, 20d, "Game Directory", createAwesomeIcon(-4d, 0, FontAwesomeIcon.FOLDER_OPEN, "25px", WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);

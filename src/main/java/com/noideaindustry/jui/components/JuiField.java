@@ -1,4 +1,4 @@
-package com.noideaindustry.jui.interfaces;
+package com.noideaindustry.jui.components;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.PasswordField;

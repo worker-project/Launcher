@@ -3,7 +3,7 @@ package com.noideaindustry.jui;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
-public abstract class JuiUtils {
+public class JuiUtils {
     public static double bytesFormater(long bytes) {
         long absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
         if (absB < 1024) return bytes;

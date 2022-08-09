@@ -96,7 +96,6 @@
     -fx-background-color: rgb(29,29,27);
     -fx-border-style: solid;
     -fx-border-width: 0.3;
-    -fx-border-color: red;
 
     -fx-max-width: 460;
     -fx-max-height: 300;
@@ -169,6 +168,7 @@
 }
 
 .settings-panel .close-button {
+    -fx-background-color: transparent;
     -fx-opacity: 0.8;
 }
 .settings-panel .close-button:hover {

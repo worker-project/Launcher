@@ -1,4 +1,4 @@
-package com.workerai.launcher.database;
+package com.workerai.launcher.database.authentication;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Response {
+public class ModuleResponse {
     public static class AccountModules {
         private boolean automine;
         private boolean forage;
@@ -34,12 +34,12 @@ public class Response {
 
     private final AccountModules accountModules = new AccountModules();
 
-    public Response(boolean automine, boolean forage) {
+    public ModuleResponse(boolean automine, boolean forage) {
         this.accountModules.setAutomine(automine);
         this.accountModules.setForage(forage);
     }
 
-    public static Response getUser(String uuid) {
+    public static ModuleResponse getUserFromUuid(String uuid) {
         try {
             URL url = new URL(String.format("http://185.245.183.191:2929/jWuR0gHff54WvVzL?&uuid=%s", uuid));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -61,7 +61,7 @@ public class Response {
                 return null;
             }
 
-            return new Response(obj.get("automine").getAsBoolean(), obj.get("forage").getAsBoolean());
+            return new ModuleResponse(obj.get("automine").getAsBoolean(), obj.get("forage").getAsBoolean());
         } catch (IOException e) {
             WorkerLauncher.getInstance().getLogger().err("Remote SQLite doesn't respond! Returning default values...");
             return null;

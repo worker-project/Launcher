@@ -1,4 +1,4 @@
-package com.noideaindustry.jui.interfaces;
+package com.noideaindustry.jui.components;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;

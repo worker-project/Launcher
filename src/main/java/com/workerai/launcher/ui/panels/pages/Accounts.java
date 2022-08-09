@@ -11,12 +11,11 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 
-import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.interfaces.JuiPane.createGridPane;
-import static com.noideaindustry.jui.interfaces.JuiPane.createStackPane;
+import static com.noideaindustry.jui.components.JuiLabel.createLabel;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiPane.createGridPane;
+import static com.noideaindustry.jui.components.JuiPane.createStackPane;
 import static com.workerai.launcher.utils.DisplayManager.displayAccount;
 import static com.workerai.launcher.utils.LauncherInfos.*;
 

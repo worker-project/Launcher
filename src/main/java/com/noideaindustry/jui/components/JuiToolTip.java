@@ -1,4 +1,4 @@
-package com.noideaindustry.jui.interfaces;
+package com.noideaindustry.jui.components;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.Tooltip;

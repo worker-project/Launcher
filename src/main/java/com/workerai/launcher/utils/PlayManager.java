@@ -1,6 +1,7 @@
 package com.workerai.launcher.utils;
 
 import com.workerai.launcher.WorkerLauncher;
+import com.workerai.launcher.database.authentication.TokenResponse;
 import com.workerai.launcher.savers.AccountManager;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.DownloadList;
@@ -12,6 +13,9 @@ import fr.theshark34.openlauncherlib.minecraft.*;
 import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class PlayManager {
     private static final ProgressBar progressBar = new ProgressBar();
@@ -97,9 +101,13 @@ public class PlayManager {
             );
 
             ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gInfos, GameFolder.FLOW_UPDATER, aInfos);
-            profile.getVmArgs().add(PlayManager.getRamArgs());
-            ExternalLauncher launcher = new ExternalLauncher(profile);
 
+            profile.getVmArgs().add(PlayManager.getRamArgs());
+            profile.getArgs().addAll(getMinecraftSizeArgs());
+            profile.getArgs().addAll(Arrays.asList("--token" , TokenResponse.getTokenFromUuid(AccountManager.getCurrentAccount().getUuid())));
+            System.out.println(profile.getArgs());
+
+            ExternalLauncher launcher = new ExternalLauncher(profile);
             Process p = launcher.launch();
             Platform.runLater(() -> {
                 if (WorkerLauncher.getInstance().getSettingsManager().getSaver().get("HideAfterLaunch").equals("true")) {
@@ -123,7 +131,6 @@ public class PlayManager {
         try {
             if (WorkerLauncher.getInstance().getSettingsManager().getSaver().get("AllocatedRAM") != null) {
                 defaultRam = Integer.parseInt(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("AllocatedRAM"));
-                System.out.println(defaultRam);
             } else {
                 throw new NumberFormatException();
             }
@@ -134,36 +141,21 @@ public class PlayManager {
         return "-Xmx" + defaultRam + "M";
     }
 
-    static String getHeightArgs() {
+    static List<String> getMinecraftSizeArgs() {
         int defaultHeight = 854;
-        try {
-            if (WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchHeight") != null) {
-                defaultHeight = Integer.parseInt(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchHeight"));
-            } else {
-                throw new NumberFormatException();
-            }
-        } catch (NumberFormatException error) {
-            WorkerLauncher.getInstance().getSettingsManager().getSaver().set("LaunchHeight", String.valueOf(defaultHeight));
-            WorkerLauncher.getInstance().getSettingsManager().getSaver().save();
-        }
-        return "--height" + defaultHeight;
-    }
-
-    static String getWidthArgs() {
         int defaultWidth = 480;
 
         try {
-            if (WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchWidth") != null) {
-                defaultWidth = Integer.parseInt(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchWidth"));
-            } else {
-                throw new NumberFormatException();
-            }
+            defaultHeight = Integer.parseInt(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchHeight"));
+            defaultWidth = Integer.parseInt(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchWidth"));
         } catch (NumberFormatException error) {
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().set("LaunchHeight", String.valueOf(defaultHeight));
+            WorkerLauncher.getInstance().getSettingsManager().getSaver().save();
+
             WorkerLauncher.getInstance().getSettingsManager().getSaver().set("LaunchWidth", String.valueOf(defaultWidth));
             WorkerLauncher.getInstance().getSettingsManager().getSaver().save();
         }
-
-        return "--width" + defaultWidth;
+        return Arrays.asList("--width", String.valueOf(defaultWidth), "--height", String.valueOf(defaultHeight));
     }
 
     enum StepInfo {

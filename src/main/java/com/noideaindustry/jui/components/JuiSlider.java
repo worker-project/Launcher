@@ -1,4 +1,4 @@
-package com.noideaindustry.jui.interfaces;
+package com.noideaindustry.jui.components;
 
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;

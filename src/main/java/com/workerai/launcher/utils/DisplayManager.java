@@ -26,14 +26,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static com.noideaindustry.jui.geometry.JuiCircle.createStrokeCircle;
-import static com.noideaindustry.jui.interfaces.JuiButton.createFontButton;
-import static com.noideaindustry.jui.interfaces.JuiButton.createMaterialButton;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createDesignIcon;
-import static com.noideaindustry.jui.interfaces.JuiImageView.createImageView;
-import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
-import static com.noideaindustry.jui.interfaces.JuiPane.createScrollPane;
-import static com.noideaindustry.jui.interfaces.JuiPane.createStackPane;
+import static com.noideaindustry.jui.components.JuiButton.createFontButton;
+import static com.noideaindustry.jui.components.JuiButton.createMaterialButton;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiIcon.createDesignIcon;
+import static com.noideaindustry.jui.components.JuiImageView.createImageView;
+import static com.noideaindustry.jui.components.JuiLabel.createLabel;
+import static com.noideaindustry.jui.components.JuiPane.createScrollPane;
+import static com.noideaindustry.jui.components.JuiPane.createStackPane;
 import static com.workerai.launcher.utils.LauncherInfos.LIGHT_BLACK;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 
@@ -56,17 +56,17 @@ public class DisplayManager {
         displayBanner(container, card);
 
         FontAwesomeIconView newsIcon = createAwesomeIcon(-4d, 0d, FontAwesomeIcon.NEWSPAPER_ALT, "25px", WHITE, null);
-        createLabel(0d, -100d, news.getName(), newsIcon, "news-Label", null, card);
-        createImageView(0d, -5d, 340d, 350d, news.getPreview(), card);
+        createLabel(0d, -100d, news.name(), newsIcon, "news-Label", null, card);
+        createImageView(0d, -5d, 340d, 350d, news.preview(), card);
 
-        createLabel(15d, 85d, news.getDescription(), null, "news-desc-Label", Pos.CENTER_LEFT, card);
-        createLabel(15d, 100d, news.getSubDescription(), null, "news-desc-Label", Pos.CENTER_LEFT, card);
+        createLabel(15d, 85d, news.description(), null, "news-desc-Label", Pos.CENTER_LEFT, card);
+        createLabel(15d, 100d, news.subDescription(), null, "news-desc-Label", Pos.CENTER_LEFT, card);
 
         MaterialDesignIconView readIcon = createDesignIcon(0d, -1d, MaterialDesignIcon.BOOK_OPEN_PAGE_VARIANT, "20px", Color.rgb(210, 144, 52), null);
         Button readNews = createMaterialButton(140d, 95d, 0d, 0d, true, "news-button", readIcon, card);
         readNews.setOnMouseClicked(e -> {
             try {
-                Desktop.getDesktop().browse(new URI(news.getUrl()));
+                Desktop.getDesktop().browse(new URI(news.url()));
             } catch (IOException | URISyntaxException ex) {
                 throw new RuntimeException(ex);
             }

@@ -1,20 +1,22 @@
 package com.workerai.launcher.database;
 
+import com.workerai.launcher.database.authentication.ModuleResponse;
+
 public class Account {
     private String UUID;
     private String USERNAME;
     private String CLIENT_TOKEN;
     private String ACCESS_TOKEN;
-    private Response RESPONSE;
+    private ModuleResponse ModuleRESPONSE;
 
-    public static Account createAccount(String username, String uuid, String clientToken, String accessToken, Response response) {
+    public static Account createAccount(String username, String uuid, String clientToken, String accessToken, ModuleResponse moduleResponse) {
         Account account = new Account();
 
         account.USERNAME = username;
         account.UUID = uuid;
         account.CLIENT_TOKEN = clientToken;
         account.ACCESS_TOKEN = accessToken;
-        account.RESPONSE = response;
+        account.ModuleRESPONSE = moduleResponse;
 
         return account;
     }
@@ -51,10 +53,10 @@ public class Account {
         ACCESS_TOKEN = accessToken;
     }
 
-    public void setResponse(Response response) {
-        RESPONSE = response;
+    public void setResponse(ModuleResponse moduleResponse) {
+        ModuleRESPONSE = moduleResponse;
     }
-    public Response getResponse() {
-        return RESPONSE;
+    public ModuleResponse getResponse() {
+        return ModuleRESPONSE;
     }
 }

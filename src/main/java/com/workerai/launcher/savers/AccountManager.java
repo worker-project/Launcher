@@ -2,7 +2,7 @@ package com.workerai.launcher.savers;
 
 import com.workerai.launcher.database.Account;
 import com.workerai.launcher.database.Requests;
-import com.workerai.launcher.database.Response;
+import com.workerai.launcher.database.authentication.ModuleResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class AccountManager {
 
     public static void initLocalAccounts() {
         for (Account account : Requests.getRemoteAccounts()) {
-            account.setResponse(Response.getUser(account.getUuid()));
+            account.setResponse(ModuleResponse.getUserFromUuid(account.getUuid()));
             AccountManager.addLocalAccount(account);
         }
     }
@@ -42,6 +42,6 @@ public class AccountManager {
     public static void removeCurrentAccount() { currentAccount = null; }
 
     public static Account getDebugAccount() {
-        return Account.createAccount(null, null, null, null, new Response(false, false));
+        return Account.createAccount(null, null, null, null, new ModuleResponse(false, false));
     }
 }

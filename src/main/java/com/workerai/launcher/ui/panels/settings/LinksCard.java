@@ -7,20 +7,20 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import fr.theshark34.openlauncherlib.util.Saver;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-import static com.noideaindustry.jui.interfaces.JuiButton.createFontButton;
-import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiButton.createFontButton;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 
 public class LinksCard extends Settings {
-    public static void create(GridPane container, Saver saver, StackPane card) {
+    public static void create(Pane container, Saver saver, StackPane card) {
         container.getChildren().add(card);
 
         createLabel(0, 50d, "Quick Links", createAwesomeIcon(-4d, 0, FontAwesomeIcon.SEND, "25px", WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);

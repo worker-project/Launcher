@@ -8,8 +8,8 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.Cursor;
 import javafx.scene.layout.GridPane;
 
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.interfaces.JuiImageView.createImageView;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiImageView.createImageView;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 
 public class TopBar extends Panel {

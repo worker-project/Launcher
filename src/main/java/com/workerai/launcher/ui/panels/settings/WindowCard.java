@@ -6,21 +6,23 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import fr.theshark34.openlauncherlib.util.Saver;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
 
-import static com.noideaindustry.jui.interfaces.JuiButton.createFontButton;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
-import static com.noideaindustry.jui.interfaces.JuiToolTip.createTooltip;
+import static com.noideaindustry.jui.components.JuiButton.createFontButton;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiLabel.createLabel;
+import static com.noideaindustry.jui.components.JuiToolTip.createTooltip;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 import static java.awt.MouseInfo.getPointerInfo;
 
 public class WindowCard extends Settings {
-    public static void create(GridPane container, Saver saver, StackPane card) {
+    public static void create(Pane container, Saver saver, StackPane card) {
         container.getChildren().add(card);
 
         createLabel(0, 20d, "Launcher Window", createAwesomeIcon(-4d, 0, FontAwesomeIcon.PLAY_CIRCLE, "25px", WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);

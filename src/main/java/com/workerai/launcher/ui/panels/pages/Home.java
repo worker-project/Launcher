@@ -15,15 +15,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 
-import static com.noideaindustry.jui.interfaces.JuiButton.createFontButton;
-import static com.noideaindustry.jui.interfaces.JuiButton.createMaterialButton;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createDesignIcon;
-import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
-import static com.noideaindustry.jui.interfaces.JuiPane.createGridPane;
-import static com.noideaindustry.jui.interfaces.JuiPane.createStackPane;
+import static com.noideaindustry.jui.components.JuiButton.createFontButton;
+import static com.noideaindustry.jui.components.JuiButton.createMaterialButton;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiIcon.createDesignIcon;
+import static com.noideaindustry.jui.components.JuiLabel.createLabel;
+import static com.noideaindustry.jui.components.JuiPane.createGridPane;
+import static com.noideaindustry.jui.components.JuiPane.createStackPane;
 import static com.workerai.launcher.utils.DisplayManager.*;
 import static com.workerai.launcher.utils.LauncherInfos.*;
 

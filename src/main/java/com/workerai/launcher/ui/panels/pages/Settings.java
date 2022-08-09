@@ -12,12 +12,11 @@ import fr.theshark34.openlauncherlib.util.Saver;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
-import static com.noideaindustry.jui.interfaces.JuiPane.createGridPane;
-import static com.noideaindustry.jui.interfaces.JuiPane.createStackPane;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiLabel.createLabel;
+import static com.noideaindustry.jui.components.JuiPane.createGridPane;
+import static com.noideaindustry.jui.components.JuiPane.createStackPane;
 import static com.workerai.launcher.utils.LauncherInfos.*;
 
 public class Settings extends Panel {
@@ -30,27 +29,33 @@ public class Settings extends Panel {
         BottomBar.getInstance().setDefaultIcons();
 
         GridPane backgroundPane = createGridPane("background-login");
-        this.layout.getChildren().add(backgroundPane);
         setCanTakeAllSize(this.layout, backgroundPane);
 
         StackPane settingsPane = createStackPane(0d, 0d, 1200d, 600d, "settings-panel", LIGHT_BLACK);
-        this.layout.getChildren().add(settingsPane);
+
+        GridPane overlay = createGridPane("settings-panel");
+        setCanTakeAllSize(overlay);
+        overlay.setStyle("-fx-background-color: rgba(0, 0, 0, .4);");
+        overlay.setManaged(false);
+        overlay.setVisible(false);
+
+        this.layout.getChildren().addAll(backgroundPane, settingsPane, overlay);
 
         FontAwesomeIconView titleIcon = createAwesomeIcon(-4d, 0, FontAwesomeIcon.GEARS, "25px", WHITE, settingsPane);
         createLabel(0d, 90d, "Launcher & Client Settings", titleIcon, "settings-label", Pos.TOP_CENTER, settingsPane);
         createLabel(0d, 120d, "Change your settings for a better personal fit.", null, "settings-subLabel", Pos.TOP_CENTER, settingsPane);
 
-        GridPane card = new GridPane();
-        settingsPane.getChildren().add(card);
+        GridPane cardHolder = new GridPane();
+        settingsPane.getChildren().add(cardHolder);
 
-        WindowCard.create(card, saver, createStackPane(70d, 185d, 350d, 200d, DARK_BLACK));
-        DirectoryCard.create(card, saver, createStackPane(70d, 185d * 2 + 45d, 350d, 200d, DARK_BLACK));
-        MemoryCard.create(card, saver, createStackPane(70d + 350d + 35d, 185d, 350d, 200d, DARK_BLACK));
-        ResolutionCard.create(card, saver, createStackPane(70d + 350d + 35d, 185d * 2 + 45d, 350d, 200d, DARK_BLACK));
+        WindowCard.create(cardHolder, saver, createStackPane(70d, 185d, 350d, 200d, DARK_BLACK));
+        DirectoryCard.create(cardHolder, saver, createStackPane(70d, 185d * 2 + 45d, 350d, 200d, DARK_BLACK));
+        MemoryCard.create(cardHolder, saver, createStackPane(70d + 350d + 35d, 185d, 350d, 200d, DARK_BLACK));
+        ResolutionCard.create(cardHolder, saver, createStackPane(70d + 350d + 35d, 185d * 2 + 45d, 350d, 200d, DARK_BLACK), overlay);
 
-        FilesCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d, 350d, 125d, DARK_BLACK));
-        LegalCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d, 350d, 125d, DARK_BLACK));
-        LinksCard.create(card, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d * 2, 350d, 125d, DARK_BLACK));
+        FilesCard.create(cardHolder, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d, 350d, 125d, DARK_BLACK));
+        LegalCard.create(cardHolder, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d, 350d, 125d, DARK_BLACK));
+        LinksCard.create(cardHolder, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d * 2, 350d, 125d, DARK_BLACK));
     }
 
     @Override

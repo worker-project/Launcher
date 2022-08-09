@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createDesignIcon;
-import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiIcon.createDesignIcon;
+import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.workerai.launcher.utils.LauncherInfos.DARK_GRAY;
 
 public class BottomBar extends Panel {

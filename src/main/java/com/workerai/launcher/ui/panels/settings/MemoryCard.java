@@ -7,19 +7,20 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import oshi.SystemInfo;
 import oshi.hardware.GlobalMemory;
 
 import static com.noideaindustry.jui.JuiUtils.bytesFormater;
-import static com.noideaindustry.jui.interfaces.JuiBox.createHBox;
-import static com.noideaindustry.jui.interfaces.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.interfaces.JuiLabel.createLabel;
-import static com.noideaindustry.jui.interfaces.JuiSlider.createSlider;
+import static com.noideaindustry.jui.components.JuiBox.createHBox;
+import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
+import static com.noideaindustry.jui.components.JuiLabel.createLabel;
+import static com.noideaindustry.jui.components.JuiSlider.createSlider;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 
 public class MemoryCard extends Settings {
-    public static void create(GridPane container, Saver saver, StackPane card) {
+    public static void create(Pane container, Saver saver, StackPane card) {
         container.getChildren().add(card);
 
         createLabel(0, 20d, "Allocated Memory", createAwesomeIcon(-4d, 0, FontAwesomeIcon.SLIDERS, "25px", WHITE, card), "afterLaunch-label", Pos.TOP_CENTER, card);

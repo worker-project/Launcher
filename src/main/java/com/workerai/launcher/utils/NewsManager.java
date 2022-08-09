@@ -33,43 +33,11 @@ public class NewsManager {
         return newsList.get(index);
     }
 
-    static class News {
-        private final String description;
-        private final String subDescription;
-        private final String url;
-        private final String name;
-        private final String preview;
-
-        News(String name, String url, String description, String subDescription, String preview) {
+    record News(String name, String url, String description, String subDescription, String preview) {
+        News {
             if (description.length() > 48 || subDescription.length() > 46) {
                 throw new RuntimeException("Description or Sub Description too long (max 46 chars...)" + "\n ###actual desc = " + description.length() + "\n ###actual subDesc = " + subDescription.length());
             }
-
-            this.name = name;
-            this.description = description;
-            this.subDescription = subDescription;
-            this.url = url;
-            this.preview = preview;
         }
-
-        String getDescription() {
-            return this.description;
         }
-
-        String getSubDescription() {
-            return subDescription;
-        }
-
-        String getUrl() {
-            return this.url;
-        }
-
-        String getName() {
-            return this.name;
-        }
-
-        String getPreview() {
-            return this.preview;
-        }
-    }
 }
