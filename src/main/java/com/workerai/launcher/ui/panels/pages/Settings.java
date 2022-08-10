@@ -29,17 +29,15 @@ public class Settings extends Panel {
         BottomBar.getInstance().setDefaultIcons();
 
         GridPane backgroundPane = createGridPane("background-login");
+        this.layout.getChildren().add(backgroundPane);
         setCanTakeAllSize(this.layout, backgroundPane);
 
         StackPane settingsPane = createStackPane(0d, 0d, 1200d, 600d, "settings-panel", LIGHT_BLACK);
+        this.layout.getChildren().add(settingsPane);
 
-        GridPane overlay = createGridPane("settings-panel");
-        setCanTakeAllSize(overlay);
-        overlay.setStyle("-fx-background-color: rgba(0, 0, 0, .4);");
-        overlay.setManaged(false);
-        overlay.setVisible(false);
-
-        this.layout.getChildren().addAll(backgroundPane, settingsPane, overlay);
+        GridPane overlayPane = createGridPane("settings-panel", true);
+        this.layout.getChildren().add(overlayPane);
+        setCanTakeAllSize(overlayPane);
 
         FontAwesomeIconView titleIcon = createAwesomeIcon(-4d, 0, FontAwesomeIcon.GEARS, "25px", WHITE, settingsPane);
         createLabel(0d, 90d, "Launcher & Client Settings", titleIcon, "settings-label", Pos.TOP_CENTER, settingsPane);
@@ -51,7 +49,7 @@ public class Settings extends Panel {
         WindowCard.create(cardHolder, saver, createStackPane(70d, 185d, 350d, 200d, DARK_BLACK));
         DirectoryCard.create(cardHolder, saver, createStackPane(70d, 185d * 2 + 45d, 350d, 200d, DARK_BLACK));
         MemoryCard.create(cardHolder, saver, createStackPane(70d + 350d + 35d, 185d, 350d, 200d, DARK_BLACK));
-        ResolutionCard.create(cardHolder, saver, createStackPane(70d + 350d + 35d, 185d * 2 + 45d, 350d, 200d, DARK_BLACK), overlay);
+        ResolutionCard.create(cardHolder, saver, createStackPane(70d + 350d + 35d, 185d * 2 + 45d, 350d, 200d, DARK_BLACK), overlayPane);
 
         FilesCard.create(cardHolder, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d, 350d, 125d, DARK_BLACK));
         LegalCard.create(cardHolder, saver, createStackPane(70d * 2 + 350d * 2, 185d - 37.5d + 152.2d, 350d, 125d, DARK_BLACK));

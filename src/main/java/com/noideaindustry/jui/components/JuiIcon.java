@@ -18,6 +18,10 @@ public abstract class JuiIcon {
         return createAwesomeIcon(posX, posY, displayIcon, size, null, color, pane, Cursor.DEFAULT);
     }
 
+    public static FontAwesomeIconView createAwesomeIcon(double posX, double posY, FontAwesomeIcon displayIcon, String size) {
+        return createAwesomeIcon(posX, posY, displayIcon, size, null, Color.WHITE, null, Cursor.DEFAULT);
+    }
+
     public static FontAwesomeIconView createAwesomeIcon(double posX, double posY, FontAwesomeIcon displayIcon, String size, String styleClass, Color color, Pane pane, Cursor hoveredCursor) {
         FontAwesomeIconView iconView = new FontAwesomeIconView(displayIcon);
 

@@ -2,8 +2,8 @@ package com.workerai.launcher.ui.panels.pages;
 
 import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.database.Account;
-import com.workerai.launcher.database.authentication.ModuleResponse;
 import com.workerai.launcher.database.Requests;
+import com.workerai.launcher.database.authentication.ModuleResponse;
 import com.workerai.launcher.savers.AccountManager;
 import com.workerai.launcher.ui.panels.PanelManager;
 import com.workerai.launcher.ui.panels.partials.BottomBar;

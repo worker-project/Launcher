@@ -17,6 +17,7 @@ public abstract class JuiPane {
     public static ScrollPane createScrollPane(double posX, double posY, double width, double height, String styleClass, Pane content, Pane pane) {
         return createScrollPane(posX, posY, width, height, styleClass, ALWAYS, NEVER, false, true, true, content, Pos.CENTER_RIGHT, pane);
     }
+
     public static ScrollPane createScrollPane(double posX, double posY, double width, double height, String styleClass, ScrollPane.ScrollBarPolicy vPolicy, ScrollPane.ScrollBarPolicy hPolicy, boolean fitHeight, boolean fitWidth, boolean pannable, Pane content, Pos alignement, Pane pane) {
         ScrollPane scrollPane = new ScrollPane();
 
@@ -46,15 +47,19 @@ public abstract class JuiPane {
     public static StackPane createStackPane(double posX, double posY, double width, double height, Color color) {
         return createStackPane(posX, posY, width, height, 15d, 15d, false, null, null, color);
     }
+
     public static StackPane createStackPane(double posX, double posY, double width, double height, boolean concat) {
         return createStackPane(posX, posY, width, height, 15d, 15d, concat, null, null, DARK_BLACK);
     }
+
     public static StackPane createStackPane(double posX, double posY, double width, double height, boolean concat, Color color) {
         return createStackPane(posX, posY, width, height, 15d, 15d, concat, null, null, color);
     }
+
     public static StackPane createStackPane(double posX, double posY, double width, double height, String styleClass, Color color) {
         return createStackPane(posX, posY, width, height, 15d, 15d, false, styleClass, Pos.CENTER, color);
     }
+
     public static StackPane createStackPane(double posX, double posY, double width, double height, double arcHeight, double arcWidth, boolean concat, String styleClass, Pos alignement, Color color) {
         StackPane stackPane = new StackPane();
 
@@ -85,6 +90,17 @@ public abstract class JuiPane {
     public static GridPane createGridPane(String styleClass) {
         return createGridPane(0d, 0d, 0d, 0d, 0d, 0d, styleClass, Color.TRANSPARENT);
     }
+
+    public static GridPane createGridPane(String styleClass, boolean overlay) {
+        GridPane pane = createGridPane(0d, 0d, 0d, 0d, 0d, 0d, styleClass, Color.TRANSPARENT);
+        if (overlay) {
+            pane.setStyle("-fx-background-color: rgba(0, 0, 0, .4);");
+            pane.setManaged(false);
+            pane.setVisible(false);
+        }
+        return pane;
+    }
+
     public static GridPane createGridPane(double posX, double posY, double width, double height, double arcHeight, double arcWidth, String styleClass, Color color) {
         GridPane gridPane = new GridPane();
 

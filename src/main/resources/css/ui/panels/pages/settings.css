@@ -92,25 +92,6 @@
     -fx-text-fill: rgb(255,255,255);
 }
 
-.settings-panel .preset-box {
-    -fx-background-color: rgb(29,29,27);
-    -fx-border-style: solid;
-    -fx-border-width: 0.3;
-
-    -fx-max-width: 460;
-    -fx-max-height: 300;
-
-    -fx-border-radius: 10 10 10 10;
-    -fx-background-radius: 10 10 10 10;
-}
-
-.settings-panel .presets-boxes {
-    -fx-background-color: rgb(29,29,27);
-
-    -fx-max-width: 110;
-    -fx-max-height: 200;
-}
-
 .settings-panel .presets-button {
     -fx-background-radius: 4px;
     -fx-background-color: rgb(210,144,52);
@@ -119,6 +100,11 @@
     -fx-font-weight: 700;
     -fx-font-size: 15px;
     -fx-text-fill: rgb(255,255,255);
+
+    -fx-opacity: 0.8;
+}
+.settings-panel .presets-button:hover {
+    -fx-opacity: 1;
 }
 
 .settings-panel .slider {
