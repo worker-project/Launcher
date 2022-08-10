@@ -28,6 +28,8 @@ import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 public class ResolutionCard extends Settings {
     static final StackPane presetsHolder = createStackPane(470d, 190d, 460d, 300d, DARK_BLACK);
 
+    static Button previousWidthAndHeight;
+
     public static void create(Pane container, Saver saver, StackPane card, Pane overlay) {
         container.getChildren().add(card);
 
@@ -78,6 +80,10 @@ public class ResolutionCard extends Settings {
     }
 
     static void createChoices(Label presetLabel, String[] presetChoice, Button[] presetsButtons, TextField widthField, TextField heightField) {
+        int width = Integer.parseInt(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchWidth"));
+        int height = Integer.parseInt(WorkerLauncher.getInstance().getSettingsManager().getSaver().get("LaunchHeight"));
+        String widthAndHeight = width + "x" + height;
+
         for (int i = 0; i < presetChoice.length; i++) {
             int finalI = i;
             presetsButtons[i] = createFontButton(70d, -25d, 100d, 25d, String.valueOf(presetChoice[i]), "presets-button", null, null, Pos.BOTTOM_CENTER, null);
@@ -88,6 +94,9 @@ public class ResolutionCard extends Settings {
 
                 WorkerLauncher.getInstance().getSettingsManager().getSaver().set("LaunchHeight", split[1]);
                 heightField.setText(split[1]);
+
+                setButtonProperty(presetsButtons[finalI], previousWidthAndHeight);
+                previousWidthAndHeight = presetsButtons[finalI];
             });
 
             if (i >= 1) {
@@ -99,6 +108,11 @@ public class ResolutionCard extends Settings {
             }
 
             presetsHolder.getChildren().add(presetsButtons[i]);
+
+            if (presetsButtons[i].getText().equals(widthAndHeight)) {
+                setButtonProperty(presetsButtons[i], previousWidthAndHeight);
+                previousWidthAndHeight = presetsButtons[i];
+            }
         }
 
         presetLabel.setTranslateY(presetLabel.getTranslateY() * -1 - 140d);
@@ -137,5 +151,11 @@ public class ResolutionCard extends Settings {
         pane.getChildren().remove(presetsHolder);
         pane.setManaged(false);
         pane.setVisible(false);
+    }
+
+    static void setButtonProperty(Button active, Button inactive) {
+        active.getStyleClass().add("presets-button-active");
+        if(inactive == null) return;
+        inactive.getStyleClass().remove("presets-button-active");
     }
 }

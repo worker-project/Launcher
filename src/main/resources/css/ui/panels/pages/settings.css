@@ -94,7 +94,7 @@
 
 .settings-panel .presets-button {
     -fx-background-radius: 4px;
-    -fx-background-color: rgb(210,144,52);
+    -fx-background-color: rgb(23,23,23);
 
     -fx-font-family: "Signika";
     -fx-font-weight: 700;
@@ -105,6 +105,9 @@
 }
 .settings-panel .presets-button:hover {
     -fx-opacity: 1;
+}
+.settings-panel .presets-button-active {
+    -fx-background-color: rgb(210,144,52);
 }
 
 .settings-panel .slider {

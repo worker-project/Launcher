@@ -65,8 +65,8 @@ public class WindowCard extends Settings {
         }
     }
 
-    private static void setButtonProperty(Button active, Button inactive) {
+    static void setButtonProperty(Button active, Button inactive) {
         active.getStyleClass().add("afterLaunch-button-active");
-        inactive.getStyleClass().removeAll("afterLaunch-button-active");
+        inactive.getStyleClass().remove("afterLaunch-button-active");
     }
 }
