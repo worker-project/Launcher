@@ -114,6 +114,25 @@
     -fx-border-color: gray;
 }
 
+.accounts-panel .scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: transparent;
+}
+.accounts-panel .increment-button, .decrement-button {
+    -fx-background: transparent;
+}
+.accounts-panel .scroll-bar:horizontal .track, .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+}
+.accounts-panel .scroll-bar:horizontal .thumb, .scroll-bar:vertical .thumb {
+    -fx-background-color: rgb(52,52,52);
+    -fx-background-radius: 5em;
+}
+.accounts-panel .scroll-bar > .increment-button,
+.accounts-panel .scroll-bar > .decrement-button {
+    -fx-background-color: transparent;
+}
+
 @font-face {
     font-family: "Signika";
     font-style: normal;

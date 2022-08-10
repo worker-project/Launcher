@@ -10,11 +10,7 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-/**
- * Created by Arinonia on 07/03/2020 inside the package - fr.arinonia.arilibfx.ui.utils
- * @see <a href="https://github.com/Arinonia/AriLibFX/blob/master/src/main/java/fr/arinonia/arilibfx/ui/utils/ResizeHelper.java">...</a>
- */
-public class MoveHelper {
+public class WindowMoveManager {
     static boolean isScrollbar = false;
 
     public static void addResizeListener(Stage stage) {
@@ -47,13 +43,12 @@ public class MoveHelper {
         node.addEventHandler(MouseEvent.MOUSE_DRAGGED, listener);
         node.addEventHandler(MouseEvent.MOUSE_EXITED, listener);
         node.addEventHandler(MouseEvent.MOUSE_EXITED_TARGET, listener);
-        if (node instanceof Parent) {
-            Parent parent = (Parent) node;
+        if (node instanceof Parent parent) {
             ObservableList<Node> children = parent.getChildrenUnmodifiable();
             for (Node child : children) {
                 if (child instanceof ScrollBar) {
                     isScrollbar = true;
-                } else if (!(child instanceof ScrollBar)) {
+                } else {
                     isScrollbar = false;
                     addListenerDeeply(child, listener);
                 }

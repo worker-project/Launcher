@@ -34,11 +34,11 @@ public abstract class JuiPane {
         scrollPane.setTranslateX(posX);
         scrollPane.setTranslateY(posY);
 
-        scrollPane.setOnScroll(event -> {
+        /*scrollPane.setOnScroll(event -> {
             if (event.getDeltaX() == 0 && event.getDeltaY() != 0) {
-                scrollPane.setVvalue(scrollPane.getVvalue() - event.getDeltaY() / 350);
+                scrollPane.setVvalue(scrollPane.getVvalue() - event.getDeltaY() / 200);
             }
-        });
+        });*/
 
         pane.getChildren().add(scrollPane);
         return scrollPane;

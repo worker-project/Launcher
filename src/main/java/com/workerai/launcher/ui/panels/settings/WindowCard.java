@@ -44,8 +44,8 @@ public class WindowCard extends Settings {
         });
 
         keepButton.setOnMouseMoved(e -> {
-            tooltip.setX(getPointerInfo().getLocation().x);
-            tooltip.setY(getPointerInfo().getLocation().y);
+            tooltip.setX(getPointerInfo().getLocation().x + 10d);
+            tooltip.setY(getPointerInfo().getLocation().y + 10d);
         });
 
         hideButton.setOnMouseClicked(e -> {

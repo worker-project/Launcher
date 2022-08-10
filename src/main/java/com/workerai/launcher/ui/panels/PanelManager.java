@@ -5,7 +5,7 @@ import com.noideaindustry.jui.JuiInitialization;
 import com.workerai.launcher.ui.utils.IPanel;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
 import com.workerai.launcher.ui.panels.partials.TopBar;
-import com.workerai.launcher.utils.MoveHelper;
+import com.workerai.launcher.utils.WindowMoveManager;
 import com.workerai.launcher.utils.ResourceManager;
 import fr.flowarg.flowcompat.Platform;
 import javafx.geometry.VPos;
@@ -57,7 +57,7 @@ public class PanelManager {
             scene.setResizable(false);
 
             this.stage.setScene(scene);
-            MoveHelper.addResizeListener(this.stage);
+            WindowMoveManager.addResizeListener(this.stage);
 
             RowConstraints topPaneConstraints = new RowConstraints();
             topPaneConstraints.setValignment(VPos.TOP);

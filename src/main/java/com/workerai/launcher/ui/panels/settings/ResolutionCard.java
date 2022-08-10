@@ -40,8 +40,6 @@ public class ResolutionCard extends Settings {
         createRegion(-70d, 17.5d, 100, 40, "ratio-box", card);
         TextField widthField = createTextField(-70d, 17.5d, 90d, 35d, saver.get("LaunchWidth"), "ratio-promptText", Pos.BOTTOM_CENTER, card);
         widthField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (WorkerLauncher.isDebugMode()) return;
-
             if (!newValue.matches("\\d*")) {
                 widthField.setText(newValue.replaceAll("[^\\d]", ""));
             } else if (Objects.equals(newValue, "") || newValue.length() > 5) {

@@ -8,14 +8,14 @@ import com.workerai.launcher.ui.utils.Panel;
 import com.workerai.launcher.utils.ResourceManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
-import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
-import static com.noideaindustry.jui.components.JuiPane.createGridPane;
-import static com.noideaindustry.jui.components.JuiPane.createStackPane;
+import static com.noideaindustry.jui.components.JuiLabel.createLabel;
+import static com.noideaindustry.jui.components.JuiPane.*;
 import static com.workerai.launcher.utils.DisplayManager.displayAccount;
 import static com.workerai.launcher.utils.LauncherInfos.*;
 
@@ -40,19 +40,31 @@ public class Accounts extends Panel {
         GridPane accountCard = new GridPane();
         accountsPane.getChildren().add(accountCard);
 
-        double startX = 60d, startY = 200d;
+        //if(WorkerLauncher.isDebugMode()) return;
+        GridPane scrollContent = new GridPane();
+        scrollContent.setAlignment(Pos.TOP_CENTER);
+        scrollContent.setPadding(new Insets(20));
+        scrollContent.setHgap(15);
+        scrollContent.setVgap(30);
+
+        int cardX = 0, cardY = 0;
         int accountNum = 0;
         for (Account account : AccountManager.getLocalAccounts()) {
             accountNum += 1;
             account.setResponse(AccountManager.getLocalAccount(account).getResponse());
-            displayAccount(accountCard, account, createStackPane(startX, startY, 350d, 180d, DARK_BLACK), false);
+            final StackPane card = createStackPane(cardX, cardY, 350d, 180d, DARK_BLACK);
+            scrollContent.add(card, cardX, cardY);
+            displayAccount(scrollContent, account, card, false);
+
             if (accountNum % 3 != 0) {
-                startX += 45d + 350d;
-            } else {
-                startX = 60d;
-                startY += 50d + 170d;
+                cardX++;
+            } else { // new line
+                cardX = 0;
+                cardY++;
             }
         }
+
+        createScrollPane(-60d, 60d, 1140d, 435d, "scroll-bar", scrollContent, accountsPane);
     }
 
     @Override

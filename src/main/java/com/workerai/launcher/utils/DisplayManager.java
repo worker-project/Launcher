@@ -74,7 +74,7 @@ public class DisplayManager {
     }
 
     public static void displayAccount(Pane container, Account account, Pane card, boolean isReduced) {
-        container.getChildren().add(card);
+        if (!container.getChildren().contains(card)) container.getChildren().add(card);
 
         if (!isReduced) {
             createImageView(20d, 0, 70d, 0d, "https://minotar.net/avatar/" + (account.getUuid() + ".png"), Pos.CENTER_LEFT, card);
