@@ -39,11 +39,6 @@ public class PanelManager {
         this.stage.setHeight(WINDOW_HEIGHT);
         this.stage.getIcons().add(new Image(ResourceManager.getIcon()));
 
-//        this.stage.heightProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue.doubleValue() != 750d)
-//                this.stage.setHeight(750d);
-//        });
-
         GridPane layout = new GridPane();
         if (Platform.isOnLinux()) {
             Scene scene = new Scene(layout);
@@ -52,7 +47,6 @@ public class PanelManager {
             this.stage.initStyle(StageStyle.UNDECORATED);
 
             BorderlessScene scene = new BorderlessScene(this.stage, StageStyle.UNDECORATED, layout);
-//            scene.setMoveControl(topBar.getLayout());
             scene.removeDefaultCSS();
             scene.setResizable(false);
 

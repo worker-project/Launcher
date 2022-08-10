@@ -119,6 +119,7 @@ public class PlayManager {
                     }
                 }
                 WorkerLauncher.getInstance().getPanelManager().getStage().setIconified(false);
+                removeComponents();
             });
         } catch (Exception exception) {
             exception.printStackTrace();

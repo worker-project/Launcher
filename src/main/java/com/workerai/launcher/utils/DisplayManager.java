@@ -11,7 +11,6 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -25,7 +24,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static com.noideaindustry.jui.geometry.JuiCircle.createStrokeCircle;
 import static com.noideaindustry.jui.components.JuiButton.createFontButton;
 import static com.noideaindustry.jui.components.JuiButton.createMaterialButton;
 import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
@@ -34,6 +32,7 @@ import static com.noideaindustry.jui.components.JuiImageView.createImageView;
 import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.noideaindustry.jui.components.JuiPane.createScrollPane;
 import static com.noideaindustry.jui.components.JuiPane.createStackPane;
+import static com.noideaindustry.jui.geometry.JuiCircle.createStrokeCircle;
 import static com.workerai.launcher.utils.LauncherInfos.LIGHT_BLACK;
 import static com.workerai.launcher.utils.LauncherInfos.WHITE;
 
@@ -113,18 +112,18 @@ public class DisplayManager {
 
         if (isReduced) createLabel(0d, 0d, "Current modules", null, "account-label", Pos.TOP_CENTER, card);
 
-        new Thread(() -> Platform.runLater(() -> {
-            GridPane scrollContent = new GridPane();
-            createModule("AutomineAI", account.getResponse().hasAutomine(), scrollContent, isReduced);
-            createModule("ForagingAI", account.getResponse().hasAutomine(), scrollContent, isReduced);
-            createModule("FishingAI", false, scrollContent, isReduced);
-            createModule("FarmingAI", false, scrollContent, isReduced);
-            createModule("DungeonAI", false, scrollContent, isReduced);
-            createModule("BazaarAI", false, scrollContent, isReduced);
-            createModule("Soon", false, scrollContent, isReduced);
+        GridPane scrollContent = new GridPane();
+        createModule("AutomineAI", account.getResponse().hasAutomine(), scrollContent, isReduced);
+        createModule("ForagingAI", account.getResponse().hasAutomine(), scrollContent, isReduced);
+        createModule("FishingAI", false, scrollContent, isReduced);
+        createModule("FarmingAI", false, scrollContent, isReduced);
+        createModule("DungeonAI", false, scrollContent, isReduced);
+        createModule("BazaarAI", false, scrollContent, isReduced);
+        createModule("Soon", false, scrollContent, isReduced);
+        createModule("TestModule", false, scrollContent, isReduced);
+        createModule("ZeubiModule", false, scrollContent, isReduced);
 
-            createScrollPane(-16d, isReduced ? 10d : 6d, isReduced ? 370d : 230d, isReduced ? 50d : 60d, "scroll-pane", scrollContent, card);
-        })).start();
+        createScrollPane(-16d, isReduced ? 10d : 6d, isReduced ? 370d : 230d, isReduced ? 50d : 60d, "scroll-pane", scrollContent, card);
     }
 
     static void createModule(String moduleName, boolean hasAccess, GridPane parent, boolean isReduced) {

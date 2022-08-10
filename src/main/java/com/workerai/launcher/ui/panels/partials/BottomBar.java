@@ -23,6 +23,7 @@ import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
 import static com.noideaindustry.jui.components.JuiIcon.createDesignIcon;
 import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.workerai.launcher.utils.LauncherInfos.DARK_GRAY;
+import static com.workerai.launcher.utils.LauncherInfos.YELLOW;
 
 public class BottomBar extends Panel {
     private static BottomBar INSTANCE;
@@ -79,20 +80,20 @@ public class BottomBar extends Panel {
             }
         });
 
-        debugButton = createAwesomeIcon(this.panelManager.getStage().getWidth() / 2, 5d, FontAwesomeIcon.BUG, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
+        debugButton = createAwesomeIcon(this.panelManager.getStage().getWidth() / 2, 5d, FontAwesomeIcon.BUG, "25px", "buttons", YELLOW, bottomBarPane, Cursor.HAND);
         debugButton.setOnMouseClicked(e -> {
             WorkerLauncher.setDebugMode(true);
             WorkerLauncher.getInstance().getLogger().warn("Entering debug session, online services will be unavailable!");
             this.panelManager.showPanel(new Home());
         });
 
-        homeButton = createAwesomeIcon(0d, 5d, FontAwesomeIcon.HOME, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
+        homeButton = createAwesomeIcon(0d, 5d, FontAwesomeIcon.HOME, "25px", "buttons", YELLOW, bottomBarPane, Cursor.HAND);
         homeButton.setOnMouseClicked(e -> {
             homeButton.setVisible(false);
             this.panelManager.showPanel(new Home());
         });
 
-        logoutButton = createAwesomeIcon(0d, 5d, FontAwesomeIcon.SIGN_OUT, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
+        logoutButton = createAwesomeIcon(0d, 5d, FontAwesomeIcon.SIGN_OUT, "25px", "buttons", YELLOW, bottomBarPane, Cursor.HAND);
         logoutButton.setOnMouseClicked(e -> {
             if (WorkerLauncher.isDebugMode()) {
                 WorkerLauncher.setDebugMode(false);

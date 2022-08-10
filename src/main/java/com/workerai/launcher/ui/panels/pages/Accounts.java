@@ -1,6 +1,8 @@
 package com.workerai.launcher.ui.panels.pages;
 
+import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.database.Account;
+import com.workerai.launcher.database.authentication.ModuleResponse;
 import com.workerai.launcher.savers.AccountManager;
 import com.workerai.launcher.ui.panels.PanelManager;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
@@ -10,6 +12,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
@@ -40,8 +43,14 @@ public class Accounts extends Panel {
         GridPane accountCard = new GridPane();
         accountsPane.getChildren().add(accountCard);
 
-        //if(WorkerLauncher.isDebugMode()) return;
         GridPane scrollContent = new GridPane();
+
+        final int MAX_COLLUMN = 3;
+
+        ColumnConstraints constraintThird = new ColumnConstraints();
+        constraintThird.setPercentWidth(100.d / MAX_COLLUMN);
+        scrollContent.getColumnConstraints().addAll(constraintThird, constraintThird, constraintThird); // Three equal columns
+
         scrollContent.setAlignment(Pos.TOP_CENTER);
         scrollContent.setPadding(new Insets(20));
         scrollContent.setHgap(15);
@@ -51,14 +60,19 @@ public class Accounts extends Panel {
         int accountNum = 0;
         for (Account account : AccountManager.getLocalAccounts()) {
             accountNum += 1;
-            account.setResponse(AccountManager.getLocalAccount(account).getResponse());
+            if (!WorkerLauncher.isDebugMode()) {
+                account.setResponse(AccountManager.getLocalAccount(account).getResponse());
+            } else {
+                account = new Account();
+                account.setResponse(new ModuleResponse(false,false));
+            }
             final StackPane card = createStackPane(cardX, cardY, 350d, 180d, DARK_BLACK);
             scrollContent.add(card, cardX, cardY);
             displayAccount(scrollContent, account, card, false);
 
-            if (accountNum % 3 != 0) {
+            if (accountNum % MAX_COLLUMN != 0) {
                 cardX++;
-            } else { // new line
+            } else {
                 cardX = 0;
                 cardY++;
             }
