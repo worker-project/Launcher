@@ -17,7 +17,7 @@ import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
 import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.noideaindustry.jui.components.JuiPane.createGridPane;
 import static com.noideaindustry.jui.components.JuiPane.createStackPane;
-import static com.workerai.launcher.utils.LauncherInfos.*;
+import static com.workerai.launcher.utils.ColorManager.*;
 
 public class Settings extends Panel {
     private final Saver saver = WorkerLauncher.getInstance().getSettingsManager().getSaver();

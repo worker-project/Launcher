@@ -33,8 +33,7 @@ import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.noideaindustry.jui.components.JuiPane.createScrollPane;
 import static com.noideaindustry.jui.components.JuiPane.createStackPane;
 import static com.noideaindustry.jui.geometry.JuiCircle.createStrokeCircle;
-import static com.workerai.launcher.utils.LauncherInfos.LIGHT_BLACK;
-import static com.workerai.launcher.utils.LauncherInfos.WHITE;
+import static com.workerai.launcher.utils.ColorManager.*;
 
 public class DisplayManager {
 
@@ -131,7 +130,7 @@ public class DisplayManager {
         scrollContent.setPadding(isReduced ? new Insets(2.5d, 1d, 1d, 2.5d) : new Insets(5d, 1d, 5d, 6d));
         scrollContent.setHgap(isReduced ? 5d : 10d);
 
-        scrollContent.add(createStrokeCircle(isReduced ? 2d : 5d, 0d, 5d, 2d, 10d, StrokeType.CENTERED, Color.rgb(210, 144, 52), hasAccess ? Color.rgb(210, 144, 52) : Color.rgb(52, 52, 52), null), 0, 0);
+        scrollContent.add(createStrokeCircle(isReduced ? 2d : 5d, 0d, 5d, 2d, 10d, StrokeType.CENTERED, YELLOW, hasAccess ? YELLOW : Color.rgb(52, 52, 52), null), 0, 0);
         scrollContent.add(createLabel(0d, 0d, moduleName, null, "module-scrollLabel", null, null), 1, 0);
         int modulo = isReduced ? 4 : 2;
         parent.add(scrollContent, parent.getChildren().size() % modulo, parent.getChildren().size() / modulo);

@@ -6,7 +6,7 @@ import com.workerai.launcher.savers.SettingsManager;
 import com.workerai.launcher.ui.panels.PanelManager;
 import com.workerai.launcher.ui.panels.pages.Login;
 import com.workerai.launcher.utils.NewsManager;
-import com.workerai.launcher.utils.PlatformManager;
+import com.workerai.launcher.utils.PlatformHandler;
 import fr.flowarg.flowlogger.ILogger;
 import fr.flowarg.flowlogger.Logger;
 import fr.theshark34.openlauncherlib.util.Saver;
@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 public class WorkerLauncher extends Application {
     private static WorkerLauncher INSTANCE;
@@ -25,8 +26,9 @@ public class WorkerLauncher extends Application {
     private final SettingsManager settingsManager;
 
     private static boolean DEBUG = false;
+    public static String JAVA_PATH;
 
-    private final Path launcherDirectory = PlatformManager.createAppFolder(".WorkerAI");
+    private final Path launcherDirectory = PlatformHandler.createFolder(".WorkerAI");
 
     public WorkerLauncher() throws IOException {
         INSTANCE = this;
@@ -51,6 +53,8 @@ public class WorkerLauncher extends Application {
         NewsManager.initNews();
 
         this.panelManager.showPanel(new Login());
+
+        JAVA_PATH = getJavaArg();
     }
 
     @Override
@@ -85,5 +89,12 @@ public class WorkerLauncher extends Application {
 
     public static void setDebugMode(boolean isDebug) {
         DEBUG = isDebug;
+    }
+
+    String getJavaArg() {
+        Parameters params = getParameters();
+        List<String> list = params.getRaw();
+        if (list.size() == 0) return null;
+        return list.get(1);
     }
 }

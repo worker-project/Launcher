@@ -17,7 +17,7 @@ import java.io.IOException;
 import static com.noideaindustry.jui.components.JuiButton.createFontButton;
 import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
 import static com.noideaindustry.jui.components.JuiLabel.createLabel;
-import static com.workerai.launcher.utils.LauncherInfos.WHITE;
+import static com.workerai.launcher.utils.ColorManager.WHITE;
 
 public class LinksCard extends Settings {
     public static void create(Pane container, Saver saver, StackPane card) {

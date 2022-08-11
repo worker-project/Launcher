@@ -10,7 +10,7 @@ import javafx.scene.layout.GridPane;
 
 import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
 import static com.noideaindustry.jui.components.JuiImageView.createImageView;
-import static com.workerai.launcher.utils.LauncherInfos.WHITE;
+import static com.workerai.launcher.utils.ColorManager.WHITE;
 
 public class TopBar extends Panel {
 

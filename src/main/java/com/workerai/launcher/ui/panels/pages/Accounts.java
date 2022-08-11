@@ -20,7 +20,7 @@ import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
 import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.noideaindustry.jui.components.JuiPane.*;
 import static com.workerai.launcher.utils.DisplayManager.displayAccount;
-import static com.workerai.launcher.utils.LauncherInfos.*;
+import static com.workerai.launcher.utils.ColorManager.*;
 
 public class Accounts extends Panel {
     @Override
@@ -44,12 +44,10 @@ public class Accounts extends Panel {
         accountsPane.getChildren().add(accountCard);
 
         GridPane scrollContent = new GridPane();
-
-        final int MAX_COLLUMN = 3;
-
+        final int MAX_COLUMN = 3;
         ColumnConstraints constraintThird = new ColumnConstraints();
-        constraintThird.setPercentWidth(100.d / MAX_COLLUMN);
-        scrollContent.getColumnConstraints().addAll(constraintThird, constraintThird, constraintThird); // Three equal columns
+        constraintThird.setPercentWidth(100.d / MAX_COLUMN);
+        scrollContent.getColumnConstraints().addAll(constraintThird, constraintThird, constraintThird);
 
         scrollContent.setAlignment(Pos.TOP_CENTER);
         scrollContent.setPadding(new Insets(20));
@@ -70,7 +68,7 @@ public class Accounts extends Panel {
             scrollContent.add(card, cardX, cardY);
             displayAccount(scrollContent, account, card, false);
 
-            if (accountNum % MAX_COLLUMN != 0) {
+            if (accountNum % MAX_COLUMN != 0) {
                 cardX++;
             } else {
                 cardX = 0;

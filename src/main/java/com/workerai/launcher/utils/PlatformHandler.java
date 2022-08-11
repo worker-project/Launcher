@@ -5,8 +5,8 @@ import fr.flowarg.flowcompat.Platform;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class PlatformManager {
-    public static Path createAppFolder(String folderName) {
+public class PlatformHandler {
+    public static Path createFolder(String... folderName) {
         Path path;
         switch (Platform.getCurrentPlatform()) {
             case WINDOWS:

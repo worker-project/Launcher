@@ -6,11 +6,8 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import fr.theshark34.openlauncherlib.util.Saver;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
@@ -18,7 +15,7 @@ import static com.noideaindustry.jui.components.JuiButton.createFontButton;
 import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
 import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.noideaindustry.jui.components.JuiToolTip.createTooltip;
-import static com.workerai.launcher.utils.LauncherInfos.WHITE;
+import static com.workerai.launcher.utils.ColorManager.WHITE;
 import static java.awt.MouseInfo.getPointerInfo;
 
 public class WindowCard extends Settings {

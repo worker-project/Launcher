@@ -9,7 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 import static com.noideaindustry.jui.geometry.JuiRectangle.createRoundedRectangle;
-import static com.workerai.launcher.utils.LauncherInfos.DARK_BLACK;
+import static com.workerai.launcher.utils.ColorManager.DARK_BLACK;
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy.ALWAYS;
 import static javafx.scene.control.ScrollPane.ScrollBarPolicy.NEVER;
 

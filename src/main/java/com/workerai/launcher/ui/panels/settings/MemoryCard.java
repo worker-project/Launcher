@@ -6,7 +6,6 @@ import fr.theshark34.openlauncherlib.util.Saver;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import oshi.SystemInfo;
@@ -17,7 +16,7 @@ import static com.noideaindustry.jui.components.JuiBox.createHBox;
 import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
 import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.noideaindustry.jui.components.JuiSlider.createSlider;
-import static com.workerai.launcher.utils.LauncherInfos.WHITE;
+import static com.workerai.launcher.utils.ColorManager.WHITE;
 
 public class MemoryCard extends Settings {
     public static void create(Pane container, Saver saver, StackPane card) {

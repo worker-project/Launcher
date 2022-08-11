@@ -46,7 +46,7 @@ import static com.noideaindustry.jui.components.JuiIcon.createDesignIcon;
 import static com.noideaindustry.jui.components.JuiImageView.createImageView;
 import static com.noideaindustry.jui.components.JuiPane.createGridPane;
 import static com.noideaindustry.jui.components.JuiPane.createStackPane;
-import static com.workerai.launcher.utils.LauncherInfos.LIGHT_GRAY;
+import static com.workerai.launcher.utils.ColorManager.LIGHT_GRAY;
 
 public class Login extends Panel {
     private final AtomicBoolean isTryingToSignIn = new AtomicBoolean(false);

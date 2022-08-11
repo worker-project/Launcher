@@ -22,8 +22,8 @@ import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
 import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.noideaindustry.jui.components.JuiPane.createStackPane;
 import static com.noideaindustry.jui.components.JuiRegion.createRegion;
-import static com.workerai.launcher.utils.LauncherInfos.DARK_BLACK;
-import static com.workerai.launcher.utils.LauncherInfos.WHITE;
+import static com.workerai.launcher.utils.ColorManager.DARK_BLACK;
+import static com.workerai.launcher.utils.ColorManager.WHITE;
 
 public class ResolutionCard extends Settings {
     static final StackPane presetsHolder = createStackPane(470d, 190d, 460d, 300d, DARK_BLACK);

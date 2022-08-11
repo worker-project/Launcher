@@ -17,6 +17,8 @@ import javafx.scene.layout.Pane;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.workerai.launcher.WorkerLauncher.JAVA_PATH;
+
 public class PlayManager {
     private static final ProgressBar progressBar = new ProgressBar();
 
@@ -99,6 +101,8 @@ public class PlayManager {
                     AccountManager.getCurrentAccount().getClientToken(),
                     AccountManager.getCurrentAccount().getUuid()
             );
+
+            System.setProperty("java.home", JAVA_PATH);
 
             ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gInfos, GameFolder.FLOW_UPDATER, aInfos);
 

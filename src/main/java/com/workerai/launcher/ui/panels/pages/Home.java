@@ -24,7 +24,7 @@ import static com.noideaindustry.jui.components.JuiLabel.createLabel;
 import static com.noideaindustry.jui.components.JuiPane.createGridPane;
 import static com.noideaindustry.jui.components.JuiPane.createStackPane;
 import static com.workerai.launcher.utils.DisplayManager.*;
-import static com.workerai.launcher.utils.LauncherInfos.*;
+import static com.workerai.launcher.utils.ColorManager.*;
 
 public class Home extends Panel {
     @Override
