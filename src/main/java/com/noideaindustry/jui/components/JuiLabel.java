@@ -7,6 +7,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public abstract class JuiLabel {
+    public static Label createLabel(double posX, double posY, String displayText, String styleClass) {
+        return createLabel(posX, posY, displayText, null, styleClass, Pos.TOP_CENTER, null);
+    }
+
     public static Label createLabel(double posX, double posY, String displayText, String styleClass, Pane pane) {
         return createLabel(posX, posY, displayText, null, styleClass, Pos.TOP_CENTER, pane);
     }

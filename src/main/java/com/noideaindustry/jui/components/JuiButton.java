@@ -11,6 +11,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public abstract class JuiButton {
+    public static Button createFontButton(double posX, double posY, double width, double height, String styleClass, FontAwesomeIconView displayIcon, Pane pane) {
+        return createFontButton(posX, posY, width, height, null, styleClass, null, displayIcon, null, pane);
+    }
+
     public static Button createFontButton(double posX, double posY, double width, double height, String displayText, String styleClass, Tooltip tooltip, FontAwesomeIconView displayIcon, Pos alignement, Pane pane) {
         Button button = new Button();
 

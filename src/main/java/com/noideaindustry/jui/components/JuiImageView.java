@@ -7,6 +7,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public abstract class JuiImageView {
+    public static ImageView createImageView(double posX, double posY, double width, double height, String displayUrl) {
+        return createImageView(posX, posY, width, height, true, displayUrl, null, null);
+    }
+
     public static ImageView createImageView(double posX, double posY, double width, double height, String displayUrl, Pane pane) {
         return createImageView(posX, posY, width, height, true, displayUrl, null, pane);
     }

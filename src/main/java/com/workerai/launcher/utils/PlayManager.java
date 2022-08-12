@@ -6,6 +6,10 @@ import com.workerai.launcher.savers.AccountManager;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.download.DownloadList;
 import fr.flowarg.flowupdater.download.IProgressCallback;
+import fr.flowarg.flowupdater.download.json.ExternalFile;
+import fr.flowarg.flowupdater.download.json.MCP;
+import fr.flowarg.flowupdater.utils.ExternalFileDeleter;
+import fr.flowarg.flowupdater.utils.UpdaterOptions;
 import fr.flowarg.flowupdater.versions.VanillaVersion;
 import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
 import fr.theshark34.openlauncherlib.external.ExternalLauncher;
@@ -13,8 +17,10 @@ import fr.theshark34.openlauncherlib.minecraft.*;
 import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.workerai.launcher.WorkerLauncher.JAVA_PATH;
@@ -66,18 +72,36 @@ public class PlayManager {
             }
         };
 
+        List<ExternalFile> files_launcher = ExternalFile.getExternalFilesFromJson("http://185.245.183.191/public/files/WorkerLauncher/");
+        if(files_launcher.size() == 0) {
+            WorkerLauncher.getInstance().getLogger().err("Could not download MCP files!");
+            AlertManager.ShowWarning(WorkerLauncher.getInstance().getPanelManager().getStage(),
+                    "Launching Error" ,
+                    "Could not download MCP files!");
+            return;
+        }
+
+        ExternalFile launcher = files_launcher.get(0);
+
+
         try {
+            final UpdaterOptions options = new UpdaterOptions.UpdaterOptionsBuilder()
+                    .withExternalFileDeleter(new ExternalFileDeleter())
+                    .build();
+
             final VanillaVersion vanillaVersion = new VanillaVersion.VanillaVersionBuilder()
-                    .withName("1.12.2")
+                    .withName("1.18.2")
+                    .withMCP(new MCP(launcher.getDownloadURL(), launcher.getSha1(), launcher.getSize()))
                     .build();
             final FlowUpdater updater = new FlowUpdater.FlowUpdaterBuilder()
                     .withVanillaVersion(vanillaVersion)
                     .withLogger(WorkerLauncher.getInstance().getLogger())
                     .withProgressCallback(callback)
+                    .withPostExecutions(Collections.singletonList(PlayManager::startGame))
+                    .withUpdaterOptions(options)
                     .build();
 
             updater.update(WorkerLauncher.getInstance().getSettingsManager().getGameDirectory());
-            PlayManager.startGame(updater.getVanillaVersion().getName());
         } catch (Exception exception) {
             WorkerLauncher.getInstance().getLogger().err(exception.toString());
             AlertManager.ShowError(
@@ -87,11 +111,11 @@ public class PlayManager {
         }
     }
 
-    static void startGame(String gameVersion) {
+    static void startGame() {
         GameInfos gInfos = new GameInfos(
                 "",
                 WorkerLauncher.getInstance().getSettingsManager().getGameDirectory(),
-                new GameVersion(gameVersion, GameType.V1_8_HIGHER),
+                new GameVersion("1.18.2", GameType.V1_13_HIGHER_VANILLA),
                 new GameTweak[]{}
         );
 
@@ -102,7 +126,7 @@ public class PlayManager {
                     AccountManager.getCurrentAccount().getUuid()
             );
 
-            System.setProperty("java.home", JAVA_PATH);
+            if (JAVA_PATH != null) System.setProperty("java.home", JAVA_PATH);
 
             ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gInfos, GameFolder.FLOW_UPDATER, aInfos);
 
