@@ -11,32 +11,28 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ModuleResponse {
-    public static class AccountModules {
-        private boolean automine;
-        private boolean forage;
+    private boolean automine;
+    private boolean forage;
 
-        public boolean hasAutomine() {
-            return automine;
-        }
-
-        public void setAutomine(boolean automine) {
-            this.automine = automine;
-        }
-
-        public boolean hasForage() {
-            return forage;
-        }
-
-        public void setForage(boolean forage) {
-            this.forage = forage;
-        }
+    public boolean hasAutomine() {
+        return automine;
     }
 
-    private final AccountModules accountModules = new AccountModules();
+    public void setAutomine(boolean automine) {
+        this.automine = automine;
+    }
+
+    public boolean hasForage() {
+        return forage;
+    }
+
+    public void setForage(boolean forage) {
+        this.forage = forage;
+    }
 
     public ModuleResponse(boolean automine, boolean forage) {
-        this.accountModules.setAutomine(automine);
-        this.accountModules.setForage(forage);
+        this.setAutomine(automine);
+        this.setForage(forage);
     }
 
     public static ModuleResponse getUserFromUuid(String uuid) {
@@ -66,13 +62,5 @@ public class ModuleResponse {
             WorkerLauncher.getInstance().getLogger().err("Remote SQLite doesn't respond! Returning default values...");
             return null;
         }
-    }
-
-    public boolean hasAutomine() {
-        return accountModules.hasAutomine();
-    }
-
-    public boolean hasForage() {
-        return accountModules.hasForage();
     }
 }

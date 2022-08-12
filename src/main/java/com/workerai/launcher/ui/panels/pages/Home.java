@@ -48,19 +48,19 @@ public class Home extends Panel {
         displayNews(homePane, createStackPane(0d, 112.5d, 1100d, 300d, true));
 
         FontAwesomeIconView playIcon = createAwesomeIcon(0d, 0d, FontAwesomeIcon.PLAY_CIRCLE, "40px", YELLOW, null);
-        Button playButton = createFontButton(80d, -100d, 40d, 60d, null, "home-button", null, playIcon, null, homePane);
+        Button playButton = createFontButton(80d, -100d, 40d, 60d, "home-button", playIcon, homePane);
         playButton.setOnMouseClicked(e -> PlayManager.downloadAndPlay(homePane, true));
 
         FontAwesomeIconView settingsIcon = createAwesomeIcon(0d, 0d, FontAwesomeIcon.GEAR, "40px", YELLOW, homePane);
-        Button settingsButton = createFontButton(0d, -100d, 40d, 60d, null, "home-button", null, settingsIcon, null, homePane);
+        Button settingsButton = createFontButton(0d, -100d, 40d, 60d, "home-button", settingsIcon, homePane);
         settingsButton.setOnMouseClicked(e -> this.panelManager.showPanel(new Settings()));
 
         MaterialDesignIconView accountsIcon = createDesignIcon(0d, 0d, MaterialDesignIcon.VIEW_LIST, "36px", YELLOW, homePane);
         Button accountsButton = createMaterialButton(-80d, -100d, 36d, 60d, true, "home-button", accountsIcon, homePane);
         accountsButton.setOnMouseClicked(e -> this.panelManager.showPanel(new Accounts()));
 
-        displayCurrentSession(homePane, WorkerLauncher.isDebugMode() ? AccountManager.getDebugAccount() : AccountManager.getCurrentAccount(), createStackPane(-350d, -100d, 400d, 600d / 7, true));
-        displayAccount(homePane, WorkerLauncher.isDebugMode() ? AccountManager.getDebugAccount() : AccountManager.getCurrentAccount(), createStackPane(350d, -100d, 400d, 600d / 7, true), true);
+        homePane.getChildren().add(displayCurrentSession(AccountManager.getCurrentAccount(), createStackPane(-350d, -100d, 400d, 600d / 7, true)));
+        displayAccount(homePane, AccountManager.getCurrentAccount(), createStackPane(350d, -100d, 400d, 600d / 7, true), true);
     }
 
     @Override

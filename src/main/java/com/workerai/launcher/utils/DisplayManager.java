@@ -136,16 +136,18 @@ public class DisplayManager {
         parent.add(scrollContent, parent.getChildren().size() % modulo, parent.getChildren().size() / modulo);
     }
 
-    public static void displayCurrentSession(Pane container, Account account, Pane card) {
-        container.getChildren().add(card);
+    public static Pane displayCurrentSession(Account account, Pane card) {
+        if(WorkerLauncher.isDebugMode()) account = AccountManager.getDebugAccount();
 
-        createLabel(0d, 0d, "Current session", null, "account-label", Pos.TOP_CENTER, card);
+        createLabel(0d, 0d, "Current session", "account-label", card);
 
         GridPane scrollContent = new GridPane();
-        scrollContent.add(createImageView(10d, 4d, 40d, 0d, !WorkerLauncher.isDebugMode() ? "https://minotar.net/avatar/" + (account.getUuid() + ".png") : "https://minotar.net/avatar/MHF_Steve.png", Pos.CENTER_LEFT, null), 0, 0);
-        scrollContent.add(createLabel(20d, 4d - 8d, "Username - " + account.getUsername(), null, "account-scrollLabel", null, null), 1, 0);
-        scrollContent.add(createLabel(20d, 4d + 8d, "Uuid - " + account.getUuid(), null, "account-scrollLabel", null, null), 1, 0);
-
+        String displayUrl = !WorkerLauncher.isDebugMode() ? "https://minotar.net/avatar/" + (account.getUuid() + ".png") : "https://minotar.net/avatar/MHF_Steve.png";
+        scrollContent.add(createImageView(10d, 4d, 40d, 0d, displayUrl, Pos.CENTER_LEFT, null), 0, 0);
+        scrollContent.add(createLabel(20d, 4d - 8d, "Username - " + account.getUsername(), "account-scrollLabel"), 1, 0);
+        scrollContent.add(createLabel(20d, 4d + 8d, "Uuid - " + account.getUuid(), "account-scrollLabel"), 1, 0);
         createScrollPane(-16d, 10d, 370d, 50d, "scroll-pane", scrollContent, card);
+
+        return card;
     }
 }

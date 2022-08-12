@@ -58,12 +58,13 @@ public class Accounts extends Panel {
         int accountNum = 0;
         for (Account account : AccountManager.getLocalAccounts()) {
             accountNum += 1;
+            
             if (!WorkerLauncher.isDebugMode()) {
                 account.setResponse(AccountManager.getLocalAccount(account).getResponse());
             } else {
-                account = new Account();
-                account.setResponse(new ModuleResponse(false,false));
+                account = AccountManager.getDebugAccount();
             }
+
             final StackPane card = createStackPane(cardX, cardY, 350d, 180d, DARK_BLACK);
             scrollContent.add(card, cardX, cardY);
             displayAccount(scrollContent, account, card, false);
