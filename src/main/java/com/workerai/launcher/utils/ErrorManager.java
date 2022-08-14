@@ -9,7 +9,7 @@ import javafx.stage.StageStyle;
 
 import static com.workerai.launcher.utils.ResourceManager.getAlertDesignPath;
 
-public class AlertManager {
+public class ErrorManager {
     public static void ShowError(Stage stage, String title, String content) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.initModality(Modality.APPLICATION_MODAL);

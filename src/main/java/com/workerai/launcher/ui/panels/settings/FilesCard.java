@@ -31,7 +31,7 @@ public class FilesCard extends Settings {
         logButton.setOnMouseClicked(e -> {
             Desktop desktop = Desktop.getDesktop();
             try {
-                desktop.open(new File((WorkerLauncher.getInstance().getLauncherDirectory().toFile().getAbsoluteFile() + "\\logs.log")));
+                desktop.open(new File((WorkerLauncher.getInstance().getLauncherFolder().toFile().getAbsoluteFile() + "\\logs")));
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -42,7 +42,7 @@ public class FilesCard extends Settings {
         saveButton.setOnMouseClicked(e -> {
             Desktop desktop = Desktop.getDesktop();
             try {
-                desktop.open(new File((WorkerLauncher.getInstance().getLauncherDirectory().toFile().getAbsoluteFile() + "\\settings.save")));
+                desktop.open(new File((WorkerLauncher.getInstance().getLauncherFolder().toFile().getAbsoluteFile() + "\\settings")));
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

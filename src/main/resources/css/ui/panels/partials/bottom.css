@@ -12,6 +12,9 @@
 .bottom-bar .buttons:hover {
     -fx-opacity: 1.0;
 }
+.bottom-bar .buttons:disabled {
+    -fx-opacity: 0.2;
+}
 
 .bottom-bar .bottom-label {
     -fx-text-fill: rgb(67,67,67);

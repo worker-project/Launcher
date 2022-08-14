@@ -13,6 +13,8 @@ import javafx.scene.layout.StackPane;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static com.noideaindustry.jui.components.JuiButton.createFontButton;
 import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
@@ -29,9 +31,8 @@ public class LegalCard extends Settings {
         FontAwesomeIconView termsIcon = createAwesomeIcon(0, 0d, FontAwesomeIcon.BALANCE_SCALE, "16px", WHITE, card);
         Button termsButton = createFontButton(70d, -60d, 125d, 30d, "Terms", "directory-button", null, termsIcon, Pos.BOTTOM_CENTER, card);
         termsButton.setOnMouseClicked(e -> {
-            Desktop desktop = Desktop.getDesktop();
             try {
-                desktop.open(new File((WorkerLauncher.getInstance().getLauncherDirectory().toFile().getAbsoluteFile() + "\\launcher.log")));
+                Desktop.getDesktop().open(new File((WorkerLauncher.getInstance().getLegalFolder().toFile().getAbsoluteFile() + "\\TERMS")));
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -40,9 +41,8 @@ public class LegalCard extends Settings {
         FontAwesomeIconView licensesIcon = createAwesomeIcon(-2d, 0d, FontAwesomeIcon.SHARE_ALT, "16px", WHITE, card);
         Button licensesButton = createFontButton(-70d, -60d, 125d, 30d, "Licenses", "directory-button", null, licensesIcon, Pos.BOTTOM_CENTER, card);
         licensesButton.setOnMouseClicked(e -> {
-            Desktop desktop = Desktop.getDesktop();
             try {
-                desktop.open(new File((WorkerLauncher.getInstance().getLauncherDirectory().toFile().getAbsoluteFile() + "\\settings.save")));
+                Desktop.getDesktop().open(new File((WorkerLauncher.getInstance().getLegalFolder().toFile().getAbsoluteFile() + "\\LICENSES")));
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

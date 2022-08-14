@@ -150,9 +150,3 @@
     -fx-border-width: 1;
     -fx-border-color: gray;
 }
-
-@font-face {
-    font-family: "Signika";
-    font-style: normal;
-    src: url("../fonts/Signika-Bold.ttf");
-}

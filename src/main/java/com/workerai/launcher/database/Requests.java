@@ -41,7 +41,6 @@ public class Requests {
     }
 
     public static List<Account> getRemoteAccounts() {
-        WorkerLauncher.getInstance().getLogger().debug("Searching all accounts in SQLite...");
         List<Account> remoteAccounts = Database.getRemoteAccounts();
 
         if(remoteAccounts == null) {

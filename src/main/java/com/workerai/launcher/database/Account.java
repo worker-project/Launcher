@@ -7,7 +7,7 @@ public class Account {
     private String USERNAME;
     private String CLIENT_TOKEN;
     private String ACCESS_TOKEN;
-    private ModuleResponse ModuleRESPONSE;
+    private ModuleResponse MODULE_RESPONSE;
 
     public static Account createAccount(String username, String uuid, String clientToken, String accessToken, ModuleResponse moduleResponse) {
         Account account = new Account();
@@ -16,7 +16,7 @@ public class Account {
         account.UUID = uuid;
         account.CLIENT_TOKEN = clientToken;
         account.ACCESS_TOKEN = accessToken;
-        account.ModuleRESPONSE = moduleResponse;
+        account.MODULE_RESPONSE = moduleResponse;
 
         return account;
     }
@@ -54,9 +54,9 @@ public class Account {
     }
 
     public void setResponse(ModuleResponse moduleResponse) {
-        ModuleRESPONSE = moduleResponse;
+        MODULE_RESPONSE = moduleResponse;
     }
     public ModuleResponse getResponse() {
-        return ModuleRESPONSE;
+        return MODULE_RESPONSE;
     }
 }

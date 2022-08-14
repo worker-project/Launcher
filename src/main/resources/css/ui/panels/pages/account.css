@@ -132,9 +132,3 @@
 .accounts-panel .scroll-bar > .decrement-button {
     -fx-background-color: transparent;
 }
-
-@font-face {
-    font-family: "Signika";
-    font-style: normal;
-    src: url("../fonts/Signika-Bold.ttf");
-}

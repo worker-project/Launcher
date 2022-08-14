@@ -1,21 +1,26 @@
 package com.workerai.launcher.savers;
 
+import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.database.Account;
 import com.workerai.launcher.database.Requests;
 import com.workerai.launcher.database.authentication.ModuleResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AccountManager {
     private static final List<Account> localAccounts = new ArrayList<>();
     private static Account currentAccount = null;
 
+    private static final Account debugAccount = Account.createAccount("null", "null", null, null, new ModuleResponse(false, false));
+
     public static void initLocalAccounts() {
-        for (Account account : Requests.getRemoteAccounts()) {
-            account.setResponse(ModuleResponse.getUserFromUuid(account.getUuid()));
+        WorkerLauncher.getInstance().getLogger().debug("Searching all accounts in SQLite...");
+        Objects.requireNonNull(Requests.getRemoteAccounts()).forEach(account -> {
+            account.setResponse(new ModuleResponse().getUserFromUuid(account.getUuid()));
             AccountManager.addLocalAccount(account);
-        }
+        });
     }
 
     public static List<Account> getLocalAccounts() {
@@ -42,6 +47,6 @@ public class AccountManager {
     public static void removeCurrentAccount() { currentAccount = null; }
 
     public static Account getDebugAccount() {
-        return Account.createAccount(null, null, null, null, new ModuleResponse(false, false));
+        return debugAccount;
     }
 }

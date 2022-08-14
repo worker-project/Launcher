@@ -17,24 +17,23 @@ import fr.theshark34.openlauncherlib.minecraft.*;
 import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import static com.workerai.launcher.WorkerLauncher.JAVA_PATH;
 
 public class PlayManager {
     private static final ProgressBar progressBar = new ProgressBar();
 
     private static Pane parentPane;
 
+    static GameFolder gameFolder = new GameFolder("assets", "libraries", "natives", "WorkerClient.jar");
+
     public static void downloadAndPlay(Pane pane, boolean isHome) {
         if (WorkerLauncher.isDebugMode()) {
             WorkerLauncher.getInstance().getLogger().err("You are in debug session, no online services available!");
-            AlertManager.ShowWarning(WorkerLauncher.getInstance().getPanelManager().getStage(),
-                    "Launching Error" ,
+            ErrorManager.ShowWarning(WorkerLauncher.getInstance().getPanelManager().getStage(),
+                    "Launching Error",
                     "You are in debug session, no online services available!\nPlease connect to your account in order to play.");
             return;
         }
@@ -43,7 +42,7 @@ public class PlayManager {
         progressBar.getStyleClass().add("download-progress");
         progressBar.setTranslateY(-160d);
 
-        if(!isHome) progressBar.setTranslateY(-105d);
+        if (!isHome) progressBar.setTranslateY(-105d);
 
         PlayManager.setProgress(0, 0);
         PlayManager.addComponents();
@@ -73,10 +72,10 @@ public class PlayManager {
         };
 
         List<ExternalFile> files_launcher = ExternalFile.getExternalFilesFromJson("http://185.245.183.191/public/files/WorkerLauncher/");
-        if(files_launcher.size() == 0) {
+        if (files_launcher.size() == 0) {
             WorkerLauncher.getInstance().getLogger().err("Could not download MCP files!");
-            AlertManager.ShowWarning(WorkerLauncher.getInstance().getPanelManager().getStage(),
-                    "Launching Error" ,
+            ErrorManager.ShowWarning(WorkerLauncher.getInstance().getPanelManager().getStage(),
+                    "Launching Error",
                     "Could not download MCP files!");
             return;
         }
@@ -104,7 +103,7 @@ public class PlayManager {
             updater.update(WorkerLauncher.getInstance().getSettingsManager().getGameDirectory());
         } catch (Exception exception) {
             WorkerLauncher.getInstance().getLogger().err(exception.toString());
-            AlertManager.ShowError(
+            ErrorManager.ShowError(
                     WorkerLauncher.getInstance().getPanelManager().getStage(),
                     "Error",
                     exception.getMessage());
@@ -126,14 +125,13 @@ public class PlayManager {
                     AccountManager.getCurrentAccount().getUuid()
             );
 
-            if (JAVA_PATH != null) System.setProperty("java.home", JAVA_PATH);
-
-            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gInfos, GameFolder.FLOW_UPDATER, aInfos);
+            System.setProperty("java.home", WorkerLauncher.getInstance().getJavaPath());
+            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(gInfos, gameFolder, aInfos);
 
             profile.getVmArgs().add(PlayManager.getRamArgs());
             profile.getArgs().addAll(getMinecraftSizeArgs());
-            profile.getArgs().addAll(Arrays.asList("--token" , TokenResponse.getTokenFromUuid(AccountManager.getCurrentAccount().getUuid())));
-            System.out.println(profile.getArgs());
+
+            profile.getArgs().addAll(Arrays.asList("--token", new TokenResponse().getTokenFromUuid(AccountManager.getCurrentAccount().getUuid())));
 
             ExternalLauncher launcher = new ExternalLauncher(profile);
             Process p = launcher.launch();

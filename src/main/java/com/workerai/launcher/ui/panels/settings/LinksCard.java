@@ -13,6 +13,8 @@ import javafx.scene.layout.StackPane;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static com.noideaindustry.jui.components.JuiButton.createFontButton;
 import static com.noideaindustry.jui.components.JuiIcon.createAwesomeIcon;
@@ -29,10 +31,9 @@ public class LinksCard extends Settings {
         FontAwesomeIconView supportIcon = createAwesomeIcon(-2d, 0, FontAwesomeIcon.LIFE_RING, "16px", WHITE, card);
         Button supportButton = createFontButton(70d, -60d, 125d, 30d, "Support", "directory-button", null, supportIcon, Pos.BOTTOM_CENTER, card);
         supportButton.setOnMouseClicked(e -> {
-            Desktop desktop = Desktop.getDesktop();
             try {
-                desktop.open(new File((WorkerLauncher.getInstance().getLauncherDirectory().toFile().getAbsoluteFile() + "\\launcher.log")));
-            } catch (IOException ex) {
+                Desktop.getDesktop().browse(new URI("https://discord.gg/DzmwCwmfZD"));
+            } catch (IOException | URISyntaxException ex) {
                 throw new RuntimeException(ex);
             }
         });
@@ -42,8 +43,8 @@ public class LinksCard extends Settings {
         faqButton.setOnMouseClicked(e -> {
             Desktop desktop = Desktop.getDesktop();
             try {
-                desktop.open(new File((WorkerLauncher.getInstance().getLauncherDirectory().toFile().getAbsoluteFile() + "\\launcher.log")));
-            } catch (IOException ex) {
+                Desktop.getDesktop().browse(new URI("https://discord.gg/DzmwCwmfZD"));
+            } catch (IOException | URISyntaxException ex) {
                 throw new RuntimeException(ex);
             }
         });

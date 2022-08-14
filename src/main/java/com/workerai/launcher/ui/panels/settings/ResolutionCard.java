@@ -110,6 +110,8 @@ public class ResolutionCard extends Settings {
             if (presetsButtons[i].getText().equals(widthAndHeight)) {
                 setButtonProperty(presetsButtons[i], previousWidthAndHeight);
                 previousWidthAndHeight = presetsButtons[i];
+            } else {
+                previousWidthAndHeight = null;
             }
         }
 

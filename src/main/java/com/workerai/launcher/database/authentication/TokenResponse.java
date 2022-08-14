@@ -11,7 +11,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class TokenResponse {
-    public static String getTokenFromUuid(String uuid) {
+    public TokenResponse() {
+
+    }
+
+    public String getTokenFromUuid(String uuid) {
         try {
             URL url = new URL(String.format("http://185.245.183.191:2929/Unf6gWbunD2xDFyr?&uuid=%s", uuid));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -39,5 +43,4 @@ public class TokenResponse {
             return null;
         }
     }
-
 }

@@ -40,6 +40,7 @@ public abstract class JuiIcon {
         return iconView;
     }
 
+    
     public static MaterialDesignIconView createDesignIcon(double posX, double posY, MaterialDesignIcon displayIcon, String size, String styleClass, Color color, Pane pane) {
         return createDesignIcon(posX, posY, displayIcon, size, styleClass, color, pane, Cursor.DEFAULT);
     }

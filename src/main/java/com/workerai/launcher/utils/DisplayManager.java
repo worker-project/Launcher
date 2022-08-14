@@ -3,6 +3,7 @@ package com.workerai.launcher.utils;
 import com.workerai.launcher.WorkerLauncher;
 import com.workerai.launcher.database.Account;
 import com.workerai.launcher.database.Requests;
+import com.workerai.launcher.database.authentication.ModuleResponse;
 import com.workerai.launcher.savers.AccountManager;
 import com.workerai.launcher.ui.panels.pages.Accounts;
 import com.workerai.launcher.ui.panels.pages.Login;
@@ -91,7 +92,7 @@ public class DisplayManager {
                     AccountManager.removeCurrentAccount();
                     AccountManager.removeLocalAccount(account);
                     Requests.removeRemoteAccount(account.getUuid());
-                    WorkerLauncher.getInstance().getPanelManager().showPanel(new Login());
+                    WorkerLauncher.getInstance().getPanelManager().showPanel(new Login(false));
                 }
             });
 
@@ -118,9 +119,6 @@ public class DisplayManager {
         createModule("FarmingAI", false, scrollContent, isReduced);
         createModule("DungeonAI", false, scrollContent, isReduced);
         createModule("BazaarAI", false, scrollContent, isReduced);
-        createModule("Soon", false, scrollContent, isReduced);
-        createModule("TestModule", false, scrollContent, isReduced);
-        createModule("ZeubiModule", false, scrollContent, isReduced);
 
         createScrollPane(-16d, isReduced ? 10d : 6d, isReduced ? 370d : 230d, isReduced ? 50d : 60d, "scroll-pane", scrollContent, card);
     }

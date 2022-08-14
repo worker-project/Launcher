@@ -12,7 +12,7 @@ public class Database {
 
     static void initDatabase() {
         try {
-            String url = String.valueOf(new File(WorkerLauncher.getInstance().getLauncherDirectory().toFile(), "data.sqlite"));
+            String url = String.valueOf(new File(WorkerLauncher.getInstance().getLauncherFolder().toFile(), "data"));
 
             conn = DriverManager.getConnection("jdbc:sqlite:" + url);
 

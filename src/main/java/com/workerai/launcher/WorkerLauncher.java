@@ -14,6 +14,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -26,20 +27,17 @@ public class WorkerLauncher extends Application {
     private final SettingsManager settingsManager;
 
     private static boolean DEBUG = false;
-    public static String JAVA_PATH;
+    private String JAVA_PATH;
 
-    private final Path launcherDirectory = PlatformHandler.createFolder(".WorkerAI");
+    private final Path launcherFolder = PlatformHandler.createFolder(".WorkerAI");
+    private final Path legalFolder = PlatformHandler.createFolder(".WorkerAI", "legal");
 
-    public WorkerLauncher() throws IOException {
+    public WorkerLauncher() {
         INSTANCE = this;
-        this.LOGGER = new Logger("[WorkerAI]", launcherDirectory.resolve("logs.log"));
-        if (!this.launcherDirectory.toFile().exists()) {
-            if (!this.launcherDirectory.toFile().mkdir()) {
-                this.LOGGER.err("Unable to create launcher folder");
-            }
-        }
+        this.LOGGER = new Logger("[WorkerAI]", launcherFolder.resolve("logs"));
+        this.createLauncherFolder();
 
-        settingsManager = new SettingsManager(new Saver(launcherDirectory.resolve("settings.save").toFile()));
+        this.settingsManager = new SettingsManager(new Saver(launcherFolder.resolve("settings").toFile()));
     }
 
     @Override
@@ -52,7 +50,7 @@ public class WorkerLauncher extends Application {
         AccountManager.initLocalAccounts();
         NewsManager.initNews();
 
-        this.panelManager.showPanel(new Login());
+        this.panelManager.showPanel(new Login(true));
 
         JAVA_PATH = getJavaArg();
     }
@@ -61,6 +59,33 @@ public class WorkerLauncher extends Application {
     public void stop() {
         Platform.exit();
         System.exit(0);
+    }
+
+    void createLauncherFolder() {
+        if (!this.launcherFolder.toFile().exists()) {
+            if (!this.launcherFolder.toFile().mkdir()) {
+                this.LOGGER.err("Unable to create launcher folder");
+            }
+        }
+
+        if (!this.legalFolder.toFile().exists()) {
+            if (!this.legalFolder.toFile().mkdir()) {
+                this.LOGGER.err("Unable to create legal folder");
+            }
+        }
+
+        createLegalFiles();
+    }
+
+    void createLegalFiles() {
+        File licensesFile = new File(legalFolder.toFile(), "LICENSES");
+        File termsFile = new File(legalFolder.toFile(), "TERMS");
+        try {
+            if(!licensesFile.exists()) { licensesFile.createNewFile();}
+            if(!termsFile.exists()) { termsFile.createNewFile();}
+        } catch (IOException ex) {
+            this.LOGGER.err("Unable to create legal files!");
+        }
     }
 
     public static WorkerLauncher getInstance() {
@@ -79,9 +104,11 @@ public class WorkerLauncher extends Application {
         return panelManager;
     }
 
-    public Path getLauncherDirectory() {
-        return launcherDirectory;
+    public Path getLauncherFolder() {
+        return launcherFolder;
     }
+
+    public Path getLegalFolder() { return legalFolder; }
 
     public static boolean isDebugMode() {
         return DEBUG;
@@ -96,5 +123,9 @@ public class WorkerLauncher extends Application {
         List<String> list = params.getRaw();
         if (list.size() == 0) return null;
         return list.get(1);
+    }
+
+    public String getJavaPath() {
+        return JAVA_PATH;
     }
 }

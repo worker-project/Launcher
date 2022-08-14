@@ -41,8 +41,8 @@ public class BottomBar extends Panel {
         bottomBarPane.getStyleClass().add("bottom-bar");
         setCanTakeAllWidth(bottomBarPane);
 
-        createLabel(10d, 5d, "© NoIdeaIndustry, LLC 2022 • v1.0.0", null, "bottom-label", null, bottomBarPane);
-        createLabel(this.panelManager.getStage().getWidth() - 220d - 10d, 5d, "Not affiliated with Mojang, AB.", null, "bottom-label", null, bottomBarPane);
+        createLabel(10d, 5d, "© NoIdeaIndustry, LLC 2022 • v1.0.0", "bottom-label", bottomBarPane);
+        createLabel(this.panelManager.getStage().getWidth() - 220d - 10d, 5d, "Not affiliated with Mojang, AB.", "bottom-label", bottomBarPane);
 
         websiteButton = createDesignIcon(0d, 5d, MaterialDesignIcon.WEB, "25px", "buttons", DARK_GRAY, bottomBarPane, Cursor.HAND);
         websiteButton.setOnMouseClicked(e -> {
@@ -100,13 +100,15 @@ public class BottomBar extends Panel {
                 WorkerLauncher.getInstance().getLogger().warn("Leaving debug session, online services will be available once connected!");
             }
             AccountManager.setCurrentAccount(null);
-            this.panelManager.showPanel(new Login());
+            this.panelManager.showPanel(new Login(false));
         });
 
         setCanTakeAllWidth(websiteButton, twitterButton, discordButton, shoppingButton, homeButton, logoutButton);
     }
 
     public void setHomeIcons() {
+        disableBottomButtons(false);
+
         homeButton.setVisible(false);
         logoutButton.setVisible(true);
         debugButton.setVisible(false);
@@ -120,6 +122,8 @@ public class BottomBar extends Panel {
     }
 
     public void setLoginIcons() {
+        disableBottomButtons(false);
+
         homeButton.setVisible(false);
         logoutButton.setVisible(false);
         debugButton.setVisible(true);
@@ -131,6 +135,8 @@ public class BottomBar extends Panel {
     }
 
     public void setDefaultIcons() {
+        disableBottomButtons(false);
+
         homeButton.setVisible(true);
         logoutButton.setVisible(false);
         debugButton.setVisible(false);
@@ -143,12 +149,13 @@ public class BottomBar extends Panel {
         shoppingButton.setTranslateX(logoutButton.getTranslateX() + 120d);
     }
 
-    public void enableDebugAccess() {
-        debugButton.setDisable(false);
-    }
+    public void disableBottomButtons(boolean disabled) {
+        debugButton.setDisable(disabled);
 
-    public void disableDebugAccess() {
-        debugButton.setDisable(true);
+        websiteButton.setDisable(disabled);
+        twitterButton.setDisable(disabled);
+        discordButton.setDisable(disabled);
+        shoppingButton.setDisable(disabled);
     }
 
     public static BottomBar getInstance() {

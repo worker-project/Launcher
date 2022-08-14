@@ -3,6 +3,7 @@ package com.workerai.launcher.database.authentication;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.workerai.launcher.WorkerLauncher;
+import fr.flowarg.flowupdater.download.json.Mod;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ModuleResponse {
-    private boolean automine;
-    private boolean forage;
+    boolean automine, forage;
 
     public boolean hasAutomine() {
         return automine;
@@ -35,7 +35,11 @@ public class ModuleResponse {
         this.setForage(forage);
     }
 
-    public static ModuleResponse getUserFromUuid(String uuid) {
+    public ModuleResponse() {
+
+    }
+
+    public ModuleResponse getUserFromUuid(String uuid) {
         try {
             URL url = new URL(String.format("http://185.245.183.191:2929/jWuR0gHff54WvVzL?&uuid=%s", uuid));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

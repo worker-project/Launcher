@@ -163,15 +163,3 @@
 .settings-panel .close-button:hover {
     -fx-opacity: 1;
 }
-
-@font-face {
-    font-family: "Signika";
-    font-style: normal;
-    src: url("../fonts/Signika-Bold.ttf");
-}
-
-@font-face {
-    font-family: "Rokkitt";
-    font-style: normal;
-    src: url("../fonts/Rokkitt-Bold.ttf");
-}

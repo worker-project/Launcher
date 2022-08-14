@@ -26,7 +26,7 @@ public class SettingsManager {
 
         if (saver.get("GameDirectory") == null) {
             WorkerLauncher.getInstance().getLogger().info("Creating \"AllocatedRAM\" in setting file!");
-            saver.set("GameDirectory", String.valueOf(WorkerLauncher.getInstance().getLauncherDirectory()));
+            saver.set("GameDirectory", String.valueOf(WorkerLauncher.getInstance().getLauncherFolder()));
         }
 
         if (saver.get("HideAfterLaunch") == null) {
@@ -52,9 +52,9 @@ public class SettingsManager {
 
     public void checkGameDirectory() {
         if (Files.notExists(Path.of(saver.get("GameDirectory")))) {
-            WorkerLauncher.getInstance().getLogger().info("No game directory found, setting default directory at:" + WorkerLauncher.getInstance().getLauncherDirectory());
-            saver.set("GameDirectory", String.valueOf(WorkerLauncher.getInstance().getLauncherDirectory()));
-            setGameDirectory(Path.of(String.valueOf(WorkerLauncher.getInstance().getLauncherDirectory())));
+            WorkerLauncher.getInstance().getLogger().info("No game directory found, setting default directory at:" + WorkerLauncher.getInstance().getLauncherFolder());
+            saver.set("GameDirectory", String.valueOf(WorkerLauncher.getInstance().getLauncherFolder()));
+            setGameDirectory(Path.of(String.valueOf(WorkerLauncher.getInstance().getLauncherFolder())));
         } else {
             WorkerLauncher.getInstance().getLogger().info("Found game directory at:" + saver.get("GameDirectory"));
             setGameDirectory(Path.of(saver.get("GameDirectory")));

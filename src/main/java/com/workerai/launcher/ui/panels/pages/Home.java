@@ -1,6 +1,7 @@
 package com.workerai.launcher.ui.panels.pages;
 
 import com.workerai.launcher.WorkerLauncher;
+import com.workerai.launcher.database.Account;
 import com.workerai.launcher.savers.AccountManager;
 import com.workerai.launcher.ui.panels.PanelManager;
 import com.workerai.launcher.ui.panels.partials.BottomBar;
@@ -59,8 +60,13 @@ public class Home extends Panel {
         Button accountsButton = createMaterialButton(-80d, -100d, 36d, 60d, true, "home-button", accountsIcon, homePane);
         accountsButton.setOnMouseClicked(e -> this.panelManager.showPanel(new Accounts()));
 
-        homePane.getChildren().add(displayCurrentSession(AccountManager.getCurrentAccount(), createStackPane(-350d, -100d, 400d, 600d / 7, true)));
-        displayAccount(homePane, AccountManager.getCurrentAccount(), createStackPane(350d, -100d, 400d, 600d / 7, true), true);
+        Account accountToDisplay = AccountManager.getDebugAccount();
+        if(!WorkerLauncher.isDebugMode()) {
+            accountToDisplay = AccountManager.getCurrentAccount();
+        }
+
+        homePane.getChildren().add(displayCurrentSession(accountToDisplay, createStackPane(-350d, -100d, 400d, 600d / 7, true)));
+        displayAccount(homePane, accountToDisplay, createStackPane(350d, -100d, 400d, 600d / 7, true), true);
     }
 
     @Override
