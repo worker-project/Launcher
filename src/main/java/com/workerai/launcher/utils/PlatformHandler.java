@@ -1,11 +1,9 @@
 package com.workerai.launcher.utils;
 
 import fr.flowarg.flowcompat.Platform;
-import javafx.application.Application;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 public class PlatformHandler {
     public static Path createFolder(String... folderName) {
